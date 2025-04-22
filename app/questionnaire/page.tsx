@@ -10,31 +10,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { TagFilters } from "@/components/TagFilters";
-
-// 问卷数据
-const questionnaires = [
-    {
-        id: "scl90",
-        title: "SCL90量表",
-        description: "症状自评量表，用于评估个体心理症状和心理健康状况",
-        tags: ["自评量表", "精神症状"],
-        time: "3-10分钟"
-    },
-    {
-        id: "depression",
-        title: "抑郁自评量表",
-        description: "用于评估个体抑郁程度的量表",
-        tags: ["抑郁", "自评量表"],
-        time: "3-10分钟"
-    },
-    {
-        id: "ocd",
-        title: "强迫症量表",
-        description: "评估强迫症状及其严重程度",
-        tags: ["强迫", "自评量表"],
-        time: "3-10分钟"
-    }
-];
+import { questionnaires } from "@/constants/questionnaires";
 
 export default function QuestionnairePage() {
     const [searchQuery, setSearchQuery] = useState("");
@@ -91,9 +67,16 @@ export default function QuestionnairePage() {
                                         <CardTitle>{questionnaire.title}</CardTitle>
                                     </CardHeader>
                                     <CardContent>
-                                        <p className="text-sm text-muted-foreground mb-4">
-                                            {questionnaire.description}
-                                        </p>
+                                        <div className="mb-4 h-12">
+                                            <p className="text-sm text-muted-foreground" style={{
+                                                display: '-webkit-box',
+                                                WebkitLineClamp: '2',
+                                                WebkitBoxOrient: 'vertical',
+                                                overflow: 'hidden'
+                                            }}>
+                                                {questionnaire.description}
+                                            </p>
+                                        </div>
                                         <div className="flex flex-wrap gap-2">
                                             {questionnaire.tags.map((tag, index) => (
                                                 <Badge key={index}>{tag}</Badge>
