@@ -1,0 +1,7 @@
+<svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="160" height="160" fill="white"/>
+  <circle cx="80" cy="80" r="60" stroke="#000000" stroke-width="2" fill="none"/>
+  <path d="M60 80C60 68.954 68.954 60 80 60C91.046 60 100 68.954 100 80C100 91.046 91.046 100 80 100" stroke="#000000" stroke-width="2"/>
+  <path d="M80 100C68.954 100 60 91.046 60 80" stroke="#000000" stroke-width="2" stroke-dasharray="4 4"/>
+  <text x="80" y="120" text-anchor="middle" font-family="Arial" font-size="12" fill="#000000">Badge图片</text>
+</svg> 
