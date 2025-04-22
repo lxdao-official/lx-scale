@@ -9,11 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-separator": "^1.1.4",
+    "@radix-ui/react-slot": "^1.2.0",
     "@rainbow-me/rainbowkit": "^2.2.4",
     "@tanstack/react-query": "^5.74.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.501.0",
+    "lx-scale": "file:",
     "next": "15.3.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
