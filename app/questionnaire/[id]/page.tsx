@@ -1,41 +1,38 @@
 "use client"
 
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { questionnaires, Questionnaire } from "@/constants/questionnaires";
 
-export default function SCL90Page() {
-    // 从问卷数据中获取SCL90量表
-    const scl90 = questionnaires.find(q => q.id === "scl90");
+interface QuestionnairePageProps {
+    params: {
+        id: string;
+    };
+}
 
-    // 如果找不到数据，显示错误信息
-    if (!scl90 || !scl90.details) {
-        return (
-            <div className="flex justify-center items-center min-h-screen p-4">
-                <div className="max-w-4xl w-full bg-white rounded-lg shadow-lg p-8 border">
-                    <h1 className="text-2xl font-bold mb-4">出错了</h1>
-                    <p>未找到SCL90量表的详细信息</p>
-                    <div className="mt-8">
-                        <Button className="w-full cursor-pointer">
-                            <Link href="/questionnaire">返回问卷列表</Link>
-                        </Button>
-                    </div>
-                </div>
-            </div>
-        );
+export default function QuestionnairePage({ params }: QuestionnairePageProps) {
+    const { id } = params;
+
+    // 从问卷数据中获取指定id的量表
+    const questionnaire = questionnaires.find(q => q.id === id);
+
+    // 如果找不到数据，显示404页面
+    if (!questionnaire || !questionnaire.details) {
+        return notFound();
     }
 
     // 解构获取详细信息
-    const { details } = scl90;
+    const { details } = questionnaire;
 
     return (
         <div className="flex justify-center items-center min-h-screen p-4">
             <div className="max-w-4xl w-full bg-white rounded-lg shadow-lg p-8 border">
-                <h1 className="text-2xl font-bold mb-4">{scl90.title}</h1>
+                <h1 className="text-2xl font-bold mb-4">{questionnaire.title}</h1>
 
                 <div className="mb-6">
                     <h2 className="text-lg font-medium mb-2">简介</h2>
-                    <p className="text-gray-700 line-clamp-4 h-24 overflow-hidden">
+                    <p className="text-gray-700">
                         {details.introduction}
                     </p>
                 </div>
@@ -114,7 +111,7 @@ export default function SCL90Page() {
 
                 <div className="mt-8">
                     <Button className="w-full py-6 text-lg cursor-pointer">
-                        <Link href="/questionnaire/scl90/test">开始测评</Link>
+                        <Link href={`/questionnaire/${id}/test`}>开始测评</Link>
                     </Button>
                 </div>
             </div>
