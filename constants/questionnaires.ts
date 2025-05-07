@@ -19,6 +19,132 @@ export interface Questionnaire {
 export const questionnaires: Questionnaire[] = [
     {
         id: "scl90",
+        title: "SCL-90 Scale",
+        description: "Used to assess individual psychological symptoms and mental health status",
+        tags: ["Self-assessment Scale", "Psychiatric Symptoms"],
+        time: "3-10 minutes",
+        details: {
+            introduction: "The SCL-90 (Symptom Checklist-90) scale, also known as the Symptom Self-Assessment Scale, is a self-report tool used to evaluate individual psychological symptoms and mental health status. It is widely used in medicine, psychology, and sociology for screening psychological problems and assessing treatment effectiveness. Developed by American psychiatrist L. R. Derogatis in 1975, the scale contains 90 items covering 10 factors: somatization, obsessive-compulsive symptoms, interpersonal sensitivity, depression, anxiety, hostility, phobic anxiety, paranoid ideation, psychoticism, and sleep/eating disorders. It provides a comprehensive assessment of physical and psychological symptoms and is suitable for adults over 16 years old, particularly valuable in clinical diagnosis, psychological counseling, and epidemiological research.",
+            questionCount: "90 items",
+            evaluationTime: "Typically 10-20 minutes",
+            instructions: "The test subject needs to self-assess 90 items based on their actual feelings in the past week (or month). Each item is rated on a 5-point scale from 'none' to 'extremely severe', scored from 1 to 5. The subject should carefully read each item and choose the most appropriate option based on their actual situation. If uncertain about some items, they can choose 'mild' or 'moderate', but should avoid too many 'none' options to ensure the accuracy of the test results.",
+            scoringMethod: [
+                "Total score: Sum of all 90 items. Higher scores indicate more severe psychological symptoms.",
+                "Average score: Total score divided by 90. An average score ≥2 suggests significant psychological problems.",
+                "Factor scores: Sum of items in each factor divided by the number of items in that factor. A factor score ≥2 indicates prominent symptoms in that factor.",
+                "Number of positive items: Number of items with scores ≥2. More positive items indicate a wider range of psychological symptoms.",
+                "Average score of positive symptoms: Sum of all positive items (scores ≥2) divided by the number of positive items. Higher scores indicate more severe positive symptoms."
+            ],
+            dimensions: [
+                { name: "Somatization", description: "Mainly reflects physical discomfort and pain symptoms, such as headaches, back pain, and limb soreness." },
+                { name: "Obsessive-Compulsive Symptoms", description: "Reflects obsessive thoughts and compulsive behaviors, such as repeated hand washing and checking doors and windows." },
+                { name: "Interpersonal Sensitivity", description: "Reflects sensitivity and unease in interpersonal relationships, such as worrying about others' opinions." },
+                { name: "Depression", description: "Reflects symptoms such as low mood, loss of interest, and low self-esteem." },
+                { name: "Anxiety", description: "Reflects emotional experiences such as tension, unease, and fear." },
+                { name: "Hostility", description: "Reflects behavioral tendencies such as anger, impulsiveness, and arguments." },
+                { name: "Phobic Anxiety", description: "Reflects fear and anxiety, such as fear of social situations or specific things." },
+                { name: "Paranoid Ideation", description: "Reflects symptoms such as suspicion, sensitivity, and stubbornness." },
+                { name: "Psychoticism", description: "Reflects psychotic symptoms such as hallucinations, delusions, and abnormal thinking." },
+                { name: "Sleep/Eating Disorders", description: "Reflects sleep and eating conditions, such as insomnia and loss of appetite." }
+            ],
+            notes: [
+                "Testing environment: The test should be conducted in a quiet and comfortable environment, free from external interference, to ensure the subject can fill out the scale carefully and accurately.",
+                "Clear instructions: Before the test, the purpose, method, and requirements should be explained in detail to ensure the subject understands and cooperates.",
+                "Honest responses: The subject should fill out the scale based on their true feelings, avoiding exaggeration or concealment of symptoms.",
+                "Avoid fatigue: The test time should not be too long. If the subject feels tired or loses concentration, they can take a break before continuing.",
+                "Professional interpretation: The test results should be interpreted by a professional psychological counselor or doctor, avoiding self-diagnosis or over-interpretation."
+            ],
+            references: [
+                "Derogatis, L. R. (1984). Symptom Checklist-90 (SCL-90). Beijing: Chinese Mental Health Journal.",
+                "Zhang, M. Y. (1993). Handbook of Psychiatric Rating Scales. Changsha: Hunan Science and Technology Press."
+            ]
+        }
+    },
+    {
+        id: "depression",
+        title: "Self-Rating Depression Scale",
+        description: "Used to assess the degree of depression in individuals",
+        tags: ["Depression", "Self-assessment Scale"],
+        time: "3-10 minutes",
+        details: {
+            introduction: "The Self-Rating Depression Scale (SDS) was developed by American psychologist William W.K. Zung in 1965 as a self-assessment tool to evaluate the severity of depressive symptoms. This simple and easy-to-use scale reflects the subjective experience of depressive symptoms and is widely used in clinical screening, scientific research, and treatment effectiveness evaluation. The SDS focuses on emotional, physiological, psychological, and behavioral aspects of depression, obtaining data through self-reporting, making it one of the most commonly used depression assessment tools internationally.",
+            questionCount: "20 items",
+            evaluationTime: "Typically 5-10 minutes",
+            instructions: "The subject needs to self-assess 20 items based on their feelings over the past week. Each item is rated on a 4-point scale: 'none or a little of the time' (1 point), 'some of the time' (2 points), 'a good part of the time' (3 points), and 'most or all of the time' (4 points). Some items (items 2, 5, 6, 11, 12, 14, 16, 17, 18, 20) are reverse scored. The subject should choose the most appropriate option based on their actual situation, avoiding middle values to ensure the accuracy of the test results.",
+            scoringMethod: [
+                "Raw score: Sum of all 20 items.",
+                "Standard score: Multiply the raw score by 1.25 and take the integer part to get the standard score (index).",
+                "Depression severity assessment: Standard score <50 is normal; 50-59 indicates mild depression; 60-69 indicates moderate depression; ≥70 indicates severe depression.",
+                "Factor analysis: The 20 items can be divided into 4 factors: emotional symptoms, somatic disorders, psychological disorders, and psychomotor disorders."
+            ],
+            dimensions: [
+                { name: "Emotional Symptoms", description: "Reflects emotional manifestations such as low mood, pessimism, and tearfulness." },
+                { name: "Somatic Disorders", description: "Includes physiological symptoms such as sleep problems, appetite changes, and weight loss." },
+                { name: "Psychological Disorders", description: "Includes psychological experiences such as irritability, confusion, emptiness, and self-denial." },
+                { name: "Psychomotor Disorders", description: "Reflects reduced activity, decreased speech, and slowed thinking." }
+            ],
+            notes: [
+                "The testing environment should be quiet and private to ensure the subject can focus and answer truthfully.",
+                "The subject should be informed that the scale results are for reference only and cannot replace professional diagnosis.",
+                "If the subject has suicidal thoughts or severe depressive symptoms, they should be referred to a professional psychiatrist immediately.",
+                "Test results should be used in conjunction with clinical observation, medical history, and other assessment tools.",
+                "For subjects with lower education levels, appropriate explanations and assistance may be needed."
+            ],
+            references: [
+                "Zung, W. W. K. (1965). A self-rating depression scale. Archives of General Psychiatry, 12, 63-70.",
+                "Wang, X. D., Wang, X. L., & Ma, H. (1999). Handbook of Mental Health Rating Scales (Revised Edition). Beijing: Chinese Mental Health Journal Press.",
+                "Zhang, M. Y. (1998). Handbook of Psychiatric Rating Scales. Changsha: Hunan Science and Technology Press."
+            ]
+        }
+    },
+    {
+        id: "ocd",
+        title: "Obsessive-Compulsive Disorder Scale",
+        description: "Assesses obsessive-compulsive symptoms and their severity",
+        tags: ["Obsession", "Self-assessment Scale"],
+        time: "3-10 minutes",
+        details: {
+            introduction: "The Yale-Brown Obsessive Compulsive Scale (Y-BOCS) was developed by Wayne K. Goodman and Steven Rasmussen in 1989 as an assessment tool specifically designed to measure the nature and severity of obsessive-compulsive symptoms. As the most widely used OCD assessment tool internationally, the Y-BOCS independently evaluates the severity of obsessions and compulsions, unaffected by specific symptom content, and is used for clinical diagnosis, treatment effectiveness evaluation, and scientific research. The scale has been translated into multiple languages and validated worldwide.",
+            questionCount: "10 core items (plus a symptom checklist)",
+            evaluationTime: "Typically 15-20 minutes",
+            instructions: "The Y-BOCS consists of two parts: a symptom checklist and a severity scale. The symptom checklist screens for types of obsessions and compulsions; the severity scale contains 10 items assessing the severity of obsessions (items 1-5) and compulsions (items 6-10). Each item is rated on a 5-point scale from 0 (no symptoms) to 4 (extremely severe symptoms). The assessment should be conducted by trained professionals through semi-structured interviews, or self-administered by patients (self-report versions include OCI-R or YBOCS-SR).",
+            scoringMethod: [
+                "Total score: Sum of all 10 core items, ranging from 0-40.",
+                "Subscale scores: Obsession subscale (items 1-5) and compulsion subscale (items 6-10), each ranging from 0-20.",
+                "Severity assessment: Total score 0-7 indicates no or minimal symptoms; 8-15 indicates mild; 16-23 indicates moderate; 24-31 indicates severe; 32-40 indicates extreme severity.",
+                "Clinical significance: A reduction of ≥35% in total score or a score below 14 is usually considered an effective treatment response; a total score ≤7 is often considered remission criteria."
+            ],
+            dimensions: [
+                { name: "Time Spent on Obsessions", description: "Assesses the amount of time per day the patient is occupied by obsessive thoughts." },
+                { name: "Interference from Obsessions", description: "Assesses the degree to which obsessions interfere with the patient's social functioning and daily activities." },
+                { name: "Distress from Obsessions", description: "Assesses the level of anxiety or distress caused by obsessive thoughts." },
+                { name: "Resistance to Obsessions", description: "Assesses the patient's efforts to resist obsessive thoughts." },
+                { name: "Control over Obsessions", description: "Assesses the patient's ability to control obsessive thoughts." },
+                { name: "Time Spent on Compulsions", description: "Assesses the amount of time per day the patient spends on compulsive behaviors." },
+                { name: "Interference from Compulsions", description: "Assesses the degree to which compulsions interfere with the patient's social functioning and daily activities." },
+                { name: "Distress from Compulsions", description: "Assesses the level of anxiety if compulsive behaviors are prevented." },
+                { name: "Resistance to Compulsions", description: "Assesses the patient's efforts to resist compulsive behaviors." },
+                { name: "Control over Compulsions", description: "Assesses the patient's ability to control compulsive behaviors." }
+            ],
+            notes: [
+                "The assessment should be conducted in a quiet, undisturbed environment to ensure patient comfort and privacy.",
+                "It is necessary to clearly distinguish obsessive-compulsive symptoms from other psychiatric symptoms, such as delusions and anxiety.",
+                "The assessment should consider symptom changes and fluctuations, and regular reassessments are recommended to monitor changes.",
+                "Patients with poor insight may underestimate symptom severity, requiring combined family observations and clinical judgment.",
+                "Scale scores should be considered in conjunction with clinical interviews, medical history, and functional assessments, rather than interpreted in isolation."
+            ],
+            references: [
+                "Goodman, W. K., Price, L. H., Rasmussen, S. A., Mazure, C., Fleischmann, R. L., Hill, C. L., ... & Charney, D. S. (1989). The Yale-Brown Obsessive Compulsive Scale: I. Development, use, and reliability. Archives of General Psychiatry, 46(11), 1006-1011.",
+                "Zhang, M. Y., & Zhu, J. (2015). Handbook of Psychiatric Rating Scales (3rd Edition). Changsha: Hunan Science and Technology Press.",
+                "Storch, E. A., Rasmussen, S. A., Price, L. H., Larson, M. J., Murphy, T. K., & Goodman, W. K. (2010). Development and psychometric evaluation of the Yale-Brown Obsessive-Compulsive Scale—Second Edition. Psychological Assessment, 22(2), 223-232."
+            ]
+        }
+    }
+];
+
+export const questionnairesZh: Questionnaire[] = [
+    {
+        id: "scl90",
         title: "SCL90量表",
         description: "用于评估个体心理症状和心理健康状况体",
         tags: ["自评量表", "精神症状"],
@@ -140,4 +266,5 @@ export const questionnaires: Questionnaire[] = [
             ]
         }
     }
-]; 
+];
+
