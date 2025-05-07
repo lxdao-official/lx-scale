@@ -1,23 +1,72 @@
-import Link from "next/link";
+'use client';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import useGetLang, {useT} from '@/hooks/useGetLang';
 
 export function Navbar() {
-    return (
-        <header className="border-b">
-            <div className="container flex items-center justify-between h-14 px-4 max-w-6xl mx-auto">
-                <div className="flex items-center">
-                    <Link href="/" className="text-lg font-medium flex items-center gap-2">
-                        <div className="w-8 h-8 border rounded flex items-center justify-center">
-                            LX
-                        </div>
-                        <span>LXScale</span>
-                    </Link>
-                </div>
-                <nav className="flex items-center gap-4 text-sm">
-                    <Link href="/intro" className="text-muted-foreground hover:text-foreground transition-colors">介绍</Link>
-                    <Link href="/questionnaire" className="font-medium">问答列表</Link>
-                    <Link href="https://github.com/lxdao-official/lx-checker" className="text-muted-foreground hover:text-foreground transition-colors">开源仓库</Link>
-                </nav>
+  const [langText, setLangText] = useState<string>();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+  const isEn = useGetLang() === 'en';
+
+  // 根据路径直接判断语言状态
+  useEffect(() => {
+    setLangText(pathname?.startsWith('/zh') ? 'EN': '中文');
+  }, [pathname]);
+
+  const T = useT();
+
+  /** 切换语言处理函数 */
+  const toggleLang = () => {
+    const newPath = langText === 'EN' 
+      ? pathname?.replace(/^\/zh/, '') || '/' 
+      : `/zh${pathname}`;
+    replace(newPath);
+  };
+
+  return (
+    <header className="border-b">
+      <div className="container flex items-center justify-between h-14 px-4 max-w-6xl mx-auto">
+        <div className="flex items-center">
+          <Link
+            href={isEn ? "/": '/zh'}
+            className="text-lg font-medium flex items-center gap-2"
+          >
+            <div className="w-8 h-8 border rounded flex items-center justify-center">
+              LX
             </div>
-        </header>
-    );
-} 
+            <span> {T({en: 'LXScale', zh: 'LX 量表'})}</span>
+          </Link>
+        </div>
+        <nav className="flex items-center gap-4 text-sm">
+          <Link
+            href={ isEn ? "/intro": '/zh/intro' }
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            {T({en: 'Introduction', zh: '介绍'})}
+          </Link>
+          <Link href="/questionnaire" className="font-medium">
+            {T({en: 'Questionnaires', zh: '问答列表'})}
+          </Link>
+          <Link
+            href="https://github.com/lxdao-official/lx-checker"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            {T({en: 'Repository', zh: '开源仓库'})}
+          </Link>
+
+          <Link
+            href="javaScript:void(0)"
+            color="inherit"
+            className=""
+            style={{ cursor: 'pointer' }}
+            onClick={toggleLang}
+          >
+            {langText}
+          </Link>
+        </nav>
+      </div>
+    </header>
+  );
+}
