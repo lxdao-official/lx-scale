@@ -127,6 +127,7 @@ export default function QuestionnaireResultPage({ params }: QuestionnaireResultP
             <PositiveItemStats
                 positiveItemCount={results.positiveItemCount}
                 positiveItemAverage={results.positiveItemAverage}
+                questionnaireId={id}
             />
 
             <ResultInterpretation

@@ -1,10 +1,12 @@
 interface PositiveItemStatsProps {
     positiveItemCount: number;
     positiveItemAverage: number;
+    questionnaireId: string;
 }
 
-export function PositiveItemStats({ positiveItemCount, positiveItemAverage }: PositiveItemStatsProps) {
-    if (positiveItemCount <= 0) return null;
+export function PositiveItemStats({ positiveItemCount, positiveItemAverage, questionnaireId }: PositiveItemStatsProps) {
+    // 只有SCL90量表需要显示阳性项目统计
+    if (questionnaireId !== "scl90" || positiveItemCount <= 0) return null;
 
     return (
         <div>
