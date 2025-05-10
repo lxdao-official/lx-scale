@@ -1,17 +1,63 @@
 "use client"
 
-import { useState } from "react";
 import { notFound } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { questionnaires } from "@/constants/questionnaires";
+import { questionnaires, Questionnaire as ConstantQuestionnaire } from "@/constants/questionnaires";
+import { QuestionnaireTest } from "@/components/questionnaire/QuestionnaireTest";
 
-interface QuestionnaireTestPageProps {
-    params: {
-        id: string;
+// 组件需要的问卷接口
+interface ComponentQuestionnaire {
+    id: string;
+    title: string;
+    questions?: {
+        id: number;
+        content: string;
+        options: { value: string; text: string }[];
+        factors?: string[];
+    }[];
+    factorMapping?: { [key: string]: number[] };
+}
+
+// 适配器函数，将constants中的问题格式转换为组件需要的格式
+function adaptQuestionnaire(questionnaire: ConstantQuestionnaire, id: string): ComponentQuestionnaire {
+    if (!questionnaire.questions) {
+        return {
+            id: questionnaire.id,
+            title: questionnaire.title,
+            factorMapping: questionnaire.factorMapping
+        };
+    }
+
+    // 创建适配后的questions数组
+    const adaptedQuestions = questionnaire.questions.map((q, index) => ({
+        id: index + 1,
+        content: q.content,
+        factors: q.factors,
+        options: id === "depression"
+            ? [
+                { value: "1", text: "没有或很少时间" },
+                { value: "2", text: "小部分时间" },
+                { value: "3", text: "相当多时间" },
+                { value: "4", text: "绝大部分或全部时间" }
+            ]
+            : [
+                { value: "1", text: "没有" },
+                { value: "2", text: "很轻" },
+                { value: "3", text: "中等" },
+                { value: "4", text: "偏重" },
+                { value: "5", text: "严重" }
+            ]
+    }));
+
+    // 返回适配后的问卷对象
+    return {
+        id: questionnaire.id,
+        title: questionnaire.title,
+        questions: adaptedQuestions,
+        factorMapping: questionnaire.factorMapping
     };
 }
 
-export default function QuestionnaireTestPage({ params }: QuestionnaireTestPageProps) {
+export default function QuestionnaireTestPage({ params }: { params: { id: string } }) {
     const { id } = params;
 
     // 从问卷数据中获取指定id的量表
@@ -22,76 +68,13 @@ export default function QuestionnaireTestPage({ params }: QuestionnaireTestPageP
         return notFound();
     }
 
-    // 这里只是一个占位，实际测试页面需要根据不同量表的具体问题和评分方式来实现
+    // 适配问卷数据格式
+    const adaptedQuestionnaire = adaptQuestionnaire(questionnaire, id);
+
     return (
-        <div className="flex justify-center items-center min-h-screen p-4">
-            <div className="max-w-4xl w-full bg-white rounded-lg shadow-lg p-8 border">
-                <h1 className="text-2xl font-bold mb-6">{questionnaire.title} - 测评</h1>
-
-                <div className="mb-8">
-                    <p className="text-gray-700 mb-4">
-                        这是{questionnaire.title}的测评页面。根据每个问题选择最符合您情况的选项。
-                    </p>
-
-                    <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
-                        <p className="text-sm text-yellow-700">
-                            注意：此页面仅为示例。实际测评内容需要根据{questionnaire.title}的具体问题设计。
-                        </p>
-                    </div>
-
-                    {/* 示例问题 */}
-                    <div className="space-y-8 mt-8">
-                        <div className="border rounded-lg p-4">
-                            <h3 className="font-medium mb-4">问题1：这是{questionnaire.title}的示例问题</h3>
-                            <div className="space-y-2">
-                                <div className="flex items-center">
-                                    <input type="radio" id="q1-1" name="q1" className="mr-2" />
-                                    <label htmlFor="q1-1">选项1</label>
-                                </div>
-                                <div className="flex items-center">
-                                    <input type="radio" id="q1-2" name="q1" className="mr-2" />
-                                    <label htmlFor="q1-2">选项2</label>
-                                </div>
-                                <div className="flex items-center">
-                                    <input type="radio" id="q1-3" name="q1" className="mr-2" />
-                                    <label htmlFor="q1-3">选项3</label>
-                                </div>
-                                <div className="flex items-center">
-                                    <input type="radio" id="q1-4" name="q1" className="mr-2" />
-                                    <label htmlFor="q1-4">选项4</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="border rounded-lg p-4">
-                            <h3 className="font-medium mb-4">问题2：这是{questionnaire.title}的另一个示例问题</h3>
-                            <div className="space-y-2">
-                                <div className="flex items-center">
-                                    <input type="radio" id="q2-1" name="q2" className="mr-2" />
-                                    <label htmlFor="q2-1">选项1</label>
-                                </div>
-                                <div className="flex items-center">
-                                    <input type="radio" id="q2-2" name="q2" className="mr-2" />
-                                    <label htmlFor="q2-2">选项2</label>
-                                </div>
-                                <div className="flex items-center">
-                                    <input type="radio" id="q2-3" name="q2" className="mr-2" />
-                                    <label htmlFor="q2-3">选项3</label>
-                                </div>
-                                <div className="flex items-center">
-                                    <input type="radio" id="q2-4" name="q2" className="mr-2" />
-                                    <label htmlFor="q2-4">选项4</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="flex justify-between mt-8">
-                    <Button variant="outline">上一页</Button>
-                    <Button>下一页</Button>
-                </div>
-            </div>
-        </div>
+        <QuestionnaireTest
+            questionnaire={adaptedQuestionnaire}
+            id={id}
+        />
     );
 } 
