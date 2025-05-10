@@ -40,4 +40,6 @@ export const Question = forwardRef<HTMLDivElement, QuestionProps>(
             </div>
         );
     }
-); 
+);
+
+Question.displayName = 'Question'; 

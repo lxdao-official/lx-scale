@@ -1,16 +1,22 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Question } from "@/components/questionnaire/Question";
 import { Navigation } from "@/components/questionnaire/Navigation";
 import { ProgressPanel } from "@/components/questionnaire/ProgressPanel";
 import { ProgressBar } from "@/components/questionnaire/ProgressBar";
 import { Toast } from "@/components/questionnaire/Toast";
-import { Results } from "@/components/questionnaire/Results";
+
+interface Questionnaire {
+    id: string;
+    title: string;
+    questions?: QuestionType[];
+    factorMapping?: { [key: string]: number[] };
+}
 
 interface QuestionnaireTestProps {
-    questionnaire: any;
+    questionnaire: Questionnaire;
     id: string;
 }
 
@@ -57,7 +63,7 @@ export function QuestionnaireTest({ questionnaire, id }: QuestionnaireTestProps)
         }
 
         // 使用真实问卷数据
-        return questionnaire.questions.map((q: any, index: number) => ({
+        return questionnaire.questions.map((q, index: number) => ({
             id: index + 1,
             content: q.content,
             factors: q.factors,
@@ -88,17 +94,8 @@ export function QuestionnaireTest({ questionnaire, id }: QuestionnaireTestProps)
         description: '',
         type: 'success'
     });
-    const [results, setResults] = useState<{
-        totalScore: number;
-        factorScores: { [key: string]: number };
-        positiveItemCount: number;
-        positiveItemAverage: number;
-        isSevere: boolean;
-    } | null>(null);
     // 进度面板显示状态控制
     const [showProgressPanel, setShowProgressPanel] = useState(true);
-    // 更多题目展开状态控制
-    const [expandMoreQuestions, setExpandMoreQuestions] = useState(false);
 
     // 每页显示的问题数
     const questionsPerPage = 5;
@@ -115,14 +112,27 @@ export function QuestionnaireTest({ questionnaire, id }: QuestionnaireTestProps)
     // 完成百分比
     const completionPercentage = questions.length ? (answeredCount / questions.length) * 100 : 0;
 
+    // 这里的generateQuestions在每次useEffect运行时也会变化
+    // 解决办法是将其移入useEffect内部或使用useCallback包装
+    const generateQuestionsCallback = useCallback(generateQuestions, [id, questionnaire]);
+
     useEffect(() => {
-        setQuestions(generateQuestions());
+        setQuestions(generateQuestionsCallback());
         // 重置refs对象，以便在问题列表变化时重新分配
         questionRefs.current = {};
-    }, [id]);
+    }, [id, questionnaire, generateQuestionsCallback]);
+
+    // 在QuestionType中添加适当的类型
+    interface CalculatedResults {
+        totalScore: number;
+        factorScores: { [key: string]: number };
+        positiveItemCount: number;
+        positiveItemAverage: number;
+        isSevere: boolean;
+    }
 
     // 计算测试结果
-    const calculateResults = () => {
+    const calculateResults = (): CalculatedResults | null => {
         if (Object.keys(answers).length < questions.length) return null;
 
         // 计算总分
@@ -143,7 +153,7 @@ export function QuestionnaireTest({ questionnaire, id }: QuestionnaireTestProps)
         const factorScores: { [key: string]: number } = {};
 
         if (questionnaire.factorMapping && id === "scl90") {
-            Object.entries(questionnaire.factorMapping).forEach(([factor, questionIndexes]: [string, any]) => {
+            Object.entries(questionnaire.factorMapping).forEach(([factor, questionIndexes]) => {
                 let factorSum = 0;
                 let validQuestionCount = 0;
 
@@ -248,33 +258,25 @@ export function QuestionnaireTest({ questionnaire, id }: QuestionnaireTestProps)
         if (answeredCount < questions.length) {
             showNotification(
                 "未完成全部问题",
-                `您还有 ${questions.length - answeredCount} 个问题未回答`,
-                'error'
+                `您还有${questions.length - answeredCount}个问题未回答。`,
+                "error"
             );
             return;
         }
 
-        // 计算测试结果
+        // 计算结果
         const results = calculateResults();
         if (results) {
-            setResults(results);
-
             // 将结果保存到localStorage中，以便结果页面使用
             try {
                 localStorage.setItem(`questionnaire_result_${id}`, JSON.stringify(results));
             } catch (error) {
-                console.error('保存结果到localStorage时出错:', error);
+                console.error('保存结果数据时出错:', error);
             }
+
+            // 跳转到结果页面，并传递总分作为URL参数
+            router.push(`/questionnaire/${id}/result?score=${results.totalScore}`);
         }
-
-        // 提交逻辑，可以调用API或直接跳转到结果页
-        showNotification("提交成功", "您的测评结果已生成", 'success');
-
-        // 模拟提交后跳转到结果页
-        setTimeout(() => {
-            // 这里可以传递结果数据到结果页
-            router.push(`/questionnaire/${id}/result?score=${results?.totalScore}`);
-        }, 2000);
     };
 
     // 切换进度面板显示状态
@@ -282,22 +284,8 @@ export function QuestionnaireTest({ questionnaire, id }: QuestionnaireTestProps)
         setShowProgressPanel(prev => !prev);
     };
 
-    // 切换更多题目展开状态
-    const toggleMoreQuestions = () => {
-        setExpandMoreQuestions(prev => !prev);
-    };
-
-    // 获取未完成的题目数组
-    const getUnfinishedQuestions = () => {
-        return questions
-            .filter(q => !answers[q.id])
-            .map(q => q.id);
-    };
-
     const setQuestionRef = (questionId: number) => (el: HTMLDivElement | null) => {
-        if (questionRefs.current) {
-            questionRefs.current[questionId] = el;
-        }
+        questionRefs.current[questionId] = el;
     };
 
     return (

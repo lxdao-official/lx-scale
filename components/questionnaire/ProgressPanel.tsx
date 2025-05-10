@@ -1,7 +1,12 @@
-import { Button } from "@/components/ui/button";
+interface Question {
+    id: number;
+    content: string;
+    options: Array<{ value: string; text: string }>;
+    factors?: string[];
+}
 
 interface ProgressPanelProps {
-    questions: any[];
+    questions: Question[];
     answers: { [key: number]: string };
     activePanelQuestion: number | null;
     goToQuestion: (questionId: number) => void;

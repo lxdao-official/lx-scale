@@ -14,12 +14,6 @@ import { FactorAnalysis } from "@/components/questionnaire/FactorAnalysis";
 import { DimensionsAnalysis } from "@/components/questionnaire/DimensionsAnalysis";
 import { Recommendations } from "@/components/questionnaire/Recommendations";
 
-interface QuestionnaireResultPageProps {
-    params: {
-        id: string;
-    };
-}
-
 interface ResultsData {
     totalScore: number;
     factorScores: { [key: string]: number };
@@ -40,10 +34,16 @@ interface Questionnaire {
     };
     factorDescriptions?: { [key: string]: string };
     factorMapping?: { [key: string]: number[] };
-    questions?: any[];
+    questions?: Question[];
 }
 
-export default function QuestionnaireResultPage({ params }: QuestionnaireResultPageProps) {
+interface Question {
+    content: string;
+    factors?: string[];
+    options: Array<{ value: string; text: string }>;
+}
+
+export default function QuestionnaireResultPage({ params }: { params: { id: string } }) {
     const { id } = params;
     const searchParams = useSearchParams();
     const [results, setResults] = useState<ResultsData | null>(null);
@@ -52,12 +52,13 @@ export default function QuestionnaireResultPage({ params }: QuestionnaireResultP
     // 从问卷数据中获取指定id的量表
     const questionnaire = questionnaires.find(q => q.id === id) as Questionnaire;
 
-    // 如果找不到数据，显示404页面
-    if (!questionnaire || !questionnaire.details) {
-        return notFound();
-    }
-
+    // React useEffect hook必须在组件顶层调用，不能在条件语句之后
     useEffect(() => {
+        // 如果找不到问卷，则不执行后续逻辑
+        if (!questionnaire || !questionnaire.details) {
+            return;
+        }
+
         // 尝试从URL参数中获取总分
         const scoreFromUrl = searchParams.get('score');
 
@@ -93,7 +94,12 @@ export default function QuestionnaireResultPage({ params }: QuestionnaireResultP
         }
 
         setLoading(false);
-    }, [id, searchParams]);
+    }, [id, searchParams, questionnaire]);
+
+    // 如果找不到数据，显示404页面
+    if (!questionnaire || !questionnaire.details) {
+        return notFound();
+    }
 
     if (loading) {
         return (
@@ -110,7 +116,7 @@ export default function QuestionnaireResultPage({ params }: QuestionnaireResultP
                     <h1 className="text-2xl font-bold mb-6">{questionnaire.title} - 结果未找到</h1>
                     <p className="text-gray-700 mb-6">无法获取您的测评结果，请重新完成测评。</p>
                     <Button>
-                        <Link href={`/questionnaire/${id}/test`}>重新测评</Link>
+                        <Link href={`/questionnaire/${id}/survey`}>重新测评</Link>
                     </Button>
                 </div>
             </div>
