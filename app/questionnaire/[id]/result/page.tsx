@@ -6,13 +6,13 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { questionnaires } from "@/constants/questionnaires";
 import Link from "next/link";
-import { ResultContainer } from "@/components/questionnaire/ResultContainer";
-import { ResultScore } from "@/components/questionnaire/ResultScore";
-import { PositiveItemStats } from "@/components/questionnaire/PositiveItemStats";
-import { ResultInterpretation } from "@/components/questionnaire/ResultInterpretation";
-import { FactorAnalysis } from "@/components/questionnaire/FactorAnalysis";
-import { DimensionsAnalysis } from "@/components/questionnaire/DimensionsAnalysis";
-import { Recommendations } from "@/components/questionnaire/Recommendations";
+import { ResultContainer } from "@/components/questionnaire/result/public/ResultContainer";
+import { ResultScore } from "@/components/questionnaire/result/public/ResultScore";
+import { PositiveItemStats } from "@/components/questionnaire/result/private/PositiveItemStats";
+import { ResultInterpretation } from "@/components/questionnaire/result/public/ResultInterpretation";
+import { FactorAnalysis } from "@/components/questionnaire/result/public/FactorAnalysis";
+import { DimensionsAnalysis } from "@/components/questionnaire/result/public/DimensionsAnalysis";
+import { Recommendations } from "@/components/questionnaire/result/public/Recommendations";
 
 interface ResultsData {
     totalScore: number;
@@ -130,17 +130,6 @@ export default function QuestionnaireResultPage({ params }: { params: { id: stri
                 questionnaireId={id}
             />
 
-            <PositiveItemStats
-                positiveItemCount={results.positiveItemCount}
-                positiveItemAverage={results.positiveItemAverage}
-                questionnaireId={id}
-            />
-
-            <ResultInterpretation
-                results={results}
-                questionnaireId={id}
-            />
-
             <FactorAnalysis
                 factorScores={results.factorScores}
                 questionnaireId={id}
@@ -152,6 +141,19 @@ export default function QuestionnaireResultPage({ params }: { params: { id: stri
                 totalScore={results.totalScore}
                 factorScores={results.factorScores}
             />
+
+            <PositiveItemStats
+                positiveItemCount={results.positiveItemCount}
+                positiveItemAverage={results.positiveItemAverage}
+                questionnaireId={id}
+            />
+
+            <ResultInterpretation
+                results={results}
+                questionnaireId={id}
+            />
+
+
 
             <Recommendations
                 isSevere={results.isSevere}

@@ -2,7 +2,7 @@
 
 import { notFound } from "next/navigation";
 import { questionnaires, Questionnaire as ConstantQuestionnaire } from "@/constants/questionnaires";
-import { QuestionnaireTest } from "@/components/questionnaire/QuestionnaireTest";
+import { QuestionnaireTest } from "@/components/questionnaire/test/QuestionnaireTest";
 
 // 组件需要的问卷接口
 interface ComponentQuestionnaire {
