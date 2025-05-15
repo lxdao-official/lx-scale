@@ -3,15 +3,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { questionnaires, Questionnaire } from "@/constants/questionnaires";
+import { questionnaires } from "@/constants/questionnaires";
 
-interface QuestionnairePageProps {
-    params: {
-        id: string;
-    };
-}
-
-export default function QuestionnairePage({ params }: QuestionnairePageProps) {
+export default function QuestionnairePage({
+    params
+}: {
+    params: { id: string }
+}) {
     const { id } = params;
 
     // 从问卷数据中获取指定id的量表
@@ -111,7 +109,7 @@ export default function QuestionnairePage({ params }: QuestionnairePageProps) {
 
                 <div className="mt-8">
                     <Button className="w-full py-6 text-lg cursor-pointer">
-                        <Link href={`/questionnaire/${id}/test`}>开始测评</Link>
+                        <Link href={`/questionnaire/${id}/survey`}>开始测评</Link>
                     </Button>
                 </div>
             </div>
