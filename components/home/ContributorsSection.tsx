@@ -1,25 +1,21 @@
 import { Code, Lightbulb, Palette, Heart, Star, Github } from "lucide-react";
+import Image from "next/image";
 
 interface Contributor {
   name: string;
   role: string;
-  avatar: string;
+  avatarUrl: string;
   github?: string;
 }
 
 export function ContributorsSection() {
-  // 模拟贡献者数据
+  // 实际贡献者数据
   const contributors: Contributor[] = [
-    { name: "张三", role: "开发者", avatar: "ZS", github: "zhangsan" },
-    { name: "李四", role: "设计师", avatar: "LS", github: "lisi" },
-    { name: "王五", role: "心理学家", avatar: "WW", github: "wangwu" },
-    { name: "赵六", role: "开发者", avatar: "ZL", github: "zhaoliu" },
-    { name: "孙七", role: "内容编辑", avatar: "SQ", github: "sunqi" },
-    { name: "周八", role: "测试工程师", avatar: "ZB", github: "zhouba" },
-    { name: "吴九", role: "开发者", avatar: "WJ", github: "wujiu" },
-    { name: "郑十", role: "设计师", avatar: "ZS", github: "zhengshi" },
+    { name: "0xhardman", role: "开发者", avatarUrl: "https://avatars.githubusercontent.com/u/47655472", github: "0xhardman" },
+    { name: "ctyweb3", role: "开发者", avatarUrl: "https://avatars.githubusercontent.com/u/173652098", github: "ctyweb3" },
+    { name: "snaildarter", role: "开发者", avatarUrl: "https://avatars.githubusercontent.com/u/13863422", github: "snaildarter" },
   ];
-  
+
   // 根据角色获取图标
   const getRoleIcon = (role: string) => {
     switch (role) {
@@ -37,7 +33,7 @@ export function ContributorsSection() {
         return <Star className="h-4 w-4 text-primary" />;
     }
   };
-  
+
   return (
     <section className="py-24">
       <div className="container px-4 max-w-6xl mx-auto">
@@ -47,12 +43,18 @@ export function ContributorsSection() {
             感谢所有为良心量表项目做出贡献的开发者、设计师和心理学家
           </p>
         </div>
-        
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
           {contributors.map((contributor, index) => (
             <div key={index} className="bg-background border rounded-xl p-4 flex flex-col items-center text-center shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-lg font-medium mb-3">
-                {contributor.avatar}
+              <div className="w-20 h-20 rounded-full overflow-hidden mb-3 relative">
+                <Image
+                  src={contributor.avatarUrl}
+                  alt={`${contributor.name} avatar`}
+                  width={80}
+                  height={80}
+                  className="object-cover"
+                />
               </div>
               <h3 className="font-medium">{contributor.name}</h3>
               <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
@@ -60,9 +62,10 @@ export function ContributorsSection() {
                 <span>{contributor.role}</span>
               </div>
               {contributor.github && (
-                <a 
-                  href={`https://github.com/${contributor.github}`} 
-                  target="_blank" 
+                <a
+                  href={`https://github.com/${contributor.github}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="mt-2 text-xs text-primary flex items-center gap-1 hover:underline"
                 >
                   <Github className="h-3 w-3" />
@@ -72,7 +75,7 @@ export function ContributorsSection() {
             </div>
           ))}
         </div>
-        
+
         <div className="mt-12 text-center">
           <p className="text-muted-foreground">
             您也可以成为贡献者！访问我们的 <a href="https://github.com/lxdao-official/lx-scale" target="_blank" className="text-primary hover:underline">GitHub 仓库</a> 了解如何参与。
