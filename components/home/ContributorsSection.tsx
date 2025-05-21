@@ -76,6 +76,35 @@ export function ContributorsSection() {
           ))}
         </div>
 
+        <div className="mt-16 mb-16">
+          <h3 className="text-xl font-semibold mb-6 text-center">待办事项</h3>
+          <div className="bg-background border rounded-xl p-6 shadow-sm max-w-4xl mx-auto">
+            {(() => {
+              const todoItems = [
+                "设计 LOGO",
+                "UI 升级",
+                "多问卷架构实现，整合 10+ 专业评估问卷",
+                "问卷数据本地浏览器存储功能",
+                "AI 分析能力升级，实现用户-AI交互式对话",
+                "多语言支持",
+                "SEO 优化，实现谷歌搜索相关关键词排名前 10"
+              ];
+              
+              return (
+                <div className="space-y-6">
+                  <ul className="space-y-3 list-none">
+                    {todoItems.map((item, index) => (
+                      <li key={index} className="border-l-4 border-primary/70 pl-4 py-1">
+                        <p className="font-medium">{item}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })()}
+          </div>
+        </div>
+        
         <div className="mt-12 text-center">
           <p className="text-muted-foreground">
             您也可以成为贡献者！访问我们的 <a href="https://github.com/lxdao-official/lx-scale" target="_blank" className="text-primary hover:underline">GitHub 仓库</a> 了解如何参与。
