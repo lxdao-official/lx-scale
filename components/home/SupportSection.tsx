@@ -17,9 +17,9 @@ export function SupportSection() {
             <div className="bg-primary/10 p-3 rounded-full w-fit mb-6">
               <Heart className="h-8 w-8 text-primary" />
             </div>
-            <h3 className="text-2xl font-semibold mb-4">心理健康公益基金</h3>
+            <h3 className="text-2xl font-semibold mb-4">支持项目发展</h3>
             <p className="text-muted-foreground mb-6 text-center lg:text-left">
-              我们设立了心理健康公益基金，用于支持心理健康教育、研究和免费心理咨询服务。您的捐赠将直接用于帮助那些无法负担心理健康服务费用的人。
+              您的捐赠将用于良心量表项目的维护和开发，包括服务器费用、功能改进和内容更新。我们承诺将透明公开所有捐赠资金的使用情况。
             </p>
             <div className="flex flex-wrap gap-4">
               <Button className="flex items-center gap-2">
