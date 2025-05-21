@@ -1,8 +1,8 @@
-import { CalculatedResults } from "../types";
+import { CalculatedResults, QuestionType } from "../types";
 
 interface SDSCalculatorProps {
     answers: { [key: number]: string };
-    questions: any[];
+    questions: QuestionType[];
 }
 
 export const calculateSDSResults = ({ answers }: SDSCalculatorProps): CalculatedResults => {

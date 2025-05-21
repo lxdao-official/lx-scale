@@ -1,12 +1,12 @@
-import { CalculatedResults } from "../types";
+import { CalculatedResults, QuestionType } from "../types";
 
 interface SCL90CalculatorProps {
     answers: { [key: number]: string };
-    questions: any[];
+    questions: QuestionType[];
     factorMapping?: { [key: string]: number[] };
 }
 
-export const calculateSCL90Results = ({ answers, questions, factorMapping }: SCL90CalculatorProps): CalculatedResults => {
+export const calculateSCL90Results = ({ answers, factorMapping }: SCL90CalculatorProps): CalculatedResults => {
     const totalScore = Object.values(answers).reduce((sum, score) => sum + parseInt(score), 0);
     const positiveItemCount = Object.values(answers).filter(score => parseInt(score) >= 2).length;
     const negativeItemCount = Object.values(answers).filter(score => parseInt(score) === 1).length;

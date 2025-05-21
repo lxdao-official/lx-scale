@@ -1,4 +1,4 @@
-import { CalculatedResults } from "../types";
+import { CalculatedResults, QuestionType } from "../types";
 
 /**
  * Yale-Brown强迫症状量表计算器参数接口
@@ -7,7 +7,7 @@ interface YBOCSCalculatorProps {
     /** 回答数据，键为问题ID，值为选择的分数 */
     answers: { [key: number]: string };
     /** 问题列表 */
-    questions: any[];
+    questions: QuestionType[];
 }
 
 /**
