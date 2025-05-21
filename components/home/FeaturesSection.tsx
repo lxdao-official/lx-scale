@@ -1,6 +1,6 @@
 export function FeaturesSection() {
   return (
-    <section className="py-16 border-b">
+    <section className="py-16">
       <div className="container px-4 max-w-6xl mx-auto">
         <h2 className="text-2xl font-bold mb-8 text-center">特点</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

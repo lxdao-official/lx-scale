@@ -1,6 +1,6 @@
 export function ContributorsSection() {
   return (
-    <section className="py-16 border-b">
+    <section className="py-16">
       <div className="container px-4 max-w-6xl mx-auto">
         <h2 className="text-2xl font-bold mb-8 text-center">贡献者</h2>
         <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-12 gap-4 justify-items-center">

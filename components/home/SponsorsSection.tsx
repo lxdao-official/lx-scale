@@ -1,6 +1,6 @@
 export function SponsorsSection() {
   return (
-    <section className="py-16 border-b">
+    <section className="py-16">
       <div className="container px-4 max-w-6xl mx-auto">
         <h2 className="text-2xl font-bold mb-8 text-center">赞助者</h2>
         <div className="flex flex-wrap justify-center gap-4">
