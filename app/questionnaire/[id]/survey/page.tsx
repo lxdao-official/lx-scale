@@ -57,8 +57,10 @@ function adaptQuestionnaire(questionnaire: ConstantQuestionnaire, id: string): C
     };
 }
 
-export default function QuestionnaireTestPage({ params }: { params: { id: string } }) {
-    const { id } = params;
+import { use } from "react";
+
+export default function QuestionnaireTestPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = use(params);
 
     // 从问卷数据中获取指定id的量表
     const questionnaire = questionnaires.find(q => q.id === id);

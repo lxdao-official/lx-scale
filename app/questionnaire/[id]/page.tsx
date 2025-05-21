@@ -107,9 +107,11 @@ export default function QuestionnairePage({
                 )}
 
                 <div className="mt-8">
-                    <Button className="w-full py-6 text-lg cursor-pointer">
-                        <Link href={`/questionnaire/${id}/survey`}>开始测评</Link>
-                    </Button>
+                    <Link href={`/questionnaire/${id}/survey`}>
+                        <Button className="w-full py-6 text-lg cursor-pointer" asChild>
+                            <span>开始测评</span>
+                        </Button>
+                    </Link>
                 </div>
             </div>
         </div>
