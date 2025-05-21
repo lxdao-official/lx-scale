@@ -1,16 +1,15 @@
-"use client"
-
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { questionnaires } from "@/constants/questionnaires";
+import { use } from "react";
 
 export default function QuestionnairePage({
     params
 }: {
-    params: { id: string }
+    params: Promise<{ id: string }>
 }) {
-    const { id } = params;
+    const { id } = use(params);
 
     // 从问卷数据中获取指定id的量表
     const questionnaire = questionnaires.find(q => q.id === id);

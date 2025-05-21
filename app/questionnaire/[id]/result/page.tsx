@@ -43,8 +43,10 @@ interface Question {
     options: Array<{ value: string; text: string }>;
 }
 
-export default function QuestionnaireResultPage({ params }: { params: { id: string } }) {
-    const { id } = params;
+import { use } from "react";
+
+export default function QuestionnaireResultPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = use(params);
     const searchParams = useSearchParams();
     const [results, setResults] = useState<ResultsData | null>(null);
     const [loading, setLoading] = useState(true);
