@@ -21,7 +21,7 @@ export async function SponsorsSection() {
           <div className="flex justify-center max-w-3xl mx-auto">
             <Link href={'https://lxdao.io'} target="_blank">
               <Image
-                src="/logo/lxdao.svg"
+                src="/share/logo/lxdao.svg"
                 alt="LXDAO Logo"
                 width={180}
                 height={70}
