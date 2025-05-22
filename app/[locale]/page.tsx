@@ -5,8 +5,6 @@ import { ContributorsSection } from '@/components/home/ContributorsSection';
 import { SupportSection } from '@/components/home/SupportSection';
 
 export default function Home() {
-  const T = useT();
-  const href = useHref();
   return (
     <div className="flex flex-col min-h-screen border-t">
       <HeroSection />
