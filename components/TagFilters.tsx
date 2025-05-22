@@ -2,8 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
-import useGetLang from '@/hooks/useGetLang';
-
+import { useCurrentLocale } from '@/locales/client';
 interface TagFiltersProps {
   onTagsChange: (tags: string[]) => void;
 }
@@ -11,7 +10,7 @@ interface TagFiltersProps {
 export function TagFilters({ onTagsChange }: TagFiltersProps) {
   const [activeTags, setActiveTags] = useState<string[]>([]);
 
-  const lang = useGetLang();
+  const lang = useCurrentLocale();
 
   const toggleTag = (tag: string) => {
     setActiveTags((prev) =>

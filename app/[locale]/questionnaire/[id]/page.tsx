@@ -1,16 +1,22 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { questionnaires } from '@/constants/questionnaires';
-import { use } from 'react';
+import {
+  questionnaires as questionnairesEn,
+  questionnairesZh,
+} from '@/constants/questionnaires';
+import { getScopedI18n, getCurrentLocale } from '@/locales/server';
 
-export default function QuestionnairePage({
+export default async function QuestionnairePage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = use(params);
+  const { id } = await params;
+  const t = await getScopedI18n('app.questionnaire.page');
+  const locale = await getCurrentLocale();
 
+  const questionnaires = locale === 'zh' ? questionnairesZh : questionnairesEn;
   // 从问卷数据中获取指定id的量表
   const questionnaire = questionnaires.find((q) => q.id === id);
 
@@ -28,31 +34,31 @@ export default function QuestionnairePage({
         <h1 className="text-2xl font-bold mb-4">{questionnaire.title}</h1>
 
         <div className="mb-6">
-          <h2 className="text-lg font-medium mb-2">简介</h2>
+          <h2 className="text-lg font-medium mb-2">{t('introduction')}</h2>
           <p className="text-gray-700">{details.introduction}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <div>
-            <h2 className="text-lg font-medium mb-2">问题数</h2>
+            <h2 className="text-lg font-medium mb-2">{t('questionCount')}</h2>
             <p className="text-gray-700">{details.questionCount}</p>
           </div>
           <div>
-            <h2 className="text-lg font-medium mb-2">测评时间</h2>
+            <h2 className="text-lg font-medium mb-2">{t('evaluationTime')}</h2>
             <p className="text-gray-700">{details.evaluationTime}</p>
           </div>
         </div>
 
         {details.instructions && (
           <div className="mb-6">
-            <h2 className="text-lg font-medium mb-2">测试说明</h2>
+            <h2 className="text-lg font-medium mb-2">{t('instructions')}</h2>
             <p className="text-gray-700">{details.instructions}</p>
           </div>
         )}
 
         {details.scoringMethod && details.scoringMethod.length > 0 && (
           <div className="mb-6">
-            <h2 className="text-lg font-medium mb-2">评分方法</h2>
+            <h2 className="text-lg font-medium mb-2">{t('scoringMethod')}</h2>
             <div className="text-gray-700">
               <ul className="list-disc pl-5 space-y-1">
                 {details.scoringMethod.map((method: string, index: number) => (
@@ -65,7 +71,7 @@ export default function QuestionnairePage({
 
         {details.dimensions && details.dimensions.length > 0 && (
           <div className="mb-6">
-            <h2 className="text-lg font-medium mb-2">维度说明</h2>
+            <h2 className="text-lg font-medium mb-2">{t('dimensions')}</h2>
             <div className="text-gray-700">
               <ol className="list-decimal pl-5 space-y-1">
                 {details.dimensions.map(
@@ -85,7 +91,7 @@ export default function QuestionnairePage({
 
         {details.notes && details.notes.length > 0 && (
           <div className="mb-6">
-            <h2 className="text-lg font-medium mb-2">注意事项</h2>
+            <h2 className="text-lg font-medium mb-2">{t('notes')}</h2>
             <div className="text-gray-700">
               <ol className="list-decimal pl-5 space-y-1">
                 {details.notes.map((note: string, index: number) => (
@@ -98,7 +104,7 @@ export default function QuestionnairePage({
 
         {details.references && details.references.length > 0 && (
           <div className="mb-6">
-            <h2 className="text-lg font-medium mb-2">参考资料</h2>
+            <h2 className="text-lg font-medium mb-2">{t('references')}</h2>
             <div className="text-gray-700">
               <ul className="list-disc pl-5">
                 {details.references.map((ref: string, index: number) => (
@@ -112,7 +118,7 @@ export default function QuestionnairePage({
         <div className="mt-8">
           <Link href={`/questionnaire/${id}/survey`}>
             <Button className="w-full py-6 text-lg cursor-pointer" asChild>
-              <span>开始测评</span>
+              <span>{t('startSurvey')}</span>
             </Button>
           </Link>
         </div>

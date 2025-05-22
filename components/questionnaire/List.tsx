@@ -1,5 +1,4 @@
 'use client';
-
 import Link from 'next/link';
 import { Search } from 'lucide-react';
 import { useState, useCallback } from 'react';
@@ -20,13 +19,13 @@ import {
   questionnaires as questionnairesEn,
   questionnairesZh,
 } from '@/constants/questionnaires';
-import useGetLang, {useHref} from '@/hooks/useGetLang';
+import { useCurrentLocale, useScopedI18n } from '@/locales/client';
 
 export default function QuestionnaireList() {
-  const lang = useGetLang();
+  const lang = useCurrentLocale();
+  const t = useScopedI18n('component.questionnaire.list');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const href = useHref();
 
   // 标签变化的回调函数
   const handleTagsChange = useCallback((tags: string[]) => {
@@ -53,36 +52,18 @@ export default function QuestionnaireList() {
     return matchesSearch && matchesTags;
   });
 
-  // 多语言文本
-  const translations = {
-    en: {
-      title: 'Questionnaire List',
-      searchPlaceholder: 'Search...',
-      detailButton: 'Details',
-      noMatch: 'No matching questionnaires found',
-    },
-    zh: {
-      title: '问答列表',
-      searchPlaceholder: '搜索...',
-      detailButton: '了解详情',
-      noMatch: '未找到匹配的问卷',
-    },
-  };
-
-  const t = translations[lang as keyof typeof translations];
-
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
         <div className="container px-4 py-6 max-w-6xl mx-auto">
-          <h1 className="text-2xl font-medium mb-6">{t.title}</h1>
+          <h1 className="text-2xl font-medium mb-6">{t('title')}</h1>
 
           {/* 搜索栏 */}
           <div className="mb-4 relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
-              placeholder={t.searchPlaceholder}
+              placeholder={t('searchPlaceholder')}
               className="pl-10"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -125,8 +106,8 @@ export default function QuestionnaireList() {
                       {questionnaire.time}
                     </span>
                     <Button className="cursor-pointer">
-                      <Link href={href(`/questionnaire/${questionnaire.id}`)}>
-                        {t.detailButton}
+                      <Link href={`/questionnaire/${questionnaire.id}`}>
+                        {t('detailButton')}
                       </Link>
                     </Button>
                   </CardFooter>
@@ -134,7 +115,7 @@ export default function QuestionnaireList() {
               ))
             ) : (
               <div className="col-span-3 text-center py-8 text-muted-foreground">
-                {t.noMatch}
+                {t('noMatch')}
               </div>
             )}
           </div>

@@ -13,6 +13,7 @@ import { ResultInterpretation } from '@/components/questionnaire/result/public/R
 import { FactorAnalysis } from '@/components/questionnaire/result/public/FactorAnalysis';
 import { DimensionsAnalysis } from '@/components/questionnaire/result/public/DimensionsAnalysis';
 import { Recommendations } from '@/components/questionnaire/result/public/Recommendations';
+import { useScopedI18n } from '@/locales/client';
 
 interface ResultsData {
   totalScore: number;
@@ -54,6 +55,7 @@ export default function QuestionnaireResultPage({
   const searchParams = useSearchParams();
   const [results, setResults] = useState<ResultsData | null>(null);
   const [loading, setLoading] = useState(true);
+  const t = useScopedI18n('app.questionnaire.result');
 
   // 从问卷数据中获取指定id的量表
   const questionnaire = questionnaires.find(
@@ -122,13 +124,11 @@ export default function QuestionnaireResultPage({
       <div className="flex justify-center items-center min-h-screen p-4">
         <div className="max-w-4xl w-full bg-white rounded-lg shadow-lg p-8 border">
           <h1 className="text-2xl font-bold mb-6">
-            {questionnaire.title} - 结果未找到
+            {questionnaire.title} - {t('resultNotFoundTitle')}
           </h1>
-          <p className="text-gray-700 mb-6">
-            无法获取您的测评结果，请重新完成测评。
-          </p>
+          <p className="text-gray-700 mb-6">{t('resultNotFoundDesc')}</p>
           <Button>
-            <Link href={`/questionnaire/${id}/survey`}>重新测评</Link>
+            <Link href={`/questionnaire/${id}/survey`}>{t('retryTest')}</Link>
           </Button>
         </div>
       </div>
