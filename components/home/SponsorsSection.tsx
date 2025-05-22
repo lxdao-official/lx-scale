@@ -60,7 +60,7 @@ export async function SponsorsSection() {
                   {t('contactUs')}
                 </a>
               ),
-            } as any)}
+            })}
           </p>
         </div>
       </div>

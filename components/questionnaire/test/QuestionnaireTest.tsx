@@ -37,35 +37,34 @@ export function QuestionnaireTest({
   // 创建refs来引用每个问题元素
   const questionRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
 
-  const getOptions = (id: string) => {
-    if (id === 'depression') {
-      return [
-        { value: '1', text: t('depressionOption1') },
-        { value: '2', text: t('depressionOption2') },
-        { value: '3', text: t('depressionOption3') },
-        { value: '4', text: t('depressionOption4') },
-      ];
-    } else if (id === 'ocd') {
-      return [
-        { value: '0', text: t('ocdOption0') },
-        { value: '1', text: t('ocdOption1') },
-        { value: '2', text: t('ocdOption2') },
-        { value: '3', text: t('ocdOption3') },
-        { value: '4', text: t('ocdOption4') },
-      ];
-    } else {
-      return [
-        { value: '1', text: t('defaultOption1') },
-        { value: '2', text: t('defaultOption2') },
-        { value: '3', text: t('defaultOption3') },
-        { value: '4', text: t('defaultOption4') },
-        { value: '5', text: t('defaultOption5') },
-      ];
-    }
-  };
-
   // 初始化问题数据 - 使用真实问卷数据
   const generateQuestions = (): QuestionType[] => {
+    const getOptions = (id: string) => {
+      if (id === 'depression') {
+        return [
+          { value: '1', text: t('depressionOption1') },
+          { value: '2', text: t('depressionOption2') },
+          { value: '3', text: t('depressionOption3') },
+          { value: '4', text: t('depressionOption4') },
+        ];
+      } else if (id === 'ocd') {
+        return [
+          { value: '0', text: t('ocdOption0') },
+          { value: '1', text: t('ocdOption1') },
+          { value: '2', text: t('ocdOption2') },
+          { value: '3', text: t('ocdOption3') },
+          { value: '4', text: t('ocdOption4') },
+        ];
+      } else {
+        return [
+          { value: '1', text: t('defaultOption1') },
+          { value: '2', text: t('defaultOption2') },
+          { value: '3', text: t('defaultOption3') },
+          { value: '4', text: t('defaultOption4') },
+          { value: '5', text: t('defaultOption5') },
+        ];
+      }
+    };
     // 检查问卷是否有问题数据
     if (!questionnaire.questions || questionnaire.questions.length === 0) {
       // 如果没有真实数据，则使用模拟数据
@@ -141,6 +140,7 @@ export function QuestionnaireTest({
   const generateQuestionsCallback = useCallback(generateQuestions, [
     id,
     questionnaire,
+    t,
   ]);
 
   useEffect(() => {

@@ -4,7 +4,7 @@ import { NextRequest } from "next/server";
 const I18nMiddleware = createI18nMiddleware({
     locales: ["zh", 'en'],
     defaultLocale: "zh",
-    urlMappingStrategy: "rewrite"  // 添加这一行，确保URL重写策略
+    // urlMappingStrategy: "rewrite"  // 添加这一行，确保URL重写策略
 });
 
 export function middleware(request: NextRequest) {
