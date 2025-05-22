@@ -16,7 +16,6 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.501.0",
-    "lx-scale": "file:",
     "next": "15.3.1",
     "pino-pretty": "^13.0.0",
     "react": "^19.0.0",
@@ -34,6 +33,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
+    "pino-pretty": "^13.0.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

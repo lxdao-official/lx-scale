@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { RainbowProvider } from "@/components/context/rainbow-kit";
+// import { RainbowProvider } from "@/components/context/rainbow-kit";
 import { Navbar } from "@/components/Navbar";
 
 const geistSans = Geist({
@@ -29,12 +29,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <RainbowProvider>
-          <Navbar />
-          <main>
-            {children}
-          </main>
-        </RainbowProvider>
+        {/* <RainbowProvider> */}
+        <Navbar />
+        <main>
+          {children}
+        </main>
+        {/* </RainbowProvider> */}
       </body>
     </html>
   );
