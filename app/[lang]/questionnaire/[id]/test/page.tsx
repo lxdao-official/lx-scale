@@ -12,7 +12,7 @@ interface QuestionnaireTestPageProps {
 export default async function QuestionnaireTestPage({
   params,
 }: QuestionnaireTestPageProps) {
-  const { id } = await params;
+  const { id } = params;
 
   if (!id) {
     return null;

@@ -3,15 +3,13 @@ import { questionnaires } from '@/constants/questionnaires';
 import ResultPage from '@/components/questionnaire/ResultPage';
 
 interface QuestionnaireResultPageProps {
-  params: {
-    id: string;
-  };
+  params: { id: string };
 }
 
 export default async function QuestionnaireResultPage({
   params,
 }: QuestionnaireResultPageProps) {
-  const { id } = await params;
+  const { id } = params;
 
   // 从问卷数据中获取指定id的量表
   const questionnaire = questionnaires.find((q) => q.id === id);

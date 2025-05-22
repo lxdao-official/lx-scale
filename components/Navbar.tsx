@@ -2,13 +2,12 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import useGetLang, {useT} from '@/hooks/useGetLang';
+import  {useT, useHref} from '@/hooks/useGetLang';
 
 export function Navbar() {
   const [langText, setLangText] = useState<string>();
   const pathname = usePathname();
   const { replace } = useRouter();
-  const isEn = useGetLang() === 'en';
 
   // 根据路径直接判断语言状态
   useEffect(() => {
@@ -16,6 +15,7 @@ export function Navbar() {
   }, [pathname]);
 
   const T = useT();
+  const href = useHref();
 
   /** 切换语言处理函数 */
   const toggleLang = () => {
@@ -30,7 +30,7 @@ export function Navbar() {
       <div className="container flex items-center justify-between h-14 px-4 max-w-6xl mx-auto">
         <div className="flex items-center">
           <Link
-            href={isEn ? "/": '/zh'}
+            href={href('/')}
             className="text-lg font-medium flex items-center gap-2"
           >
             <div className="w-8 h-8 border rounded flex items-center justify-center">
@@ -41,12 +41,12 @@ export function Navbar() {
         </div>
         <nav className="flex items-center gap-4 text-sm">
           <Link
-            href={ isEn ? "/intro": '/zh/intro' }
+            href={ href("/intro") }
             className="text-muted-foreground hover:text-foreground transition-colors"
           >
             {T({en: 'Introduction', zh: '介绍'})}
           </Link>
-          <Link href="/questionnaire" className="font-medium">
+          <Link href={href("/questionnaire")} className="font-medium">
             {T({en: 'Questionnaires', zh: '问答列表'})}
           </Link>
           <Link

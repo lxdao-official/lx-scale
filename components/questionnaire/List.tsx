@@ -20,12 +20,13 @@ import {
   questionnaires as questionnairesEn,
   questionnairesZh,
 } from '@/constants/questionnaires';
-import useGetLang from '@/hooks/useGetLang';
+import useGetLang, {useHref} from '@/hooks/useGetLang';
 
 export default function QuestionnaireList() {
   const lang = useGetLang();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const href = useHref();
 
   // 标签变化的回调函数
   const handleTagsChange = useCallback((tags: string[]) => {
@@ -124,7 +125,7 @@ export default function QuestionnaireList() {
                       {questionnaire.time}
                     </span>
                     <Button className="cursor-pointer">
-                      <Link href={`/questionnaire/${questionnaire.id}`}>
+                      <Link href={href(`/questionnaire/${questionnaire.id}`)}>
                         {t.detailButton}
                       </Link>
                     </Button>

@@ -1,6 +1,5 @@
-'use client';
 import QuestionnaireList from '@/components/questionnaire/List';
 
-export default function QuestionnairePage() {
+export default async function QuestionnairePage() {
   return <QuestionnaireList />;
 }
