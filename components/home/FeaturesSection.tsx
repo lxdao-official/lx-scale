@@ -71,7 +71,19 @@ export async function FeaturesSection() {
             <h3 className="text-xl font-semibold mb-3">
               {t('communityDriven')}
             </h3>
-            <p className="text-muted-foreground">{t('communityDrivenDesc')}</p>
+            <p className="text-muted-foreground">
+              {t('communityDrivenDesc', {
+                link: (
+                  <a
+                    href="https://fairsharing.xyz/"
+                    target="_blank"
+                    className="text-primary hover:underline"
+                  >
+                    FairSharing
+                  </a>
+                ),
+              })}
+            </p>
           </div>
 
           <div className="bg-background border rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow">

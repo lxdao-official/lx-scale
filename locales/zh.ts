@@ -47,7 +47,7 @@ export default {
     'component.home.features.dataVisualization': '数据可视化',
     'component.home.features.dataVisualizationDesc': '我们提供直观清晰的数据可视化展示，帮助您更好地理解自己的心理状态。包括因子分析、维度对比和趋势分析等多种图表。',
     'component.home.features.communityDriven': '社区驱动',
-    'component.home.features.communityDrivenDesc': '良心量表由开发者、心理学家和设计师组成的多元化社区共同建设，我们欢迎所有人加入并为项目贡献力量。我们使用 <a href="https://fairsharing.xyz/" target="_blank" className="text-primary hover:underline">FairSharing</a> 记录每个人的贡献，并进行公平分配。',
+    'component.home.features.communityDrivenDesc': '良心量表由开发者、心理学家和设计师组成的多元化社区共同建设，我们欢迎所有人加入并为项目贡献力量。我们使用 {link} 记录每个人的贡献，并进行公平分配。',
     'component.home.features.mentalHealthResources': '心理健康资源',
     'component.home.features.mentalHealthResourcesDesc': '除了评估工具，我们还提供丰富的心理健康资源和建议，帮助您找到适合的心理支持和自我提升方法。',
     'component.home.features.buildEcosystem': '共同建设更好的心理健康生态系统',

@@ -47,7 +47,7 @@ export default {
     'component.home.features.dataVisualization': 'Data Visualization',
     'component.home.features.dataVisualizationDesc': 'We provide intuitive and clear data visualizations to help you better understand your mental state, including various charts such as factor analysis, dimension comparison, and trend analysis.',
     'component.home.features.communityDriven': 'Community-Driven',
-    'component.home.features.communityDrivenDesc': 'LXScale is built by a diverse community of developers, psychologists, and designers. We welcome everyone to join and contribute to the project. We use <a href="https://fairsharing.xyz/" target="_blank" className="text-primary hover:underline">FairSharing</a> to track contributions and ensure fair distribution.',
+    'component.home.features.communityDrivenDesc': 'LXScale is built by a diverse community of developers, psychologists, and designers. We welcome everyone to join and contribute to the project. We use {link} to track contributions and ensure fair distribution.',
     'component.home.features.mentalHealthResources': 'Mental Health Resources',
     'component.home.features.mentalHealthResourcesDesc': 'In addition to assessment tools, we provide a wealth of mental health resources and advice to help you find appropriate psychological support and self-improvement methods.',
     'component.home.features.buildEcosystem': 'Building a Better Mental Health Ecosystem Together',
