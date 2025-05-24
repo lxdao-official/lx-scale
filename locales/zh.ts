@@ -185,14 +185,14 @@ export default {
     'component.questionnaire.test.QuestionnaireTest.ocdSymptoms': '强迫症状',
     'component.questionnaire.test.QuestionnaireTest.dailyLife': '日常生活中',
 
-    'component.questionnaire.list.title': '问答列表',
+    'component.questionnaire.list.title': '问卷',
     'component.questionnaire.list.searchPlaceholder': '搜索...',
-    'component.questionnaire.list.detailButton': '了解详情',
+    'component.questionnaire.list.detailButton': '开始评测',
     'component.questionnaire.list.noMatch': '未找到匹配的问卷',
 
     'component.navBar.title': 'LXScale',
     'component.navBar.introduce': '介绍',
-    'component.navBar.questionsList': '问答列表',
+    'component.navBar.questionsList': '问卷',
     'component.navBar.rescues': '开源仓库',
 } as const
 

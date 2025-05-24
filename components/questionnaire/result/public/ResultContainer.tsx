@@ -14,8 +14,8 @@ export function ResultContainer({ title, id, children }: ResultContainerProps) {
     'component.questionnaire.result.public.resultContainer'
   );
   return (
-    <div className="flex justify-center items-center min-h-screen p-4">
-      <div className="max-w-4xl w-full bg-white rounded-lg shadow-lg p-8 border">
+    <div className="flex justify-center items-center min-h-screen  md:p-4 p-2">
+      <div className="max-w-4xl w-full bg-white rounded-lg shadow-lg md:p-8 p-4 border">
         <h1 className="text-2xl font-bold mb-6">
           {title} - {t('resultText')}
         </h1>

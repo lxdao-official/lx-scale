@@ -187,11 +187,11 @@ export default {
 
     'component.questionnaire.list.title': 'Questionnaire List',
     'component.questionnaire.list.searchPlaceholder': 'Search...',
-    'component.questionnaire.list.detailButton': 'View Details',
+    'component.questionnaire.list.detailButton': 'Assessment',
     'component.questionnaire.list.noMatch': 'No matching questionnaires found',
 
     'component.navBar.title': 'LXScale',
-    'component.navBar.introduce': 'Introduction',
-    'component.navBar.questionsList': 'Questionnaire List',
-    'component.navBar.rescues': 'Open Source Repository',
+    'component.navBar.introduce': 'Intro',
+    'component.navBar.questionsList': 'Qnaire',
+    'component.navBar.rescues': 'Repo',
 } as const

@@ -44,6 +44,12 @@ export async function ContributorsSection() {
       role: Role.Developer,
       avatarUrl: 'https://avatars.githubusercontent.com/u/13863422',
       github: 'snaildarter',
+    },{
+      name: 'Keylen',
+      roleName: t('developer'),
+      role: Role.Developer,
+      avatarUrl: 'https://avatars.githubusercontent.com/u/17230944',
+      github: 'BiscuitCoder',
     },
   ];
 
@@ -74,7 +80,7 @@ export async function ContributorsSection() {
           <p className="text-lg text-muted-foreground">{t('description')}</p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
           {contributors.map((contributor, index) => (
             <div
               key={index}

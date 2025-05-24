@@ -22,7 +22,7 @@ export function Navbar() {
             <div className="w-8 h-8 border rounded flex items-center justify-center">
               LX
             </div>
-            <span>{t('title')}</span>
+            <span className='hidden md:block'>{t('title')}</span>
           </Link>
         </div>
         <nav className="flex items-center gap-4 text-sm">

@@ -59,7 +59,7 @@ export function TagFilters({ onTagsChange }: TagFiltersProps) {
           key={tag}
           variant="outline"
           className={`cursor-pointer ${
-            activeTags.includes(tag) ? 'bg-muted text-muted-foreground' : ''
+            activeTags.includes(tag) ? '!bg-black !text-white' : ''
           }`}
           onClick={() => toggleTag(tag)}
         >

@@ -40,7 +40,7 @@ export default function ChangeLocaleButton() {
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="sm" className="h-8 gap-1">
           <Globe className="h-4 w-4" />
-          <span>{locale === 'zh' ? '中文' : 'English'}</span>
+          <span className='hidden md:block'>{locale === 'zh' ? '中文' : 'English'}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-[180px]">
