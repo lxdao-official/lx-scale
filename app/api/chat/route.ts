@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// Deepseek API u5bc6u94a5 (u5728u751fu4ea7u73afu5883u4e2du5e94u8be5u4f7fu7528u73afu5883u53d8u91cf)
+// Deepseek API Key (should use environment variables in production environment)
 const DEEPSEEK_API_KEY = 'sk-b88a2b246d8d43a8bf704f7e444b4ff3';
 
 export async function POST(request: NextRequest) {
   try {
-    // u4eceu8bf7u6c42u4e2du83b7u53d6u6d88u606fu6570u636e
+    // Get message data from the request
     const requestData = await request.json();
     
-    // u8c03u7528 Deepseek API
+    // Call Deepseek API
     const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
       })
     });
 
-    // u5982u679c API u8c03u7528u5931u8d25uff0cu8fd4u56deu9519u8bef
+    // If API call fails, return error
     if (!response.ok) {
       const errorData = await response.json().catch(() => null);
       return NextResponse.json(
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // u8fd4u56de API u54cdu5e94
+    // Return API response
     const data = await response.json();
     return NextResponse.json(data);
   } catch (error) {
