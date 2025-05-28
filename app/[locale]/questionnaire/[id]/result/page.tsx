@@ -162,6 +162,7 @@ export default function QuestionnaireResultPage({
       <Recommendations
         isSevere={results.isSevere}
         positiveItemAverage={results.positiveItemAverage}
+        questionnaireId={id}
       />
     </ResultContainer>
   );
