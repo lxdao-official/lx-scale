@@ -14,6 +14,7 @@ import { FactorAnalysis } from '@/components/questionnaire/result/public/FactorA
 import { DimensionsAnalysis } from '@/components/questionnaire/result/public/DimensionsAnalysis';
 import { Recommendations } from '@/components/questionnaire/result/public/Recommendations';
 import { useScopedI18n } from '@/locales/client';
+import { useQuestionnaireStorage } from '@/hooks/useQuestionnaireStorage';
 
 interface ResultsData {
   totalScore: number;
@@ -56,44 +57,46 @@ export default function QuestionnaireResultPage({
   const [results, setResults] = useState<ResultsData | null>(null);
   const [loading, setLoading] = useState(true);
   const t = useScopedI18n('app.questionnaire.result');
+  const { savedData, isLoading: isStorageLoading } = useQuestionnaireStorage(id);
 
   // 从问卷数据中获取指定id的量表
   const questionnaire = questionnaires.find(
     (q) => q.id === id
   ) as Questionnaire;
 
-  // React useEffect hook必须在组件顶层调用，不能在条件语句之后
+  // 从本地存储或URL参数加载结果
   useEffect(() => {
     // 如果找不到问卷，则不执行后续逻辑
     if (!questionnaire || !questionnaire.details) {
       return;
     }
 
+    // 如果正在加载存储数据，则等待
+    if (isStorageLoading) return;
+
     // 尝试从URL参数中获取总分
     const scoreFromUrl = searchParams.get('score');
 
-    // 尝试从localStorage中获取更详细的结果数据
-    const storedResultsStr = localStorage.getItem(`questionnaire_result_${id}`);
-
-    if (storedResultsStr) {
-      try {
-        const storedResults = JSON.parse(storedResultsStr);
-        setResults(storedResults);
-      } catch (error) {
-        console.error('解析存储的结果数据时出错:', error);
-        // 如果localStorage解析失败但有URL参数，则仅使用总分
-        if (scoreFromUrl) {
-          setResults({
-            totalScore: parseInt(scoreFromUrl),
-            factorScores: {},
-            positiveItemCount: 0,
-            positiveItemAverage: 0,
-            isSevere: parseInt(scoreFromUrl) > 160,
-          });
-        }
+    // 如果本地存储中有结果，则使用存储的结果
+    if (savedData?.results) {
+      setResults(savedData.results);
+    } else if (savedData?.answers) {
+      // 如果有答案但没有结果，可以在这里重新计算结果
+      // 这里可以添加重新计算结果的逻辑，如果需要的话
+      console.log('Answers found but no results. Consider recalculating results.');
+      
+      // 如果有URL参数，则使用URL参数作为总分
+      if (scoreFromUrl) {
+        setResults({
+          totalScore: parseInt(scoreFromUrl),
+          factorScores: {},
+          positiveItemCount: 0,
+          positiveItemAverage: 0,
+          isSevere: parseInt(scoreFromUrl) > 160,
+        });
       }
     } else if (scoreFromUrl) {
-      // 如果没有存储的数据但有URL参数，则仅使用总分
+      // 如果既没有存储的结果也没有存储的答案，但有URL参数，则仅使用总分
       setResults({
         totalScore: parseInt(scoreFromUrl),
         factorScores: {},
@@ -104,7 +107,7 @@ export default function QuestionnaireResultPage({
     }
 
     setLoading(false);
-  }, [id, searchParams, questionnaire]);
+  }, [id, searchParams, questionnaire, savedData, isStorageLoading]);
 
   // 如果找不到数据，显示404页面
   if (!questionnaire || !questionnaire.details) {
@@ -162,6 +165,7 @@ export default function QuestionnaireResultPage({
       <Recommendations
         isSevere={results.isSevere}
         positiveItemAverage={results.positiveItemAverage}
+        questionnaireId={id}
       />
     </ResultContainer>
   );

@@ -125,8 +125,15 @@ export default {
     'component.questionnaire.result.public.factorAnalysis.severe': '中度',
     'component.questionnaire.result.public.factorAnalysis.extreme': '严重',
 
-    'component.questionnaire.result.public.recommendations.title': '建议',
-    'component.questionnaire.result.public.recommendations.aiPlaceholder': '留给ai部分的写',
+    'component.questionnaire.result.public.recommendations.title': '专属AI小贴士',
+    'component.questionnaire.result.public.recommendations.aiPlaceholder': '与AI小贴士进行交流，获取更多建议和支持',
+    'component.questionnaire.result.public.aiChat.startChatButton': '召唤AI小贴士',
+    'component.questionnaire.result.public.aiChat.chatTitle': '与AI小贴士对话',
+    'component.questionnaire.result.public.aiChat.chatPlaceholder': '您可以向我咨询关于测评结果的问题或寻求建议',
+    'component.questionnaire.result.public.aiChat.inputPlaceholder': '输入您的问题...',
+    'component.questionnaire.result.public.aiChat.sendButton': '发送',
+    'component.questionnaire.result.public.aiChat.apiErrorMessage': '抱歉，与AI服务连接时出现问题。请稍后再试。',
+    'component.questionnaire.result.public.aiChat.initialSuggestionError': '抱歉，无法提供初始建议。您可以点击按钮与AI助手对话，获取更多建议和支持。',
     'component.questionnaire.result.public.recommendations.severeAdvice': '您的症状可能较为严重，强烈建议您尽快咨询专业心理医生获取帮助。',
     'component.questionnaire.result.public.recommendations.generalAdvice': '如症状持续或加重，建议咨询专业心理医生。',
 

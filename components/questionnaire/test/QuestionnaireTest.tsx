@@ -12,6 +12,7 @@ import { calculateSDSResults } from './private/SDSCalculator';
 import { calculateYBOCSResults } from './private/YBOCSCalculator';
 import { QuestionType, CalculatedResults } from './types';
 import { useScopedI18n } from '@/locales/client';
+import { saveDraft, loadDraft, clearDraft } from '@/lib/storage';
 
 interface Questionnaire {
   id: string;
@@ -31,13 +32,29 @@ export function QuestionnaireTest({
 }: QuestionnaireTestProps) {
   const router = useRouter();
   const t = useScopedI18n('component.questionnaire.test.QuestionnaireTest');
-  // 状态管理
+  // State management
   const [currentPage, setCurrentPage] = useState(1);
-  const [answers, setAnswers] = useState<{ [key: number]: string }>({});
-  // 创建refs来引用每个问题元素
+  const [answers, setAnswers] = useState<{ [key: number]: string }>(() => {
+    // Load saved answers from local storage
+    const savedAnswers = loadDraft(id);
+    return savedAnswers || {};
+  });
+  // Create refs to reference each question element
   const questionRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
 
-  // 初始化问题数据 - 使用真实问卷数据
+  // Save answers when component unmounts
+  useEffect(() => {
+    return () => {
+      // Save answers if user leaves the page without submitting
+      if (Object.keys(answers).length > 0) {
+        saveDraft(id, answers);
+      }
+    };
+  }, [id, answers]);
+
+
+
+  // Initialize question data - using real questionnaire data
   const generateQuestions = (): QuestionType[] => {
     const getOptions = (id: string) => {
       if (id === 'depression') {
@@ -65,9 +82,9 @@ export function QuestionnaireTest({
         ];
       }
     };
-    // 检查问卷是否有问题数据
+    // Check the questionnaire for question data
     if (!questionnaire.questions || questionnaire.questions.length === 0) {
-      // 如果没有真实数据，则使用模拟数据
+      // If real data is not available, simulated data is used
       const count =
         id === 'scl90' ? 90 : id === 'depression' ? 20 : id === 'ocd' ? 10 : 2;
 
@@ -91,7 +108,7 @@ export function QuestionnaireTest({
         }));
     }
 
-    // 使用真实问卷数据
+    // Use real questionnaire data
     return questionnaire.questions.map((q, index: number) => ({
       id: index + 1,
       content: q.content,
@@ -115,28 +132,28 @@ export function QuestionnaireTest({
     description: '',
     type: 'success',
   });
-  // 进度面板显示状态控制
+  // Control the display state of the progress panel
   const [showProgressPanel, setShowProgressPanel] = useState(true);
 
-  // 每页显示的问题数
+  // Number of questions per page
   const questionsPerPage = 5;
-  // 总页数
+  // Total number of pages
   const totalPages = Math.ceil((questions.length || 0) / questionsPerPage);
-  // 当前页的问题
+  // Questions on the current page
   const currentQuestions = questions.slice(
     (currentPage - 1) * questionsPerPage,
     currentPage * questionsPerPage
   );
 
-  // 已回答的问题数
+  // Number of answered questions
   const answeredCount = Object.keys(answers).length;
-  // 完成百分比
+  // Calculate completion percentage
   const completionPercentage = questions.length
     ? (answeredCount / questions.length) * 100
     : 0;
 
-  // 这里的generateQuestions在每次useEffect运行时也会变化
-  // 解决办法是将其移入useEffect内部或使用useCallback包装
+  // This generateQuestions function changes every time useEffect runs
+  // Solution is to move it inside useEffect or wrap it with useCallback
   const generateQuestionsCallback = useCallback(generateQuestions, [
     id,
     questionnaire,
@@ -145,11 +162,11 @@ export function QuestionnaireTest({
 
   useEffect(() => {
     setQuestions(generateQuestionsCallback());
-    // 重置refs对象，以便在问题列表变化时重新分配
+    // Reset the refs object to reassign when the list of issues changes
     questionRefs.current = {};
   }, [id, questionnaire, generateQuestionsCallback]);
 
-  // 计算测试结果
+  // Calculate the test results
   const calculateResults = (): CalculatedResults | null => {
     if (Object.keys(answers).length < questions.length) return null;
 
@@ -168,7 +185,7 @@ export function QuestionnaireTest({
     return null;
   };
 
-  // 显示通知信息
+  // Show notification message
   const showNotification = (
     title: string,
     description: string,
@@ -181,17 +198,22 @@ export function QuestionnaireTest({
       type,
     });
 
-    // 3秒后自动隐藏
+    // Auto-hide after 3 seconds
     setTimeout(() => {
       setShowToast((prev) => ({ ...prev, show: false }));
     }, 3000);
   };
 
-  const handleSelect = (questionId: number, option: string) => {
-    setAnswers((prev) => ({
-      ...prev,
-      [questionId]: option,
-    }));
+  const handleSelect = (questionId: number, value: string) => {
+    const newAnswers = {
+      ...answers,
+      [questionId]: value,
+    };
+    setAnswers(newAnswers);
+    // Auto-save answers
+    if (Object.keys(newAnswers).length < questions.length) {
+      saveDraft(id, newAnswers);
+    }
   };
 
   const goToPage = (page: number) => {
@@ -202,40 +224,40 @@ export function QuestionnaireTest({
   };
 
   const goToQuestion = (questionId: number) => {
-    // 计算问题所在页数
+    // Calculate which page the question is on
     const page = Math.ceil(questionId / questionsPerPage);
 
-    // 如果当前已经在该页，直接滚动到问题位置
+    // If already on the page, scroll to the question
     if (currentPage === page) {
       scrollToQuestion(questionId);
     } else {
-      // 否则，先切换页面，然后在页面加载后滚动到问题位置
+      // Otherwise, switch page first, then scroll to question after page loads
       setCurrentPage(page);
 
-      // 使用setTimeout确保DOM更新后再滚动
+      // Use setTimeout to ensure DOM is updated before scrolling
       setTimeout(() => {
         scrollToQuestion(questionId);
       }, 100);
     }
 
-    // 设置高亮效果
+    // Set highlight effect
     setActivePanelQuestion(questionId);
     setTimeout(() => {
       setActivePanelQuestion(null);
     }, 1500);
   };
 
-  // 滚动到指定问题的位置
+  // Scroll to specific question position
   const scrollToQuestion = (questionId: number) => {
     const questionElement = questionRefs.current[questionId];
     if (questionElement) {
-      // 获取问题元素相对于视口的位置
+      // Get question element's position relative to viewport
       const rect = questionElement.getBoundingClientRect();
 
-      // 计算滚动位置，稍微向上偏移一点，以便有更好的视觉效果
+      // Calculate scroll position with slight offset for better visual effect
       const scrollTop = window.pageYOffset + rect.top - 100;
 
-      // 平滑滚动到问题位置
+      // Smooth scroll to question position
       window.scrollTo({
         top: scrollTop,
         behavior: 'smooth',
@@ -244,7 +266,7 @@ export function QuestionnaireTest({
   };
 
   const handleSubmit = () => {
-    // 检查是否所有问题都已回答
+    // Check if all questions are answered first
     if (answeredCount < questions.length) {
       showNotification(
         t('errorTitle'),
@@ -254,25 +276,17 @@ export function QuestionnaireTest({
       return;
     }
 
-    // 计算结果
+    // Calculate results
     const results = calculateResults();
     if (results) {
-      // 将结果保存到localStorage中，以便结果页面使用
-      try {
-        localStorage.setItem(
-          `questionnaire_result_${id}`,
-          JSON.stringify(results)
-        );
-      } catch (error) {
-        console.error(t('error'), error);
-      }
-
-      // 跳转到结果页面，并传递总分作为URL参数
+      // Clear draft before navigation
+      clearDraft(id);
+      // Navigate to results page with total score as URL parameter
       router.push(`/questionnaire/${id}/result?score=${results.totalScore}`);
     }
   };
 
-  // 切换进度面板显示状态
+  // Toggle progress panel visibility
   const toggleProgressPanel = () => {
     setShowProgressPanel((prev) => !prev);
   };

@@ -126,7 +126,14 @@ export default {
     'component.questionnaire.result.public.factorAnalysis.extreme': 'Extreme',
 
     'component.questionnaire.result.public.recommendations.title': 'Recommendations',
-    'component.questionnaire.result.public.recommendations.aiPlaceholder': 'Content for AI to write',
+    'component.questionnaire.result.public.recommendations.aiPlaceholder': 'Chat with AI for more suggestions and support',
+    'component.questionnaire.result.public.aiChat.startChatButton': 'Some daily methods that might help relieve',
+    'component.questionnaire.result.public.aiChat.chatTitle': 'Chat with AI Assistant',
+    'component.questionnaire.result.public.aiChat.chatPlaceholder': 'You can ask me about your assessment results or seek advice',
+    'component.questionnaire.result.public.aiChat.inputPlaceholder': 'Type your question...',
+    'component.questionnaire.result.public.aiChat.sendButton': 'Send',
+    'component.questionnaire.result.public.aiChat.apiErrorMessage': 'Sorry, there was a problem connecting to the AI service. Please try again later.',
+    'component.questionnaire.result.public.aiChat.initialSuggestionError': 'Sorry, unable to provide initial suggestions. You can click the button below to chat with the AI assistant for more advice and support.',
     'component.questionnaire.result.public.recommendations.severeAdvice': 'Your symptoms may be relatively severe. We strongly recommend that you consult a professional psychologist as soon as possible for assistance.',
     'component.questionnaire.result.public.recommendations.generalAdvice': 'If your symptoms persist or worsen, it is recommended that you consult a professional psychologist.',
 
