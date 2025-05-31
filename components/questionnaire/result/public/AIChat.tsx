@@ -13,10 +13,10 @@ interface Message {
 
 interface AIChatProps {
   questionnaireResults: Record<string, unknown>;
-  questionnaireId: string;
+  questionnaireType: string;
 }
 
-export function AIChat({ questionnaireResults, questionnaireId }: AIChatProps) {
+export function AIChat({ questionnaireResults, questionnaireType }: AIChatProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -27,36 +27,36 @@ export function AIChat({ questionnaireResults, questionnaireId }: AIChatProps) {
   const t = useScopedI18n('component.questionnaire.result.public.aiChat');
   const lang = useGetLang();
 
-  // 使用我们的 API 路由而不是直接调用 Deepseek API
+  //Use our API route instead of calling Deepseek API directly
   const API_ENDPOINT = '/api/chat';
 
-  // 组件加载时生成初始建议
+  // Generate initial suggestion when component loads
   useEffect(() => {
     generateInitialSuggestion();
   }, []);
 
-  // 滚动到最新消息
+  // Scroll to the latest message
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [messages]);
 
-  // 生成初始AI建议
+  // Generate initial AI suggestion
   const generateInitialSuggestion = async () => {
     setIsLoadingInitialSuggestion(true);
     try {
-      // 准备发送给API的消息
+      // Prepare messages to send to API
       const initialPrompt = {
         role: 'system',
         content: `你是一个心理健康助手，需要根据用户完成的心理测评问卷提供简短的建议和支持。
-        问卷ID: ${questionnaireId}
+        问卷ID: ${questionnaireType}
         问卷结果: ${JSON.stringify(questionnaireResults)}
         请提供一段简短的建议，帮助用户理解测评结果并给出一些实用的日常缓解方法。使用${lang === 'zh' ? '中文' : 'English'}回复。
         回复应该友善、支持性且有帮助，但不要做出医疗诊断。可以使用一些emoji，350字左右。`
       };
 
-      // 调用我们的 API 路由
+      // Call our API route
       const response = await fetch(API_ENDPOINT, {
         method: 'POST',
         headers: {
@@ -85,23 +85,23 @@ export function AIChat({ questionnaireResults, questionnaireId }: AIChatProps) {
     }
   };
 
-  // 处理发送消息
+  // Handle sending messages
   const handleSendMessage = async () => {
     if (!input.trim() || isLoading) return;
 
-    // 添加用户消息
+     // Add user message
     const userMessage: Message = { role: 'user', content: input };
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
 
     try {
-      // 准备发送给API的消息历史
+      // Prepare message history to send to API
       const messageHistory = [
         {
           role: 'system',
           content: `你是一个心理健康助手，基于用户完成的心理测评问卷提供建议和支持。
-          问卷ID: ${questionnaireId}
+          问卷类型: ${questionnaireType}
           问卷结果: ${JSON.stringify(questionnaireResults)}
           请根据用户的问题和问卷结果提供有帮助的回应。使用${lang === 'zh' ? '中文' : 'English'}回复。
           你的回复应该友善、支持性且有帮助，但不要做出医疗诊断。可以使用一些emoji，350字左右`
@@ -110,7 +110,7 @@ export function AIChat({ questionnaireResults, questionnaireId }: AIChatProps) {
         userMessage
       ];
 
-      // 调用我们的 API 路由
+      // Call our API route
       const response = await fetch(API_ENDPOINT, {
         method: 'POST',
         headers: {
@@ -131,11 +131,11 @@ export function AIChat({ questionnaireResults, questionnaireId }: AIChatProps) {
       const data = await response.json();
       const aiResponse = data.choices[0].message.content;
 
-      // 添加AI回复
+      // Add AI response
       setMessages((prev) => [...prev, { role: 'assistant', content: aiResponse }]);
     } catch (error) {
       console.error('Error calling AI API:', error);
-      // 添加错误消息
+      // Add error message
       setMessages((prev) => [
         ...prev,
         { role: 'assistant', content: t('apiErrorMessage') }
@@ -145,7 +145,7 @@ export function AIChat({ questionnaireResults, questionnaireId }: AIChatProps) {
     }
   };
 
-  // 处理按键事件（按Enter发送消息）
+  // Handle key events (press Enter to send message)
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -153,14 +153,14 @@ export function AIChat({ questionnaireResults, questionnaireId }: AIChatProps) {
     }
   };
 
-  // 渲染消息内容（支持Markdown）
+  // Render message content (supports Markdown)
   const renderMessageContent = (content: string) => {
-    // 简单的Markdown渲染
+    // Simple Markdown rendering
     const formattedContent = content
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // 粗体
-      .replace(/\*(.*?)\*/g, '<em>$1</em>') // 斜体
-      .replace(/\n\n/g, '<br /><br />') // 段落
-      .replace(/\n/g, '<br />'); // 换行
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold
+      .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italic
+      .replace(/\n\n/g, '<br /><br />') // Paragraph
+      .replace(/\n/g, '<br />'); // Line break
 
     return <div dangerouslySetInnerHTML={{ __html: formattedContent }} />;
   };

@@ -41,7 +41,7 @@ export function Recommendations({
         {/* AI 聊天组件 */}
         <AIChat 
           questionnaireResults={questionnaireResults} 
-          questionnaireId={questionnaireId} 
+          questionnaireType={questionnaireId} 
         />
       </div>
     </div>
