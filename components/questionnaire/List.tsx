@@ -15,14 +15,11 @@ import {
 import { Badge } from '@/components/ui/badge';
 // import { Separator } from "@/components/ui/separator";
 import { TagFilters } from '@/components/TagFilters';
-import {
-  questionnaires as questionnairesEn,
-  questionnairesZh,
-} from '@/constants/questionairies/type';
-import { useCurrentLocale, useScopedI18n } from '@/locales/client';
+import { useScopedI18n } from '@/locales/client';
+import { useQuestionnaire } from '@/hooks/useQuestionnaire';
 
 export default function QuestionnaireList() {
-  const lang = useCurrentLocale();
+  const questionnaires = useQuestionnaire();
   const t = useScopedI18n('component.questionnaire.list');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -32,7 +29,6 @@ export default function QuestionnaireList() {
     setSelectedTags(tags);
   }, []);
 
-  const questionnaires = lang === 'zh' ? questionnairesZh : questionnairesEn;
 
   // 根据搜索词和标签过滤问卷
   const filteredQuestionnaires = questionnaires.filter((q) => {

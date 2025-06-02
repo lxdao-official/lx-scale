@@ -1,11 +1,9 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import {
-  questionnaires as questionnairesEn,
-  questionnairesZh,
-} from '@/constants/questionairies/type';
 import { getScopedI18n, getCurrentLocale } from '@/locales/server';
+import { getQuestionnairesByLocale } from '@/components/questionnaire/test/types';
+
 
 export default async function QuestionnairePage({
   params,
@@ -15,8 +13,8 @@ export default async function QuestionnairePage({
   const { id } = await params;
   const t = await getScopedI18n('app.questionnaire.page');
   const locale = await getCurrentLocale();
+  const questionnaires = getQuestionnairesByLocale(locale);
 
-  const questionnaires = locale === 'zh' ? questionnairesZh : questionnairesEn;
   // 从问卷数据中获取指定id的量表
   const questionnaire = questionnaires.find((q) => q.id === id);
 

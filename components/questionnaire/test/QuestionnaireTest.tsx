@@ -31,7 +31,6 @@ export function QuestionnaireTest({
   id,
 }: QuestionnaireTestProps) {
   const router = useRouter();
-  const t = useScopedI18n('component.questionnaire.test.QuestionnaireTest');
   // State management
   const [currentPage, setCurrentPage] = useState(1);
   const [answers, setAnswers] = useState<{ [key: number]: string }>(() => {
@@ -56,32 +55,7 @@ export function QuestionnaireTest({
 
   // Initialize question data - using real questionnaire data
   const generateQuestions = (): QuestionType[] => {
-    const getOptions = (id: string) => {
-      if (id === 'depression') {
-        return [
-          { value: '1', text: t('depressionOption1') },
-          { value: '2', text: t('depressionOption2') },
-          { value: '3', text: t('depressionOption3') },
-          { value: '4', text: t('depressionOption4') },
-        ];
-      } else if (id === 'ocd') {
-        return [
-          { value: '0', text: t('ocdOption0') },
-          { value: '1', text: t('ocdOption1') },
-          { value: '2', text: t('ocdOption2') },
-          { value: '3', text: t('ocdOption3') },
-          { value: '4', text: t('ocdOption4') },
-        ];
-      } else {
-        return [
-          { value: '1', text: t('defaultOption1') },
-          { value: '2', text: t('defaultOption2') },
-          { value: '3', text: t('defaultOption3') },
-          { value: '4', text: t('defaultOption4') },
-          { value: '5', text: t('defaultOption5') },
-        ];
-      }
-    };
+
     // Check the questionnaire for question data
     if (!questionnaire.questions || questionnaire.questions.length === 0) {
       // If real data is not available, simulated data is used
@@ -99,10 +73,10 @@ export function QuestionnaireTest({
               id === 'scl90'
                 ? t('scl90TimeRange')
                 : id === 'depression'
-                ? t('depressionTimeRange')
-                : id === 'ocd'
-                ? t('ocdSymptoms')
-                : t('dailyLife'),
+                  ? t('depressionTimeRange')
+                  : id === 'ocd'
+                    ? t('ocdSymptoms')
+                    : t('dailyLife'),
           }),
           options: getOptions(id),
         }));

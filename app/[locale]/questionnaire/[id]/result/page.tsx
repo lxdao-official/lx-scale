@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { questionnaires } from '@/constants/questionairies/type';
+import { questionnaires } from '@/questionairies/type';
 import Link from 'next/link';
 import { ResultContainer } from '@/components/questionnaire/result/public/ResultContainer';
 import { ResultScore } from '@/components/questionnaire/result/public/ResultScore';
