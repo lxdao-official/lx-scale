@@ -1,5 +1,4 @@
 'use client';
-import Link from 'next/link';
 import { Search } from 'lucide-react';
 import { useState, useCallback } from 'react';
 
@@ -17,6 +16,7 @@ import { Badge } from '@/components/ui/badge';
 import { TagFilters } from '@/components/TagFilters';
 import { useScopedI18n } from '@/locales/client';
 import { useQuestionnaire } from '@/hooks/useQuestionnaire';
+import DetailDialog from './DetailDialog';
 
 export default function QuestionnaireList() {
   const questionnaires = useQuestionnaire();
@@ -101,11 +101,13 @@ export default function QuestionnaireList() {
                     <span className="text-xs text-muted-foreground">
                       {questionnaire.time}
                     </span>
-                    <Button className="cursor-pointer">
-                      <Link href={`/questionnaire/${questionnaire.id}`}>
+                    <DetailDialog
+                      questionnaire={questionnaire}
+                      trigger={<Button className="cursor-pointer">
                         {t('detailButton')}
-                      </Link>
-                    </Button>
+                      </Button>}
+                    />
+
                   </CardFooter>
                 </Card>
               ))
