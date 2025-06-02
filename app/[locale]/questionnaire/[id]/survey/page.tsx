@@ -30,6 +30,8 @@ export default function QuestionnaireTestPage({
   params: Promise<{ id: string }>;
 }) {
   const t = useScopedI18n('app.questionnaire.survey');
+  // 为强迫症量表选项使用的翻译函数
+  const tTest = useScopedI18n('component.questionnaire.test.QuestionnaireTest');
   const { id } = use(params);
 
   // 从问卷数据中获取指定id的量表
@@ -58,32 +60,43 @@ export default function QuestionnaireTestPage({
       };
     }
 
+    // 生成选项的函数
+    const generateOptions = (questionnaireId: string) => {
+      switch (questionnaireId) {
+        case 'depression':
+          return [
+            { value: '1', text: t('depressionOption1') },
+            { value: '2', text: t('depressionOption2') },
+            { value: '3', text: t('depressionOption3') },
+            { value: '4', text: t('depressionOption4') },
+          ];
+        case 'obsessive':
+          // 强迫症量表的选项 - 使用正确的翻译命名空间和函数
+          return [
+            { value: '0', text: tTest('ocdOption0') },
+            { value: '1', text: tTest('ocdOption1') },
+            { value: '2', text: tTest('ocdOption2') },
+            { value: '3', text: tTest('ocdOption3') },
+            { value: '4', text: tTest('ocdOption4') },
+          ];
+        default:
+          // 默认选项
+          return [
+            { value: '1', text: t('defaultOption1') },
+            { value: '2', text: t('defaultOption2') },
+            { value: '3', text: t('defaultOption3') },
+            { value: '4', text: t('defaultOption4') },
+            { value: '5', text: t('defaultOption5') },
+          ];
+      }
+    };
+
     // 创建适配后的questions数组
     const adaptedQuestions = questionnaire.questions.map((q, index) => ({
       id: index + 1,
       content: q.content,
       factors: q.factors,
-      options:
-        id === 'depression'
-          ? [
-              {
-                value: '1',
-                text: t('depressionOption1'),
-              },
-              { value: '2', text: t('depressionOption2') },
-              { value: '3', text: t('depressionOption3') },
-              { value: '4', text: t('depressionOption4') },
-            ]
-          : [
-              {
-                value: '1',
-                text: t('defaultOption1'),
-              },
-              { value: '2', text: t('defaultOption2') },
-              { value: '3', text: t('defaultOption3') },
-              { value: '4', text: t('defaultOption4') },
-              { value: '5', text: t('defaultOption5') },
-            ],
+      options: generateOptions(id),
     }));
 
     // 返回适配后的问卷对象
