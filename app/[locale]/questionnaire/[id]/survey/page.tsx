@@ -2,10 +2,11 @@
 import { notFound } from 'next/navigation';
 import {
   questionnaires,
+  questionnairesZh,
   Questionnaire as ConstantQuestionnaire,
-} from '@/constants/questionnaires';
+} from '@/constants/questionairies/type';
 import { QuestionnaireTest } from '@/components/questionnaire/test/QuestionnaireTest';
-import { useScopedI18n } from '@/locales/client';
+import { useScopedI18n, useCurrentLocale } from '@/locales/client';
 
 // 组件需要的问卷接口
 interface ComponentQuestionnaire {
@@ -34,8 +35,24 @@ export default function QuestionnaireTestPage({
   const tTest = useScopedI18n('component.questionnaire.test.QuestionnaireTest');
   const { id } = use(params);
 
+  // 获取当前语言/地区设置
+  const currentLocale = useCurrentLocale();
+
+  // 根据当前语言选择对应版本的问卷数据的函数
+  const getQuestionnairesByLocale = (locale: string) => {
+    switch (locale) {
+      case 'zh':
+        return questionnairesZh;
+      // 可以在这里添加更多语言支持
+      // case 'fr':
+      //   return questionnairesFr;
+      default:
+        return questionnaires; // 默认使用英文问卷
+    }
+  };
+
   // 从问卷数据中获取指定id的量表
-  const questionnaire = questionnaires.find((q) => q.id === id);
+  const questionnaire = getQuestionnairesByLocale(currentLocale).find((q) => q.id === id);
 
   // 如果找不到数据，显示404页面
   if (!questionnaire) {
@@ -48,10 +65,10 @@ export default function QuestionnaireTestPage({
   ):
     | ComponentQuestionnaire
     | {
-        id: string;
-        title: string;
-        factorMapping?: { [key: string]: number[] };
-      } {
+      id: string;
+      title: string;
+      factorMapping?: { [key: string]: number[] };
+    } {
     if (!questionnaire.questions) {
       return {
         id: questionnaire.id,
@@ -107,7 +124,6 @@ export default function QuestionnaireTestPage({
       factorMapping: questionnaire.factorMapping,
     };
   }
-
   // 适配问卷数据格式
   const adaptedQuestionnaire = adaptQuestionnaire(questionnaire, id);
 

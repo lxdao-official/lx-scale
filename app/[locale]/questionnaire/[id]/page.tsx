@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import {
   questionnaires as questionnairesEn,
   questionnairesZh,
-} from '@/constants/questionnaires';
+} from '@/constants/questionairies/type';
 import { getScopedI18n, getCurrentLocale } from '@/locales/server';
 
 export default async function QuestionnairePage({

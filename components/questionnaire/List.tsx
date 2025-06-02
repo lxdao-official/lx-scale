@@ -18,7 +18,7 @@ import { TagFilters } from '@/components/TagFilters';
 import {
   questionnaires as questionnairesEn,
   questionnairesZh,
-} from '@/constants/questionnaires';
+} from '@/constants/questionairies/type';
 import { useCurrentLocale, useScopedI18n } from '@/locales/client';
 
 export default function QuestionnaireList() {

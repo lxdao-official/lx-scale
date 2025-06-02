@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { questionnaires } from '@/constants/questionnaires';
+import { questionnaires } from '@/constants/questionairies/type';
 import Link from 'next/link';
 import { ResultContainer } from '@/components/questionnaire/result/public/ResultContainer';
 import { ResultScore } from '@/components/questionnaire/result/public/ResultScore';
@@ -84,7 +84,7 @@ export default function QuestionnaireResultPage({
       // 如果有答案但没有结果，可以在这里重新计算结果
       // 这里可以添加重新计算结果的逻辑，如果需要的话
       console.log('Answers found but no results. Consider recalculating results.');
-      
+
       // 如果有URL参数，则使用URL参数作为总分
       if (scoreFromUrl) {
         setResults({
