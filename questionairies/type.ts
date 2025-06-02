@@ -1,3 +1,13 @@
+
+import { questionnairesEn } from "./en";
+import { questionnairesZh } from "./zh";
+
+export interface Option {
+    id: number;
+    content: string;
+    value: string;
+}
+
 export interface Questionnaire {
     id: string;
     title: string;
@@ -18,4 +28,15 @@ export interface Questionnaire {
         id: number;
         content: string;
     }[];
+    renderOptions: (id: number) => Option[];
 }
+
+
+export const getQuestionnairesByLocale = (locale: string) => {
+    switch (locale) {
+        case 'zh':
+            return questionnairesZh;
+        default:
+            return questionnairesEn;
+    }
+};

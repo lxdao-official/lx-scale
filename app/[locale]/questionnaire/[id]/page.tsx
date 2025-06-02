@@ -2,10 +2,10 @@
 import { notFound } from 'next/navigation';
 import { questionnairesEn as questionnaires } from '@/questionairies/en';
 import { questionnairesZh } from '@/questionairies/zh';
-import { QuestionnaireTest } from '@/components/questionnaire/test/QuestionnaireTest';
 import { useCurrentLocale } from '@/locales/client';
 
 import { use } from 'react';
+import { Questionnaire } from '@/components/questionnaire/test/QuestionnaireTest';
 
 export default function QuestionnairePage({
   params,
@@ -38,8 +38,5 @@ export default function QuestionnairePage({
     return notFound();
   }
 
-  // 适配问卷数据格式
-  const adaptedQuestionnaire = questionnaire;
-
-  return <QuestionnaireTest questionnaire={adaptedQuestionnaire} id={id} />;
+  return <Questionnaire questionnaire={questionnaire} id={id} />;
 }

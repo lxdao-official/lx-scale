@@ -45,5 +45,17 @@ export const ocd: Questionnaire = {
         { id: 8, content: "How anxious would you become if prevented from performing compulsive behaviors?" },
         { id: 9, content: "How much effort do you make to resist compulsive behaviors?" },
         { id: 10, content: "How much control do you have over your compulsive behaviors?" }
-    ]
+    ],
+    renderOptions: (id: number) => {
+        switch (id) {
+            default:
+                return [
+                    { id: 1, content: '从不', value: '0' },
+                    { id: 2, content: '很少', value: '1' },
+                    { id: 3, content: '有时', value: '2' },
+                    { id: 4, content: '经常', value: '3' },
+                    { id: 5, content: '总是', value: '4' },
+                ];
+        }
+    }
 };

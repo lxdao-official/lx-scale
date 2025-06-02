@@ -7,29 +7,19 @@ import { Navigation } from '@/components/questionnaire/test/public/Navigation';
 import { ProgressPanel } from '@/components/questionnaire/test/public/ProgressPanel';
 import { ProgressBar } from '@/components/questionnaire/test/public/ProgressBar';
 import { Toast } from '@/components/questionnaire/test/public/Toast';
-import { calculateSCL90Results } from './private/SCL90Calculator';
-import { calculateSDSResults } from './private/SDSCalculator';
-import { calculateYBOCSResults } from './private/YBOCSCalculator';
-import { QuestionType, CalculatedResults } from './types';
-import { useScopedI18n } from '@/locales/client';
-import { saveDraft, loadDraft, clearDraft } from '@/lib/storage';
+import { QuestionType } from './types';
+import { saveDraft, loadDraft } from '@/lib/storage';
+import { Questionnaire as QuestionnaireType } from '@/questionairies/type';
 
-interface Questionnaire {
-  id: string;
-  title: string;
-  questions?: QuestionType[];
-  factorMapping?: { [key: string]: number[] };
-}
-
-interface QuestionnaireTestProps {
-  questionnaire: Questionnaire;
+interface QuestionnaireProps {
+  questionnaire: QuestionnaireType;
   id: string;
 }
 
-export function QuestionnaireTest({
+export function Questionnaire({
   questionnaire,
   id,
-}: QuestionnaireTestProps) {
+}: QuestionnaireProps) {
   const router = useRouter();
   // State management
   const [currentPage, setCurrentPage] = useState(1);
@@ -66,19 +56,8 @@ export function QuestionnaireTest({
         .fill(0)
         .map((_, index) => ({
           id: index + 1,
-          content: t('mockContent', {
-            title: questionnaire.title,
-            number: index + 1,
-            question:
-              id === 'scl90'
-                ? t('scl90TimeRange')
-                : id === 'depression'
-                  ? t('depressionTimeRange')
-                  : id === 'ocd'
-                    ? t('ocdSymptoms')
-                    : t('dailyLife'),
-          }),
-          options: getOptions(id),
+          content: '',
+          options: [],
         }));
     }
 
@@ -86,8 +65,7 @@ export function QuestionnaireTest({
     return questionnaire.questions.map((q, index: number) => ({
       id: index + 1,
       content: q.content,
-      factors: q.factors,
-      options: getOptions(id),
+      options: [],
     }));
   };
 
@@ -131,7 +109,6 @@ export function QuestionnaireTest({
   const generateQuestionsCallback = useCallback(generateQuestions, [
     id,
     questionnaire,
-    t,
   ]);
 
   useEffect(() => {
@@ -139,25 +116,6 @@ export function QuestionnaireTest({
     // Reset the refs object to reassign when the list of issues changes
     questionRefs.current = {};
   }, [id, questionnaire, generateQuestionsCallback]);
-
-  // Calculate the test results
-  const calculateResults = (): CalculatedResults | null => {
-    if (Object.keys(answers).length < questions.length) return null;
-
-    if (id === 'depression') {
-      return calculateSDSResults({ answers, questions });
-    } else if (id === 'scl90') {
-      return calculateSCL90Results({
-        answers,
-        questions,
-        factorMapping: questionnaire.factorMapping,
-      });
-    } else if (id === 'ocd') {
-      return calculateYBOCSResults({ answers, questions });
-    }
-
-    return null;
-  };
 
   // Show notification message
   const showNotification = (
@@ -243,21 +201,14 @@ export function QuestionnaireTest({
     // Check if all questions are answered first
     if (answeredCount < questions.length) {
       showNotification(
-        t('errorTitle'),
-        t('errorDesc', { number: questions.length - answeredCount }),
+        "error",
+        "Please answer all questions",
         'error'
       );
       return;
     }
 
-    // Calculate results
-    const results = calculateResults();
-    if (results) {
-      // Clear draft before navigation
-      clearDraft(id);
-      // Navigate to results page with total score as URL parameter
-      router.push(`/questionnaire/${id}/result?score=${results.totalScore}`);
-    }
+    return 0
   };
 
   // Toggle progress panel visibility
