@@ -4,16 +4,16 @@ export interface Questionnaire {
     description: string;
     tags: string[];
     time: string;
-    details?: {
-        introduction?: string;
-        questionCount?: string;
-        evaluationTime?: string;
-        instructions?: string;
-        scoringMethod?: string[];
-        dimensions?: Array<{ name: string; description: string }>;
-        notes?: string[];
-        references?: Array<{ text: string; url: string }>;
-        resultInterpretation?: {
+    details: {
+        introduction: string;
+        questionCount: string;
+        evaluationTime: string;
+        instructions: string;
+        scoringMethod: string[];
+        dimensions: Array<{ name: string; description: string }>;
+        notes: string[];
+        references: Array<{ text: string; url: string }>;
+        resultInterpretation: {
             normal: {
                 range: string;
                 explanation: string;
@@ -41,7 +41,7 @@ export interface Questionnaire {
             };
         };
     };
-    questions?: {
+    questions: {
         content: string;
         factors?: string[];
         options?: { value: string; text: string }[];

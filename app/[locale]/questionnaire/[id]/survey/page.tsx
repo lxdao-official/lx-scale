@@ -1,10 +1,8 @@
 'use client';
 import { notFound } from 'next/navigation';
-import {
-  questionnaires,
-  questionnairesZh,
-  Questionnaire as ConstantQuestionnaire,
-} from '@/constants/questionairies/type';
+import { Questionnaire as ConstantQuestionnaire } from '@/constants/questionairies/type';
+import { questionnairesEn as questionnaires } from '@/constants/questionairies/en';
+import { questionnairesZh } from '@/constants/questionairies/zh';
 import { QuestionnaireTest } from '@/components/questionnaire/test/QuestionnaireTest';
 import { useScopedI18n, useCurrentLocale } from '@/locales/client';
 
