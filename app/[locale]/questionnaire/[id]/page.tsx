@@ -107,8 +107,12 @@ export default async function QuestionnairePage({
             <h2 className="text-lg font-medium mb-2">{t('references')}</h2>
             <div className="text-gray-700">
               <ul className="list-disc pl-5">
-                {details.references.map((ref: string, index: number) => (
-                  <li key={index}>{ref}</li>
+                {details.references.map((ref: { text: string; url: string }, index: number) => (
+                  <li key={index}>
+                    <a href={ref.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                      {ref.text}
+                    </a>
+                  </li>
                 ))}
               </ul>
             </div>

@@ -12,7 +12,7 @@ export interface Questionnaire {
         scoringMethod?: string[];
         dimensions?: Array<{ name: string; description: string }>;
         notes?: string[];
-        references?: string[];
+        references?: Array<{ text: string; url: string }>;
         resultInterpretation?: {
             normal: {
                 range: string;
@@ -90,8 +90,14 @@ export const questionnaires: Questionnaire[] = [
                 "Professional interpretation: The test results should be interpreted by a professional psychological counselor or doctor, avoiding self-diagnosis or over-interpretation."
             ],
             references: [
-                "Derogatis, L. R. (1984). Symptom Checklist-90 (SCL-90). Beijing: Chinese Mental Health Journal.",
-                "Zhang, M. Y. (1993). Handbook of Psychiatric Rating Scales. Changsha: Hunan Science and Technology Press."
+                {
+                    text: "Derogatis, L. R. (1984). Symptom Checklist-90 (SCL-90)",
+                    url: "https://doi.org/10.1037/t01210-000"
+                },
+                {
+                    text: "Zhang, M. Y. (1993). Handbook of Psychiatric Rating Scales",
+                    url: "https://www.example.com/psychiatric-rating-scales-1993"
+                }
             ]
         }
     },
@@ -126,9 +132,18 @@ export const questionnaires: Questionnaire[] = [
                 "For subjects with lower education levels, appropriate explanations and assistance may be needed."
             ],
             references: [
-                "Zung, W. W. K. (1965). A self-rating depression scale. Archives of General Psychiatry, 12, 63-70.",
-                "Wang, X. D., Wang, X. L., & Ma, H. (1999). Handbook of Mental Health Rating Scales (Revised Edition). Beijing: Chinese Mental Health Journal Press.",
-                "Zhang, M. Y. (1998). Handbook of Psychiatric Rating Scales. Changsha: Hunan Science and Technology Press."
+                {
+                    text: "Zung, W. W. K. (1965). A self-rating depression scale",
+                    url: "https://doi.org/10.1001/archpsyc.1965.01720310065008"
+                },
+                {
+                    text: "Wang, X. D., Wang, X. L., & Ma, H. (1999). Handbook of Mental Health Rating Scales",
+                    url: "https://www.example.com/mental-health-rating-scales-1999"
+                },
+                {
+                    text: "Zhang, M. Y. (1998). Handbook of Psychiatric Rating Scales",
+                    url: "https://www.example.com/psychiatric-rating-scales-1998"
+                }
             ]
         }
     },
@@ -169,9 +184,18 @@ export const questionnaires: Questionnaire[] = [
                 "Scale scores should be considered in conjunction with clinical interviews, medical history, and functional assessments, rather than interpreted in isolation."
             ],
             references: [
-                "Goodman, W. K., Price, L. H., Rasmussen, S. A., Mazure, C., Fleischmann, R. L., Hill, C. L., ... & Charney, D. S. (1989). The Yale-Brown Obsessive Compulsive Scale: I. Development, use, and reliability. Archives of General Psychiatry, 46(11), 1006-1011.",
-                "Zhang, M. Y., & Zhu, J. (2015). Handbook of Psychiatric Rating Scales (3rd Edition). Changsha: Hunan Science and Technology Press.",
-                "Storch, E. A., Rasmussen, S. A., Price, L. H., Larson, M. J., Murphy, T. K., & Goodman, W. K. (2010). Development and psychometric evaluation of the Yale-Brown Obsessive-Compulsive Scale—Second Edition. Psychological Assessment, 22(2), 223-232."
+                {
+                    text: "Goodman et al. (1989). The Yale-Brown Obsessive Compulsive Scale",
+                    url: "https://doi.org/10.1001/archpsyc.1989.01810110048007"
+                },
+                {
+                    text: "Zhang & Zhu (2015). Handbook of Psychiatric Rating Scales",
+                    url: "https://www.example.com/psychiatric-rating-scales"
+                },
+                {
+                    text: "Storch et al. (2010). Yale-Brown Obsessive-Compulsive Scale—Second Edition",
+                    url: "https://doi.org/10.1037/a0018492"
+                }
             ]
         }
     }
@@ -217,8 +241,14 @@ export const questionnairesZh: Questionnaire[] = [
                 "专业解读：测试结果应由专业的心理咨询师或医生进行解读，避免自行诊断或过度解读。"
             ],
             references: [
-                "德若伽提斯（L. R. Derogatis）. 症状自评量表（SCL-90）[M]. 北京：中国心理卫生杂志，1984.",
-                "张明园. 精神科评定量表手册[M]. 长沙：湖南科学技术出版社，1993."
+                {
+                    text: "德若伽提斯（L. R. Derogatis）. 症状自评量表（SCL-90）[M]. 北京：中国心理卫生杂志，1984.",
+                    url: "https://www.example.com/scl-90-1984"
+                },
+                {
+                    text: "张明园. 精神科评定量表手册[M]. 长沙：湖南科学技术出版社，1993.",
+                    url: "https://www.example.com/psychiatric-rating-scales-1993"
+                }
             ]
         },
         questions: [
@@ -390,9 +420,18 @@ export const questionnairesZh: Questionnaire[] = [
                 "适用范围：适用于各种职业、文化阶层、年龄段的正常人或各类精神病人。但文化程度或智力水平较低者不能进行自评。"
             ],
             references: [
-                "Zung, W. W. K. (1965). A self-rating depression scale. Archives of General Psychiatry, 12, 63-70.",
-                "汪向东, 王希林, 马弘. (1999). 心理卫生评定量表手册(增订版). 北京: 中国心理卫生杂志社.",
-                "张明园. (1998). 精神科评定量表手册. 长沙: 湖南科学技术出版社."
+                {
+                    text: "Zung, W. W. K. (1965). A self-rating depression scale",
+                    url: "https://doi.org/10.1001/archpsyc.1965.01720310065008"
+                },
+                {
+                    text: "汪向东, 王希林, 马弘. (1999). 心理卫生评定量表手册(增订版). 北京: 中国心理卫生杂志社.",
+                    url: "https://www.example.com/mental-health-rating-scales-1999"
+                },
+                {
+                    text: "张明园. (1998). 精神科评定量表手册. 长沙: 湖南科学技术出版社.",
+                    url: "https://www.example.com/psychiatric-rating-scales-1998"
+                }
             ]
         }
     },
@@ -457,8 +496,14 @@ export const questionnairesZh: Questionnaire[] = [
                 "评估时应考虑症状的变化和波动，建议定期重复评估以监测变化。"
             ],
             references: [
-                "Goodman, W. K., Price, L. H., Rasmussen, S. A., Mazure, C., Fleischmann, R. L., Hill, C. L., ... & Charney, D. S. (1989). The Yale-Brown Obsessive Compulsive Scale: I. Development, use, and reliability. Archives of General Psychiatry, 46(11), 1006-1011.",
-                "张明园, 朱佳. (2015). 精神科评定量表手册(第三版). 长沙: 湖南科学技术出版社."
+                {
+                    text: "Goodman, W. K., Price, L. H., Rasmussen, S. A., Mazure, C., Fleischmann, R. L., Hill, C. L., ... & Charney, D. S. (1989). The Yale-Brown Obsessive Compulsive Scale: I. Development, use, and reliability. Archives of General Psychiatry, 46(11), 1006-1011.",
+                    url: "https://www.example.com/yale-brown-ocd-scale-1989"
+                },
+                {
+                    text: "张明园, 朱佳. (2015). 精神科评定量表手册(第三版). 长沙: 湖南科学技术出版社.",
+                    url: "https://www.example.com/psychiatric-rating-scales-2015"
+                }
             ]
         },
         questions: [
