@@ -6,10 +6,10 @@ import { Question } from '@/components/questionnaire/test/public/Question';
 import { Navigation } from '@/components/questionnaire/test/public/Navigation';
 import { ProgressPanel } from '@/components/questionnaire/test/public/ProgressPanel';
 import { ProgressBar } from '@/components/questionnaire/test/public/ProgressBar';
-import { Toast } from '@/components/questionnaire/test/public/Toast';
 import { saveDraft, loadDraft, clearDraft } from '@/lib/storage';
 import { Questionnaire as QuestionnaireType, QuestionType } from '@/types';
 import { useRouter } from 'next/navigation';
+import { toast } from "sonner"
 
 interface QuestionnaireProps {
   questionnaire: QuestionnaireType;
@@ -70,17 +70,6 @@ export function Questionnaire({
   const [activePanelQuestion, setActivePanelQuestion] = useState<number | null>(
     null
   );
-  const [showToast, setShowToast] = useState<{
-    show: boolean;
-    title: string;
-    description: string;
-    type: 'success' | 'error';
-  }>({
-    show: false,
-    title: '',
-    description: '',
-    type: 'success',
-  });
   // Control the display state of the progress panel
   const [showProgressPanel, setShowProgressPanel] = useState(true);
 
@@ -113,24 +102,6 @@ export function Questionnaire({
     questionRefs.current = {};
   }, [id, questionnaire, generateQuestionsCallback]);
 
-  // Show notification message
-  const showNotification = (
-    title: string,
-    description: string,
-    type: 'success' | 'error'
-  ) => {
-    setShowToast({
-      show: true,
-      title,
-      description,
-      type,
-    });
-
-    // Auto-hide after 3 seconds
-    setTimeout(() => {
-      setShowToast((prev) => ({ ...prev, show: false }));
-    }, 3000);
-  };
 
   const handleSelect = (questionId: number, value: string) => {
     const newAnswers = {
@@ -196,11 +167,7 @@ export function Questionnaire({
   const handleSubmit = () => {
     // Check if all questions are answered first
     if (answeredCount < questions.length) {
-      showNotification(
-        "error",
-        "Please answer all questions",
-        'error'
-      );
+      toast("Please answer all questions");
       return;
     }
 
@@ -270,7 +237,6 @@ export function Questionnaire({
         isLastPage={currentPage === totalPages}
       />
 
-      <Toast {...showToast} />
     </div>
   );
 }
