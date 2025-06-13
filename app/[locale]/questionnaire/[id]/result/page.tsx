@@ -9,10 +9,10 @@ import Link from 'next/link';
 import { ResultContainer } from '@/components/questionnaire/result/public/ResultContainer';
 import { Recommendations } from '@/components/questionnaire/result/public/Recommendations';
 import { AnswerList } from '@/components/questionnaire/result/public/AnswerList';
-import { useCurrentLocale, useScopedI18n } from '@/locales/client';
 import { decompressFromEncodedURIComponent as decompress } from 'lz-string';
-import { getQuestionnairesByLocale } from '@/questionairies';
 import { ResultAnalysis } from '@/components/questionnaire/result/analysis/ResultAnalysis';
+import { useQuestionnaire } from '@/hooks/useQuestionnaire';
+import { useScopedI18n } from '@/locales/client';
 
 export default function QuestionnaireResultPage({
   params,
@@ -20,15 +20,12 @@ export default function QuestionnaireResultPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
-  const locale = useCurrentLocale();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
   const t = useScopedI18n('app.questionnaire.result');
 
   // 从问卷数据中获取指定id的量表
-  const questionnaire = getQuestionnairesByLocale(locale).find(
-    (q) => q.id === id
-  ) as Questionnaire;
+  const questionnaire = useQuestionnaire(id) as Questionnaire;
 
   // 从本地存储或URL参数加载结果
   useEffect(() => {

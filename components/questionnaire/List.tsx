@@ -17,6 +17,7 @@ import { TagFilters } from '@/components/TagFilters';
 import { useScopedI18n } from '@/locales/client';
 import { useQuestionnaire } from '@/hooks/useQuestionnaire';
 import DetailDialog from './DetailDialog';
+import { Questionnaire } from '@/types';
 
 export default function QuestionnaireList() {
   const questionnaires = useQuestionnaire();
@@ -31,7 +32,7 @@ export default function QuestionnaireList() {
 
 
   // 根据搜索词和标签过滤问卷
-  const filteredQuestionnaires = questionnaires.filter((q) => {
+  const filteredQuestionnaires = (questionnaires as Questionnaire[]).filter((q) => {
     // 文本搜索过滤
     const matchesSearch =
       q.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
