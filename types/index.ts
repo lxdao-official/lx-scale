@@ -51,4 +51,5 @@ export interface Questionnaire {
         content: string;
     }[];
     renderOptions: (id: number) => Option[];
+    calculateResults: (answers: { [key: number]: string }) => CalculatedResults;
 }

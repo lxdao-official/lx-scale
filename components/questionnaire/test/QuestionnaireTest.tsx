@@ -1,13 +1,15 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { compressToEncodedURIComponent as compress } from 'lz-string';
 import { Question } from '@/components/questionnaire/test/public/Question';
 import { Navigation } from '@/components/questionnaire/test/public/Navigation';
 import { ProgressPanel } from '@/components/questionnaire/test/public/ProgressPanel';
 import { ProgressBar } from '@/components/questionnaire/test/public/ProgressBar';
 import { Toast } from '@/components/questionnaire/test/public/Toast';
-import { saveDraft, loadDraft } from '@/lib/storage';
+import { saveDraft, loadDraft, clearDraft } from '@/lib/storage';
 import { Questionnaire as QuestionnaireType, QuestionType } from '@/types';
+import { useRouter } from 'next/navigation';
 
 interface QuestionnaireProps {
   questionnaire: QuestionnaireType;
@@ -18,6 +20,7 @@ export function Questionnaire({
   questionnaire,
   id,
 }: QuestionnaireProps) {
+  const router = useRouter();
   // State management
   const [currentPage, setCurrentPage] = useState(1);
   const [answers, setAnswers] = useState<{ [key: number]: string }>(() => {
@@ -27,12 +30,14 @@ export function Questionnaire({
   });
   // Create refs to reference each question element
   const questionRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
+  // Flag to indicate whether the questionnaire has been submitted
+  const hasSubmittedRef = useRef(false);
 
   // Save answers when component unmounts
   useEffect(() => {
     return () => {
-      // Save answers if user leaves the page without submitting
-      if (Object.keys(answers).length > 0) {
+      // If user hasn't submitted yet, persist draft on unmount
+      if (!hasSubmittedRef.current && Object.keys(answers).length > 0) {
         saveDraft(id, answers);
       }
     };
@@ -199,7 +204,24 @@ export function Questionnaire({
       return;
     }
 
-    return 0
+    if (answers) {
+      // Mark as submitted to prevent saving draft on unmount
+      hasSubmittedRef.current = true;
+
+      // Clear draft before navigation
+      clearDraft(id);
+
+      // Encode answers for sharing
+      const answerString = questions.map((q) => answers[q.id] ?? '0').join('');
+      const encodedAnswers = compress(answerString);
+
+      // Navigate to results page with score & encoded answers
+      router.push(
+        `/questionnaire/${id}/result?&ans=${encodedAnswers}`
+      );
+    }
+
+    return;
   };
 
   // Toggle progress panel visibility
