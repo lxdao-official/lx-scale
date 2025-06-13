@@ -1,4 +1,3 @@
-
 export default {
     'app.questionnaire.page.title': 'Questionnaire Details',
     'app.questionnaire.page.introduction': 'Introduction',
@@ -195,10 +194,21 @@ export default {
     'component.questionnaire.list.title': 'Questionnaire List',
     'component.questionnaire.list.searchPlaceholder': 'Search...',
     'component.questionnaire.list.detailButton': 'Assessment',
-    'component.questionnaire.list.noMatch': 'No matching questionnaires found',
+    'component.questionnaire.list.noMatch': 'No matching questionnaire found',
 
     'component.navBar.title': 'LXScale',
     'component.navBar.introduce': 'Intro',
     'component.navBar.questionsList': 'Qnaire',
     'component.navBar.rescues': 'Repo',
+
+    // OCD Result component
+    'components.ocdResult.totalScore': 'Total Score',
+    'components.ocdResult.obsessionsScore': 'Obsessions Score',
+    'components.ocdResult.compulsionsScore': 'Compulsions Score',
+    'components.ocdResult.severity': 'Severity',
+    'components.ocdResult.severityLevel.1': 'Sub-clinical / Normal',
+    'components.ocdResult.severityLevel.2': 'Mild',
+    'components.ocdResult.severityLevel.3': 'Moderate',
+    'components.ocdResult.severityLevel.4': 'Severe',
+    'components.ocdResult.severityLevel.5': 'Extreme',
 } as const

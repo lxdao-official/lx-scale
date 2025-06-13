@@ -1,4 +1,4 @@
-import { CalculatedResults, QuestionType } from "../types";
+import { CalculatedResults, QuestionType } from "@/types";
 
 interface SDSCalculatorProps {
     answers: { [key: number]: string };

@@ -1,4 +1,4 @@
-import { CalculatedResults, QuestionType } from "../types";
+import { CalculatedResults, QuestionType } from "@/types";
 
 /**
  * Yale-Brown强迫症状量表计算器参数接口

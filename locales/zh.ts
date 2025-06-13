@@ -1,4 +1,3 @@
-
 export default {
     'app.questionnaire.page.title': '问卷详情',
     'app.questionnaire.page.introduction': '简介',
@@ -197,9 +196,18 @@ export default {
     'component.questionnaire.list.detailButton': '开始评测',
     'component.questionnaire.list.noMatch': '未找到匹配的问卷',
 
+    'components.ocdResult.totalScore': '总分',
+    'components.ocdResult.obsessionsScore': '强迫意念分',
+    'components.ocdResult.compulsionsScore': '强迫行为分',
+    'components.ocdResult.severity': '严重程度',
+    'components.ocdResult.severityLevel.1': '正常 / 亚临床',
+    'components.ocdResult.severityLevel.2': '轻度',
+    'components.ocdResult.severityLevel.3': '中度',
+    'components.ocdResult.severityLevel.4': '重度',
+    'components.ocdResult.severityLevel.5': '极重度',
+
     'component.navBar.title': 'LXScale',
     'component.navBar.introduce': '介绍',
     'component.navBar.questionsList': '问卷',
     'component.navBar.rescues': '开源仓库',
 } as const
-
