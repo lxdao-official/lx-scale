@@ -4,16 +4,16 @@ import { notFound } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { questionnaires } from '@/questionairies/type';
+import { Questionnaire } from '@/types';
 import Link from 'next/link';
 import { ResultContainer } from '@/components/questionnaire/result/public/ResultContainer';
 import { ResultScore } from '@/components/questionnaire/result/public/ResultScore';
 import { PositiveItemStats } from '@/components/questionnaire/result/private/PositiveItemStats';
 import { ResultInterpretation } from '@/components/questionnaire/result/public/ResultInterpretation';
-import { FactorAnalysis } from '@/components/questionnaire/result/public/FactorAnalysis';
+// import { FactorAnalysis } from '@/components/questionnaire/result/public/FactorAnalysis';
 import { DimensionsAnalysis } from '@/components/questionnaire/result/public/DimensionsAnalysis';
 import { Recommendations } from '@/components/questionnaire/result/public/Recommendations';
-import { useScopedI18n } from '@/locales/client';
+import { useCurrentLocale, useScopedI18n } from '@/locales/client';
 import { useQuestionnaireStorage } from '@/hooks/useQuestionnaireStorage';
 
 interface ResultsData {
@@ -23,29 +23,8 @@ interface ResultsData {
   positiveItemAverage: number;
   isSevere: boolean;
 }
-
-interface Questionnaire {
-  id: string;
-  title: string;
-  description: string;
-  details?: {
-    dimensions?: Array<{
-      name: string;
-      description: string;
-    }>;
-  };
-  factorDescriptions?: { [key: string]: string };
-  factorMapping?: { [key: string]: number[] };
-  questions?: Question[];
-}
-
-interface Question {
-  content: string;
-  factors?: string[];
-  options: Array<{ value: string; text: string }>;
-}
-
 import { use } from 'react';
+import { getQuestionnairesByLocale } from '@/questionairies';
 
 export default function QuestionnaireResultPage({
   params,
@@ -53,6 +32,7 @@ export default function QuestionnaireResultPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
+  const locale = useCurrentLocale();
   const searchParams = useSearchParams();
   const [results, setResults] = useState<ResultsData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -60,7 +40,7 @@ export default function QuestionnaireResultPage({
   const { savedData, isLoading: isStorageLoading } = useQuestionnaireStorage(id);
 
   // 从问卷数据中获取指定id的量表
-  const questionnaire = questionnaires.find(
+  const questionnaire = getQuestionnairesByLocale(locale).find(
     (q) => q.id === id
   ) as Questionnaire;
 
@@ -142,11 +122,11 @@ export default function QuestionnaireResultPage({
     <ResultContainer title={questionnaire.title} id={id}>
       <ResultScore totalScore={results.totalScore} questionnaireId={id} />
 
-      <FactorAnalysis
+      {/* <FactorAnalysis
         factorScores={results.factorScores}
         questionnaireId={id}
         factorDescriptions={questionnaire.factorDescriptions}
-      />
+      /> */}
 
       <DimensionsAnalysis
         dimensions={questionnaire.details?.dimensions}

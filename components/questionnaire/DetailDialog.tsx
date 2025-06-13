@@ -12,7 +12,7 @@ import {
     DialogFooter,
 } from '@/components/ui/dialog';
 import { useScopedI18n } from '@/locales/client';
-import { Questionnaire } from '@/questionairies/type';
+import { Questionnaire } from '@/types';
 
 interface Dimension {
     name: string;

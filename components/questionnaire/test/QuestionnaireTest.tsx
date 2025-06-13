@@ -1,15 +1,13 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
 import { Question } from '@/components/questionnaire/test/public/Question';
 import { Navigation } from '@/components/questionnaire/test/public/Navigation';
 import { ProgressPanel } from '@/components/questionnaire/test/public/ProgressPanel';
 import { ProgressBar } from '@/components/questionnaire/test/public/ProgressBar';
 import { Toast } from '@/components/questionnaire/test/public/Toast';
-import { QuestionType } from './types';
 import { saveDraft, loadDraft } from '@/lib/storage';
-import { Questionnaire as QuestionnaireType } from '@/questionairies/type';
+import { Questionnaire as QuestionnaireType, QuestionType } from '@/types';
 
 interface QuestionnaireProps {
   questionnaire: QuestionnaireType;
@@ -20,7 +18,6 @@ export function Questionnaire({
   questionnaire,
   id,
 }: QuestionnaireProps) {
-  const router = useRouter();
   // State management
   const [currentPage, setCurrentPage] = useState(1);
   const [answers, setAnswers] = useState<{ [key: number]: string }>(() => {
@@ -49,24 +46,19 @@ export function Questionnaire({
     // Check the questionnaire for question data
     if (!questionnaire.questions || questionnaire.questions.length === 0) {
       // If real data is not available, simulated data is used
-      const count =
-        id === 'scl90' ? 90 : id === 'depression' ? 20 : id === 'ocd' ? 10 : 2;
-
-      return Array(count)
-        .fill(0)
-        .map((_, index) => ({
-          id: index + 1,
-          content: '',
-          options: [],
-        }));
+      throw new Error('Questionnaire data not found');
     }
 
     // Use real questionnaire data
-    return questionnaire.questions.map((q, index: number) => ({
-      id: index + 1,
-      content: q.content,
-      options: [],
-    }));
+    return questionnaire.questions.map((q, index: number) => {
+      console.log(q)
+      const options = questionnaire.renderOptions(q.id)
+      return {
+        id: index + 1,
+        content: q.content,
+        options: options,
+      }
+    });
   };
 
   const [questions, setQuestions] = useState<QuestionType[]>([]);

@@ -1,4 +1,4 @@
-import { Questionnaire } from "../type";
+import { Questionnaire } from "@/types";
 
 export const ocd: Questionnaire = {
     id: "ocd",

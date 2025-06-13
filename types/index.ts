@@ -1,6 +1,28 @@
+export interface CalculatedResults {
+    totalScore: number;
+    factorScores: { [key: string]: number };
+    positiveItemCount: number;
+    positiveItemAverage: number;
+    isSevere: boolean;
+    severity?: string;
+}
 
-import { questionnairesEn } from "./en";
-import { questionnairesZh } from "./zh";
+export interface CalculatedResults {
+    totalScore: number;
+    factorScores: { [key: string]: number };
+    positiveItemCount: number;
+    positiveItemAverage: number;
+    isSevere: boolean;
+    severity?: string;
+}
+
+export interface QuestionType {
+    id: number;
+    content: string;
+    options: Option[];
+    factors?: string[];
+}
+
 
 export interface Option {
     id: number;
@@ -30,13 +52,3 @@ export interface Questionnaire {
     }[];
     renderOptions: (id: number) => Option[];
 }
-
-
-export const getQuestionnairesByLocale = (locale: string) => {
-    switch (locale) {
-        case 'zh':
-            return questionnairesZh;
-        default:
-            return questionnairesEn;
-    }
-};
