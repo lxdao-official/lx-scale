@@ -99,7 +99,6 @@ export function Questionnaire({
   // This generateQuestions function changes every time useEffect runs
   // Solution is to move it inside useEffect or wrap it with useCallback
   const generateQuestionsCallback = useCallback(generateQuestions, [
-    id,
     questionnaire,
   ]);
 
