@@ -82,16 +82,44 @@ export const ocd: Questionnaire = {
             content: "您可以控制您的强迫行为吗？",
         }
     ],
+    // 根据 Y-BOCS 量表官方中文版的描述分别返回不同题目的选项
     renderOptions: (id: number) => {
+        // 通用严重程度（时间占比/影响/痛苦）
+        const severityOptions = [
+            { id: 1, content: '无', value: '0' },
+            { id: 2, content: '轻度', value: '1' },
+            { id: 3, content: '中度', value: '2' },
+            { id: 4, content: '重度', value: '3' },
+            { id: 5, content: '极重度', value: '4' },
+        ];
+
+        // 抵抗程度（题 4 & 9）
+        const resistanceOptions = [
+            { id: 1, content: '总能抵抗', value: '0' },
+            { id: 2, content: '大部分时间能抵抗', value: '1' },
+            { id: 3, content: '有时能抵抗', value: '2' },
+            { id: 4, content: '很少能抵抗', value: '3' },
+            { id: 5, content: '完全无法抵抗', value: '4' },
+        ];
+
+        // 控制能力（题 5 & 10）
+        const controlOptions = [
+            { id: 1, content: '完全可以控制', value: '0' },
+            { id: 2, content: '大部分时间可以控制', value: '1' },
+            { id: 3, content: '有时可以控制', value: '2' },
+            { id: 4, content: '很少可以控制', value: '3' },
+            { id: 5, content: '完全不能控制', value: '4' },
+        ];
+
         switch (id) {
+            case 4:
+            case 9:
+                return resistanceOptions;
+            case 5:
+            case 10:
+                return controlOptions;
             default:
-                return [
-                    { id: 1, content: '从不', value: '0' },
-                    { id: 2, content: '很少', value: '1' },
-                    { id: 3, content: '有时', value: '2' },
-                    { id: 4, content: '经常', value: '3' },
-                    { id: 5, content: '总是', value: '4' },
-                ];
+                return severityOptions;
         }
     }
 }

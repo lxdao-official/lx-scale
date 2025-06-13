@@ -47,15 +47,42 @@ export const ocd: Questionnaire = {
         { id: 10, content: "How much control do you have over your compulsive behaviors?" }
     ],
     renderOptions: (id: number) => {
+        // Common severity options (time occupied / interference / distress)
+        const severityOptions = [
+            { id: 1, content: 'None', value: '0' },
+            { id: 2, content: 'Mild', value: '1' },
+            { id: 3, content: 'Moderate', value: '2' },
+            { id: 4, content: 'Severe', value: '3' },
+            { id: 5, content: 'Extreme', value: '4' },
+        ];
+
+        // Resistance degree (items 4 & 9)
+        const resistanceOptions = [
+            { id: 1, content: 'Always able to resist', value: '0' },
+            { id: 2, content: 'Able to resist most of the time', value: '1' },
+            { id: 3, content: 'Able to resist occasionally', value: '2' },
+            { id: 4, content: 'Rarely able to resist', value: '3' },
+            { id: 5, content: 'Unable to resist', value: '4' },
+        ];
+
+        // Control ability (items 5 & 10)
+        const controlOptions = [
+            { id: 1, content: 'Complete control', value: '0' },
+            { id: 2, content: 'Much control', value: '1' },
+            { id: 3, content: 'Some control', value: '2' },
+            { id: 4, content: 'Little control', value: '3' },
+            { id: 5, content: 'No control', value: '4' },
+        ];
+
         switch (id) {
+            case 4:
+            case 9:
+                return resistanceOptions;
+            case 5:
+            case 10:
+                return controlOptions;
             default:
-                return [
-                    { id: 1, content: '从不', value: '0' },
-                    { id: 2, content: '很少', value: '1' },
-                    { id: 3, content: '有时', value: '2' },
-                    { id: 4, content: '经常', value: '3' },
-                    { id: 5, content: '总是', value: '4' },
-                ];
+                return severityOptions;
         }
     }
 };
