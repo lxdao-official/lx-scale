@@ -12,7 +12,7 @@ import { AnswerList } from '@/components/questionnaire/result/public/AnswerList'
 import { useCurrentLocale, useScopedI18n } from '@/locales/client';
 import { decompressFromEncodedURIComponent as decompress } from 'lz-string';
 import { getQuestionnairesByLocale } from '@/questionairies';
-import { OCDResult } from '@/components/questionnaire/result/analysis/OCDResult';
+import { ResultAnalysis } from '@/components/questionnaire/result/analysis/ResultAnalysis';
 
 export default function QuestionnaireResultPage({
   params,
@@ -108,7 +108,7 @@ export default function QuestionnaireResultPage({
         answers={decodedAnswers}
         renderOptions={questionnaire.renderOptions}
       />
-      <OCDResult answers={decodedAnswers} />
+      <ResultAnalysis questionnaireId={id} answers={decodedAnswers} />
 
       <Recommendations
         questionnaireId={id}
