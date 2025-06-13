@@ -1,21 +1,3 @@
-export interface CalculatedResults {
-    totalScore: number;
-    factorScores: { [key: string]: number };
-    positiveItemCount: number;
-    positiveItemAverage: number;
-    isSevere: boolean;
-    severity?: string;
-}
-
-export interface CalculatedResults {
-    totalScore: number;
-    factorScores: { [key: string]: number };
-    positiveItemCount: number;
-    positiveItemAverage: number;
-    isSevere: boolean;
-    severity?: string;
-}
-
 export interface QuestionType {
     id: number;
     content: string;
@@ -51,5 +33,4 @@ export interface Questionnaire {
         content: string;
     }[];
     renderOptions: (id: number) => Option[];
-    calculateResults: (answers: { [key: number]: string }) => CalculatedResults;
 }
