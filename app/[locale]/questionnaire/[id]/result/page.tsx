@@ -2,7 +2,7 @@
 
 import { notFound } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Questionnaire } from '@/types';
 import Link from 'next/link';
@@ -11,6 +11,7 @@ import { ResultScore } from '@/components/questionnaire/result/public/ResultScor
 import { ResultInterpretation } from '@/components/questionnaire/result/public/ResultInterpretation';
 // import { FactorAnalysis } from '@/components/questionnaire/result/public/FactorAnalysis';
 import { Recommendations } from '@/components/questionnaire/result/public/Recommendations';
+import { AnswerList } from '@/components/questionnaire/result/public/AnswerList';
 import { useCurrentLocale, useScopedI18n } from '@/locales/client';
 import { decompressFromEncodedURIComponent as decompress } from 'lz-string';
 
@@ -60,8 +61,8 @@ export default function QuestionnaireResultPage({
       console.log('answersArray', answersArray);
     }
 
-    // 当前版本未使用答案数组，仅为后续扩展预留，避免未使用变量的 lint 错误
-    void answersArray;
+    // 保存到 state 供渲染 AnswerList
+    setDecodedAnswers(answersArray);
 
     // 目前只用 totalScore，其余字段占位
     setResults({
@@ -76,6 +77,24 @@ export default function QuestionnaireResultPage({
 
     setLoading(false);
   }, [id, searchParams, questionnaire]);
+
+  // 存储解码后的答案
+  const [decodedAnswers, setDecodedAnswers] = useState<string[]>([]);
+
+  // 根据已解码答案构造 问题-选项 文本 kv 对，用于 AI
+  const questionnaireResults: Record<string, string> = useMemo(() => {
+    if (!questionnaire) return {};
+    const obj: Record<string, string> = {};
+    questionnaire.questions.forEach((q, idx) => {
+      const val = decodedAnswers[idx];
+      if (val === undefined) return;
+      const option = questionnaire.renderOptions(q.id).find(
+        (o) => String(o.value) === String(val)
+      );
+      obj[q.content] = option ? option.content : String(val);
+    });
+    return obj;
+  }, [decodedAnswers, questionnaire]);
 
   // 如果找不到数据，显示404页面
   if (!questionnaire || !questionnaire.details) {
@@ -112,8 +131,15 @@ export default function QuestionnaireResultPage({
 
       <ResultInterpretation results={results} questionnaireId={id} />
 
+      <AnswerList 
+        questions={questionnaire.questions} 
+        answers={decodedAnswers} 
+        renderOptions={questionnaire.renderOptions}
+      />
+
       <Recommendations
         questionnaireId={id}
+        questionnaireResults={questionnaireResults}
       />
     </ResultContainer>
   );

@@ -3,10 +3,12 @@ import { AIChat } from './AIChat';
 
 interface RecommendationsProps {
   questionnaireId?: string;
+  questionnaireResults: Record<string, string>;
 }
 
 export function Recommendations({
   questionnaireId = 'unknown',
+  questionnaireResults,
 }: RecommendationsProps) {
   const t = useScopedI18n(
     'component.questionnaire.result.public.recommendations'
@@ -23,7 +25,7 @@ export function Recommendations({
 
         {/* AI 聊天组件 */}
         <AIChat
-          questionnaireResults={{}}
+          questionnaireResults={questionnaireResults}
           questionnaireType={questionnaireId}
         />
       </div>
