@@ -29,8 +29,8 @@ export const ocd: Questionnaire = {
         ],
         references: [
             {
-                text: "Goodman, W. K., Price, L. H., Rasmussen, S. A., Mazure, C., Fleischmann, R. L., Hill, C. L., ... & Charney, D. S. (1989). The Yale-Brown Obsessive Compulsive Scale: I. Development, use, and reliability. Archives of general psychiatry, 46(11), 1006-1011.",
-                url: "https://www.example.com/ybocs-1989"
+                text: "Goodman, W. K., Price, L. H., Rasmussen, S. A., Mazure, C., Fleischmann, R. L., Hill, C. L., ... & Charney, D. S. (1989). The Yale-Brown Obsessive Compulsive Scale: I. Development, use, and reliability. Archives of General Psychiatry, 46(11), 1006-1011.",
+                url: "https://osf.io/tn2vg/download"
             }
         ]
     },
