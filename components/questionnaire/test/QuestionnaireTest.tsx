@@ -1,37 +1,26 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+import { compressToEncodedURIComponent as compress } from 'lz-string';
 import { Question } from '@/components/questionnaire/test/public/Question';
 import { Navigation } from '@/components/questionnaire/test/public/Navigation';
 import { ProgressPanel } from '@/components/questionnaire/test/public/ProgressPanel';
 import { ProgressBar } from '@/components/questionnaire/test/public/ProgressBar';
-import { Toast } from '@/components/questionnaire/test/public/Toast';
-import { calculateSCL90Results } from './private/SCL90Calculator';
-import { calculateSDSResults } from './private/SDSCalculator';
-import { calculateYBOCSResults } from './private/YBOCSCalculator';
-import { QuestionType, CalculatedResults } from './types';
-import { useScopedI18n } from '@/locales/client';
 import { saveDraft, loadDraft, clearDraft } from '@/lib/storage';
+import { Questionnaire as QuestionnaireType, QuestionType } from '@/types';
+import { useRouter } from 'next/navigation';
+import { toast } from "sonner"
 
-interface Questionnaire {
-  id: string;
-  title: string;
-  questions?: QuestionType[];
-  factorMapping?: { [key: string]: number[] };
-}
-
-interface QuestionnaireTestProps {
-  questionnaire: Questionnaire;
+interface QuestionnaireProps {
+  questionnaire: QuestionnaireType;
   id: string;
 }
 
-export function QuestionnaireTest({
+export function Questionnaire({
   questionnaire,
   id,
-}: QuestionnaireTestProps) {
+}: QuestionnaireProps) {
   const router = useRouter();
-  const t = useScopedI18n('component.questionnaire.test.QuestionnaireTest');
   // State management
   const [currentPage, setCurrentPage] = useState(1);
   const [answers, setAnswers] = useState<{ [key: number]: string }>(() => {
@@ -41,12 +30,14 @@ export function QuestionnaireTest({
   });
   // Create refs to reference each question element
   const questionRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
+  // Flag to indicate whether the questionnaire has been submitted
+  const hasSubmittedRef = useRef(false);
 
   // Save answers when component unmounts
   useEffect(() => {
     return () => {
-      // Save answers if user leaves the page without submitting
-      if (Object.keys(answers).length > 0) {
+      // If user hasn't submitted yet, persist draft on unmount
+      if (!hasSubmittedRef.current && Object.keys(answers).length > 0) {
         saveDraft(id, answers);
       }
     };
@@ -56,82 +47,29 @@ export function QuestionnaireTest({
 
   // Initialize question data - using real questionnaire data
   const generateQuestions = (): QuestionType[] => {
-    const getOptions = (id: string) => {
-      if (id === 'depression') {
-        return [
-          { value: '1', text: t('depressionOption1') },
-          { value: '2', text: t('depressionOption2') },
-          { value: '3', text: t('depressionOption3') },
-          { value: '4', text: t('depressionOption4') },
-        ];
-      } else if (id === 'ocd') {
-        return [
-          { value: '0', text: t('ocdOption0') },
-          { value: '1', text: t('ocdOption1') },
-          { value: '2', text: t('ocdOption2') },
-          { value: '3', text: t('ocdOption3') },
-          { value: '4', text: t('ocdOption4') },
-        ];
-      } else {
-        return [
-          { value: '1', text: t('defaultOption1') },
-          { value: '2', text: t('defaultOption2') },
-          { value: '3', text: t('defaultOption3') },
-          { value: '4', text: t('defaultOption4') },
-          { value: '5', text: t('defaultOption5') },
-        ];
-      }
-    };
+
     // Check the questionnaire for question data
     if (!questionnaire.questions || questionnaire.questions.length === 0) {
       // If real data is not available, simulated data is used
-      const count =
-        id === 'scl90' ? 90 : id === 'depression' ? 20 : id === 'ocd' ? 10 : 2;
-
-      return Array(count)
-        .fill(0)
-        .map((_, index) => ({
-          id: index + 1,
-          content: t('mockContent', {
-            title: questionnaire.title,
-            number: index + 1,
-            question:
-              id === 'scl90'
-                ? t('scl90TimeRange')
-                : id === 'depression'
-                ? t('depressionTimeRange')
-                : id === 'ocd'
-                ? t('ocdSymptoms')
-                : t('dailyLife'),
-          }),
-          options: getOptions(id),
-        }));
+      throw new Error('Questionnaire data not found');
     }
 
     // Use real questionnaire data
-    return questionnaire.questions.map((q, index: number) => ({
-      id: index + 1,
-      content: q.content,
-      factors: q.factors,
-      options: getOptions(id),
-    }));
+    return questionnaire.questions.map((q, index: number) => {
+      console.log(q)
+      const options = questionnaire.renderOptions(q.id)
+      return {
+        id: index + 1,
+        content: q.content,
+        options: options,
+      }
+    });
   };
 
   const [questions, setQuestions] = useState<QuestionType[]>([]);
   const [activePanelQuestion, setActivePanelQuestion] = useState<number | null>(
     null
   );
-  const [showToast, setShowToast] = useState<{
-    show: boolean;
-    title: string;
-    description: string;
-    type: 'success' | 'error';
-  }>({
-    show: false,
-    title: '',
-    description: '',
-    type: 'success',
-  });
   // Control the display state of the progress panel
   const [showProgressPanel, setShowProgressPanel] = useState(true);
 
@@ -155,9 +93,7 @@ export function QuestionnaireTest({
   // This generateQuestions function changes every time useEffect runs
   // Solution is to move it inside useEffect or wrap it with useCallback
   const generateQuestionsCallback = useCallback(generateQuestions, [
-    id,
     questionnaire,
-    t,
   ]);
 
   useEffect(() => {
@@ -166,43 +102,6 @@ export function QuestionnaireTest({
     questionRefs.current = {};
   }, [id, questionnaire, generateQuestionsCallback]);
 
-  // Calculate the test results
-  const calculateResults = (): CalculatedResults | null => {
-    if (Object.keys(answers).length < questions.length) return null;
-
-    if (id === 'depression') {
-      return calculateSDSResults({ answers, questions });
-    } else if (id === 'scl90') {
-      return calculateSCL90Results({
-        answers,
-        questions,
-        factorMapping: questionnaire.factorMapping,
-      });
-    } else if (id === 'ocd') {
-      return calculateYBOCSResults({ answers, questions });
-    }
-
-    return null;
-  };
-
-  // Show notification message
-  const showNotification = (
-    title: string,
-    description: string,
-    type: 'success' | 'error'
-  ) => {
-    setShowToast({
-      show: true,
-      title,
-      description,
-      type,
-    });
-
-    // Auto-hide after 3 seconds
-    setTimeout(() => {
-      setShowToast((prev) => ({ ...prev, show: false }));
-    }, 3000);
-  };
 
   const handleSelect = (questionId: number, value: string) => {
     const newAnswers = {
@@ -268,22 +167,28 @@ export function QuestionnaireTest({
   const handleSubmit = () => {
     // Check if all questions are answered first
     if (answeredCount < questions.length) {
-      showNotification(
-        t('errorTitle'),
-        t('errorDesc', { number: questions.length - answeredCount }),
-        'error'
-      );
+      toast("Please answer all questions");
       return;
     }
 
-    // Calculate results
-    const results = calculateResults();
-    if (results) {
+    if (answers) {
+      // Mark as submitted to prevent saving draft on unmount
+      hasSubmittedRef.current = true;
+
       // Clear draft before navigation
       clearDraft(id);
-      // Navigate to results page with total score as URL parameter
-      router.push(`/questionnaire/${id}/result?score=${results.totalScore}`);
+
+      // Encode answers for sharing
+      const answerString = questions.map((q) => answers[q.id] ?? '0').join('');
+      const encodedAnswers = compress(answerString);
+
+      // Navigate to results page with score & encoded answers
+      router.push(
+        `/questionnaire/${id}/result?&ans=${encodedAnswers}`
+      );
     }
+
+    return;
   };
 
   // Toggle progress panel visibility
@@ -332,7 +237,6 @@ export function QuestionnaireTest({
         isLastPage={currentPage === totalPages}
       />
 
-      <Toast {...showToast} />
     </div>
   );
 }

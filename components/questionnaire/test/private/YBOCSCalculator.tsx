@@ -1,4 +1,4 @@
-import { CalculatedResults, QuestionType } from "../types";
+import { QuestionType } from "@/types";
 
 /**
  * Yale-Brown强迫症状量表计算器参数接口
@@ -16,7 +16,7 @@ interface YBOCSCalculatorProps {
  * @param answers - 用户回答数据，包含问题ID和选择的分数
  * @returns 计算结果，包含总分、因子分数、严重程度等信息
  */
-export const calculateYBOCSResults = ({ answers }: YBOCSCalculatorProps): CalculatedResults => {
+export const calculateYBOCSResults = ({ answers }: YBOCSCalculatorProps): any => {
     // Y-BOCS强迫症状量表计算逻辑
     let totalScore = 0;
 

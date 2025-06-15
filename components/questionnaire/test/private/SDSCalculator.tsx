@@ -1,11 +1,11 @@
-import { CalculatedResults, QuestionType } from "../types";
+import { QuestionType } from "@/types";
 
 interface SDSCalculatorProps {
     answers: { [key: number]: string };
     questions: QuestionType[];
 }
 
-export const calculateSDSResults = ({ answers }: SDSCalculatorProps): CalculatedResults => {
+export const calculateSDSResults = ({ answers }: SDSCalculatorProps): any => {
     // SDS抑郁自评量表计算逻辑
     const reverseItems = [2, 5, 6, 11, 12, 14, 16, 17, 18, 20]; // 反向计分项目
     let totalScore = 0;

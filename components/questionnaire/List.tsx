@@ -1,5 +1,4 @@
 'use client';
-import Link from 'next/link';
 import { Search } from 'lucide-react';
 import { useState, useCallback } from 'react';
 
@@ -15,14 +14,13 @@ import {
 import { Badge } from '@/components/ui/badge';
 // import { Separator } from "@/components/ui/separator";
 import { TagFilters } from '@/components/TagFilters';
-import {
-  questionnaires as questionnairesEn,
-  questionnairesZh,
-} from '@/constants/questionnaires';
-import { useCurrentLocale, useScopedI18n } from '@/locales/client';
+import { useScopedI18n } from '@/locales/client';
+import { useQuestionnaire } from '@/hooks/useQuestionnaire';
+import DetailDialog from './DetailDialog';
+import { Questionnaire } from '@/types';
 
 export default function QuestionnaireList() {
-  const lang = useCurrentLocale();
+  const questionnaires = useQuestionnaire();
   const t = useScopedI18n('component.questionnaire.list');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -32,10 +30,9 @@ export default function QuestionnaireList() {
     setSelectedTags(tags);
   }, []);
 
-  const questionnaires = lang === 'zh' ? questionnairesZh : questionnairesEn;
 
   // 根据搜索词和标签过滤问卷
-  const filteredQuestionnaires = questionnaires.filter((q) => {
+  const filteredQuestionnaires = (questionnaires as Questionnaire[]).filter((q) => {
     // 文本搜索过滤
     const matchesSearch =
       q.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -105,11 +102,13 @@ export default function QuestionnaireList() {
                     <span className="text-xs text-muted-foreground">
                       {questionnaire.time}
                     </span>
-                    <Button className="cursor-pointer">
-                      <Link href={`/questionnaire/${questionnaire.id}`}>
+                    <DetailDialog
+                      questionnaire={questionnaire}
+                      trigger={<Button className="cursor-pointer">
                         {t('detailButton')}
-                      </Link>
-                    </Button>
+                      </Button>}
+                    />
+
                   </CardFooter>
                 </Card>
               ))

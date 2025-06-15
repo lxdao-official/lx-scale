@@ -4,6 +4,7 @@ import './globals.css';
 // import { RainbowProvider } from "@/components/context/rainbow-kit";
 import { Navbar } from '@/components/Navbar';
 import { I18nProviderClient } from '@/locales/client';
+import { Toaster } from "@/components/ui/sonner"
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -40,6 +41,7 @@ export default async function RootLayout({
           <main>{children}</main>
         </I18nProviderClient>
         {/* </RainbowProvider> */}
+        <Toaster />
       </body>
     </html>
   );

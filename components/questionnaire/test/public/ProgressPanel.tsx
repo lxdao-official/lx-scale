@@ -1,9 +1,9 @@
 import { useScopedI18n } from '@/locales/client';
+import { Option } from '@/types';
 interface Question {
   id: number;
   content: string;
-  options: Array<{ value: string; text: string }>;
-  factors?: string[];
+  options: Option[];
 }
 
 interface ProgressPanelProps {
@@ -35,9 +35,8 @@ export function ProgressPanel({
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className={`h-6 w-6 transition-transform duration-300 ${
-            showProgressPanel ? 'rotate-180' : ''
-          }`}
+          className={`h-6 w-6 transition-transform duration-300 ${showProgressPanel ? 'rotate-180' : ''
+            }`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -52,9 +51,8 @@ export function ProgressPanel({
       </button>
 
       <div
-        className={`fixed right-4 top-20 w-64 bg-white rounded-lg shadow-lg p-4 transition-transform duration-300 transform ${
-          showProgressPanel ? 'translate-x-0' : 'translate-x-full'
-        }`}
+        className={`fixed right-4 top-20 w-64 bg-white rounded-lg shadow-lg p-4 transition-transform duration-300 transform ${showProgressPanel ? 'translate-x-0' : 'translate-x-full'
+          }`}
       >
         <div className="mb-4">
           <div className="text-sm font-medium mb-2">
@@ -74,16 +72,14 @@ export function ProgressPanel({
             <button
               key={i}
               className={`w-9 h-9 flex items-center justify-center rounded-md text-xs
-                            ${
-                              answers[i + 1]
-                                ? 'bg-green-100 border-green-500 border-2'
-                                : 'border'
-                            }
-                            ${
-                              i + 1 === activePanelQuestion
-                                ? 'bg-green-300 border-green-600'
-                                : ''
-                            }
+                            ${answers[i + 1]
+                  ? 'bg-green-100 border-green-500 border-2'
+                  : 'border'
+                }
+                            ${i + 1 === activePanelQuestion
+                  ? 'bg-green-300 border-green-600'
+                  : ''
+                }
                             hover:bg-gray-100 transition-colors duration-200`}
               onClick={() => goToQuestion(i + 1)}
               title={t('jumpToQuestion', { questionNumber: i + 1 })}

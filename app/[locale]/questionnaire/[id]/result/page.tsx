@@ -2,50 +2,17 @@
 
 import { notFound } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo, use } from 'react';
 import { Button } from '@/components/ui/button';
-import { questionnaires } from '@/constants/questionnaires';
+import { Questionnaire } from '@/types';
 import Link from 'next/link';
 import { ResultContainer } from '@/components/questionnaire/result/public/ResultContainer';
-import { ResultScore } from '@/components/questionnaire/result/public/ResultScore';
-import { PositiveItemStats } from '@/components/questionnaire/result/private/PositiveItemStats';
-import { ResultInterpretation } from '@/components/questionnaire/result/public/ResultInterpretation';
-import { FactorAnalysis } from '@/components/questionnaire/result/public/FactorAnalysis';
-import { DimensionsAnalysis } from '@/components/questionnaire/result/public/DimensionsAnalysis';
 import { Recommendations } from '@/components/questionnaire/result/public/Recommendations';
+import { AnswerList } from '@/components/questionnaire/result/public/AnswerList';
+import { decompressFromEncodedURIComponent as decompress } from 'lz-string';
+import { ResultAnalysis } from '@/components/questionnaire/result/analysis/ResultAnalysis';
+import { useQuestionnaire } from '@/hooks/useQuestionnaire';
 import { useScopedI18n } from '@/locales/client';
-import { useQuestionnaireStorage } from '@/hooks/useQuestionnaireStorage';
-
-interface ResultsData {
-  totalScore: number;
-  factorScores: { [key: string]: number };
-  positiveItemCount: number;
-  positiveItemAverage: number;
-  isSevere: boolean;
-}
-
-interface Questionnaire {
-  id: string;
-  title: string;
-  description: string;
-  details?: {
-    dimensions?: Array<{
-      name: string;
-      description: string;
-    }>;
-  };
-  factorDescriptions?: { [key: string]: string };
-  factorMapping?: { [key: string]: number[] };
-  questions?: Question[];
-}
-
-interface Question {
-  content: string;
-  factors?: string[];
-  options: Array<{ value: string; text: string }>;
-}
-
-import { use } from 'react';
 
 export default function QuestionnaireResultPage({
   params,
@@ -54,15 +21,11 @@ export default function QuestionnaireResultPage({
 }) {
   const { id } = use(params);
   const searchParams = useSearchParams();
-  const [results, setResults] = useState<ResultsData | null>(null);
   const [loading, setLoading] = useState(true);
   const t = useScopedI18n('app.questionnaire.result');
-  const { savedData, isLoading: isStorageLoading } = useQuestionnaireStorage(id);
 
   // 从问卷数据中获取指定id的量表
-  const questionnaire = questionnaires.find(
-    (q) => q.id === id
-  ) as Questionnaire;
+  const questionnaire = useQuestionnaire(id) as Questionnaire;
 
   // 从本地存储或URL参数加载结果
   useEffect(() => {
@@ -71,43 +34,40 @@ export default function QuestionnaireResultPage({
       return;
     }
 
-    // 如果正在加载存储数据，则等待
-    if (isStorageLoading) return;
+    // 从 URL 读取参数
+    const encodedAnswers = searchParams.get('ans');
 
-    // 尝试从URL参数中获取总分
-    const scoreFromUrl = searchParams.get('score');
-
-    // 如果本地存储中有结果，则使用存储的结果
-    if (savedData?.results) {
-      setResults(savedData.results);
-    } else if (savedData?.answers) {
-      // 如果有答案但没有结果，可以在这里重新计算结果
-      // 这里可以添加重新计算结果的逻辑，如果需要的话
-      console.log('Answers found but no results. Consider recalculating results.');
-      
-      // 如果有URL参数，则使用URL参数作为总分
-      if (scoreFromUrl) {
-        setResults({
-          totalScore: parseInt(scoreFromUrl),
-          factorScores: {},
-          positiveItemCount: 0,
-          positiveItemAverage: 0,
-          isSevere: parseInt(scoreFromUrl) > 160,
-        });
-      }
-    } else if (scoreFromUrl) {
-      // 如果既没有存储的结果也没有存储的答案，但有URL参数，则仅使用总分
-      setResults({
-        totalScore: parseInt(scoreFromUrl),
-        factorScores: {},
-        positiveItemCount: 0,
-        positiveItemAverage: 0,
-        isSevere: parseInt(scoreFromUrl) > 160,
-      });
+    // 解压答案（如果存在）
+    let answersArray: string[] = [];
+    if (encodedAnswers) {
+      const raw = decompress(encodedAnswers) || '';
+      answersArray = raw.split('');
+      console.log('answersArray', answersArray);
     }
 
+    // 保存到 state 供渲染 AnswerList
+    setDecodedAnswers(answersArray);
+
     setLoading(false);
-  }, [id, searchParams, questionnaire, savedData, isStorageLoading]);
+  }, [id, searchParams, questionnaire]);
+
+  // 存储解码后的答案
+  const [decodedAnswers, setDecodedAnswers] = useState<string[]>([]);
+
+  // 根据已解码答案构造 问题-选项 文本 kv 对，用于 AI
+  const questionnaireResults: Record<string, string> = useMemo(() => {
+    if (!questionnaire) return {};
+    const obj: Record<string, string> = {};
+    questionnaire.questions.forEach((q, idx) => {
+      const val = decodedAnswers[idx];
+      if (val === undefined) return;
+      const option = questionnaire.renderOptions(q.id).find(
+        (o) => String(o.value) === String(val)
+      );
+      obj[q.content] = option ? option.content : String(val);
+    });
+    return obj;
+  }, [decodedAnswers, questionnaire]);
 
   // 如果找不到数据，显示404页面
   if (!questionnaire || !questionnaire.details) {
@@ -122,7 +82,7 @@ export default function QuestionnaireResultPage({
     );
   }
 
-  if (!results) {
+  if (!decodedAnswers) {
     return (
       <div className="flex justify-center items-center min-h-screen  md:p-4 p-2">
         <div className="max-w-4xl w-full bg-white rounded-lg shadow-lg md:p-8 p-4 border">
@@ -140,32 +100,16 @@ export default function QuestionnaireResultPage({
 
   return (
     <ResultContainer title={questionnaire.title} id={id}>
-      <ResultScore totalScore={results.totalScore} questionnaireId={id} />
-
-      <FactorAnalysis
-        factorScores={results.factorScores}
-        questionnaireId={id}
-        factorDescriptions={questionnaire.factorDescriptions}
+      <AnswerList
+        questions={questionnaire.questions}
+        answers={decodedAnswers}
+        renderOptions={questionnaire.renderOptions}
       />
-
-      <DimensionsAnalysis
-        dimensions={questionnaire.details?.dimensions}
-        totalScore={results.totalScore}
-        factorScores={results.factorScores}
-      />
-
-      <PositiveItemStats
-        positiveItemCount={results.positiveItemCount}
-        positiveItemAverage={results.positiveItemAverage}
-        questionnaireId={id}
-      />
-
-      <ResultInterpretation results={results} questionnaireId={id} />
+      <ResultAnalysis questionnaireId={id} answers={decodedAnswers} />
 
       <Recommendations
-        isSevere={results.isSevere}
-        positiveItemAverage={results.positiveItemAverage}
         questionnaireId={id}
+        questionnaireResults={questionnaireResults}
       />
     </ResultContainer>
   );

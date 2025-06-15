@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { useScopedI18n } from '@/locales/client';
 import { Separator } from '@/components/ui/separator';
@@ -30,20 +30,8 @@ export function AIChat({ questionnaireResults, questionnaireType }: AIChatProps)
   //Use our API route instead of calling Deepseek API directly
   const API_ENDPOINT = '/api/chat';
 
-  // Generate initial suggestion when component loads
-  useEffect(() => {
-    generateInitialSuggestion();
-  }, []);
-
-  // Scroll to the latest message
-  useEffect(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    }
-  }, [messages]);
-
   // Generate initial AI suggestion
-  const generateInitialSuggestion = async () => {
+  const generateInitialSuggestion = useCallback(async () => {
     setIsLoadingInitialSuggestion(true);
     try {
       // Prepare messages to send to API
@@ -83,7 +71,19 @@ export function AIChat({ questionnaireResults, questionnaireType }: AIChatProps)
     } finally {
       setIsLoadingInitialSuggestion(false);
     }
-  };
+  }, [questionnaireType, questionnaireResults, lang, t]);
+
+  // Generate initial suggestion when component loads
+  useEffect(() => {
+    generateInitialSuggestion();
+  }, [generateInitialSuggestion]);
+
+  // Scroll to the latest message
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   // Handle sending messages
   const handleSendMessage = async () => {

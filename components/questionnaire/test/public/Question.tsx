@@ -1,12 +1,8 @@
 import { forwardRef } from 'react';
+import { QuestionType } from '@/types';
 
 interface QuestionProps {
-    question: {
-        id: number;
-        content: string;
-        options: { value: string; text: string }[];
-        factors?: string[];
-    };
+    question: QuestionType;
     answer?: string;
     onSelect: (questionId: number, option: string) => void;
 }
@@ -33,7 +29,7 @@ export const Question = forwardRef<HTMLDivElement, QuestionProps>(
                                 }`}
                             onClick={() => onSelect(question.id, option.value)}
                         >
-                            {option.text}
+                            {option.content}
                         </button>
                     ))}
                 </div>
