@@ -20,7 +20,7 @@ export function ResultContainer({ title, id, children }: ResultContainerProps) {
     try {
       await navigator.clipboard.writeText(window.location.href);
       toast.success('结果链接已复制到剪贴板');
-    } catch (err) {
+    } catch {
       toast.error('复制链接失败');
     }
   };
