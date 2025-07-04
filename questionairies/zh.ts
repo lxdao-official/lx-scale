@@ -5,6 +5,9 @@ import { sds } from "./sds/zh";
 import { gad7 } from "./gad7/zh";
 import { phq9 } from "./phq9/zh";
 import { pss10 } from "./pss10/zh";
+import { dass21 } from "./dass21/zh";
+import { bdi2 } from "./bdi2/zh";
+import { isi } from "./isi/zh";
 
 export const questionnairesZh: Questionnaire[] = [
     ocd,
@@ -12,5 +15,8 @@ export const questionnairesZh: Questionnaire[] = [
     sds,
     gad7,
     phq9,
-    pss10
+    pss10,
+    dass21,
+    bdi2,
+    isi
 ];
