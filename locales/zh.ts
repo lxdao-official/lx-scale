@@ -139,6 +139,7 @@ export default {
     'component.questionnaire.result.public.resultContainer.resultText': '测评结果',
     'component.questionnaire.result.public.resultContainer.backToDetail': '返回详情',
     'component.questionnaire.result.public.resultContainer.completeTest': '完成测评',
+    'component.questionnaire.result.public.resultContainer.copyResultLink': '复制结果链接',
 
     'component.questionnaire.result.public.resultScore.totalScoreTitle': '总分',
     'component.questionnaire.result.public.resultScore.scl90StandardScore': '标准分值：2.5 以下为正常范围',

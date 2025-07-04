@@ -139,6 +139,7 @@ export default {
     'component.questionnaire.result.public.resultContainer.resultText': 'Assessment Results',
     'component.questionnaire.result.public.resultContainer.backToDetail': 'Back to Details',
     'component.questionnaire.result.public.resultContainer.completeTest': 'Complete Assessment',
+    'component.questionnaire.result.public.resultContainer.copyResultLink': 'Copy Result Link',
 
     'component.questionnaire.result.public.resultScore.totalScoreTitle': 'Total Score',
     'component.questionnaire.result.public.resultScore.scl90StandardScore': 'Standard Score: Below 2.5 is the normal range',
