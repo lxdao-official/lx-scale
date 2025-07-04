@@ -141,7 +141,7 @@ export function SDSResult({ answers }: SDSResultProps) {
           </div>
           <div className="bg-yellow-50 border border-yellow-200 rounded p-3">
             <p className="text-yellow-800">
-              <strong>注意：</strong>{tCommon('disclaimers.not_diagnostic')}。{tCommon('disclaimers.consult_professional')}。
+              <strong>注意：</strong>本量表仅供参考，不能替代专业医生的诊断。如有疑问，请咨询专业医疗人员。
             </p>
           </div>
         </div>
