@@ -13,7 +13,7 @@ const questionnaires = [
 ]
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://lxscale.org'
+  const baseUrl = 'https://lxscale.xyz'
   
   // 基础页面
   const staticPages = [

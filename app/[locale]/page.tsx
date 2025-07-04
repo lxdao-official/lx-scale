@@ -47,38 +47,38 @@ export default function Home() {
     itemListElement: [
       {
         '@type': 'MedicalTest',
-        '@id': 'https://lxscale.org/questionnaire/phq9',
+        '@id': 'https://lxscale.xyz/questionnaire/phq9',
         name: 'PHQ-9患者健康问卷',
         description: '评估抑郁症状严重程度的标准化工具',
-        url: 'https://lxscale.org/questionnaire/phq9'
+        url: 'https://lxscale.xyz/questionnaire/phq9'
       },
       {
         '@type': 'MedicalTest',
-        '@id': 'https://lxscale.org/questionnaire/gad7',
+        '@id': 'https://lxscale.xyz/questionnaire/gad7',
         name: 'GAD-7广泛性焦虑量表',
         description: '评估焦虑症状严重程度的标准化工具',
-        url: 'https://lxscale.org/questionnaire/gad7'
+        url: 'https://lxscale.xyz/questionnaire/gad7'
       },
       {
         '@type': 'MedicalTest',
-        '@id': 'https://lxscale.org/questionnaire/bdi2',
+        '@id': 'https://lxscale.xyz/questionnaire/bdi2',
         name: 'BDI-II贝克抑郁量表',
         description: '广泛使用的抑郁症状评估工具',
-        url: 'https://lxscale.org/questionnaire/bdi2'
+        url: 'https://lxscale.xyz/questionnaire/bdi2'
       },
       {
         '@type': 'MedicalTest',
-        '@id': 'https://lxscale.org/questionnaire/scl90',
+        '@id': 'https://lxscale.xyz/questionnaire/scl90',
         name: 'SCL-90症状自评量表',
         description: '评估心理症状的综合性量表',
-        url: 'https://lxscale.org/questionnaire/scl90'
+        url: 'https://lxscale.xyz/questionnaire/scl90'
       },
       {
         '@type': 'MedicalTest',
-        '@id': 'https://lxscale.org/questionnaire/ocd',
+        '@id': 'https://lxscale.xyz/questionnaire/ocd',
         name: 'Y-BOCS强迫症量表',
         description: '评估强迫症状严重程度的专业工具',
-        url: 'https://lxscale.org/questionnaire/ocd'
+        url: 'https://lxscale.xyz/questionnaire/ocd'
       },
     ]
   };

@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/', '/admin/'],
     },
-    sitemap: 'https://lxscale.org/sitemap.xml',
+    sitemap: 'https://lxscale.xyz/sitemap.xml',
   }
 }

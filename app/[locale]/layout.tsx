@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://lxscale.org'),
+  metadataBase: new URL('https://lxscale.xyz'),
   alternates: {
     canonical: '/',
     languages: {
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'LXScale - 免费心理健康测评工具',
     description: '专业的心理健康测评平台，提供抑郁、焦虑、强迫症等多种免费心理量表测试',
-    url: 'https://lxscale.org',
+    url: 'https://lxscale.xyz',
     siteName: 'LXScale',
     locale: 'zh_CN',
     type: 'website',
@@ -96,19 +96,19 @@ export default async function RootLayout({
     '@type': 'WebSite',
     name: 'LXScale',
     description: '免费专业的心理健康测评平台',
-    url: 'https://lxscale.org',
+    url: 'https://lxscale.xyz',
     potentialAction: {
       '@type': 'SearchAction',
-      target: 'https://lxscale.org/questionnaire?search={search_term_string}',
+      target: 'https://lxscale.xyz/questionnaire?search={search_term_string}',
       'query-input': 'required name=search_term_string'
     },
     publisher: {
       '@type': 'Organization',
       name: 'LXScale',
-      url: 'https://lxscale.org',
+      url: 'https://lxscale.xyz',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://lxscale.org/logo.png'
+        url: 'https://lxscale.xyz/logo.png'
       }
     },
     sameAs: [
@@ -123,6 +123,7 @@ export default async function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <meta name="apple-mobile-web-app-title" content="LXScale" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
