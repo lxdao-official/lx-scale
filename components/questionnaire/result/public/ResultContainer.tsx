@@ -19,9 +19,9 @@ export function ResultContainer({ title, id, children }: ResultContainerProps) {
   const handleCopyResultLink = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
-      toast.success('结果链接已复制到剪贴板');
+      toast.success(t('copySuccess'));
     } catch {
-      toast.error('复制链接失败');
+      toast.error(t('copyError'));
     }
   };
   return (

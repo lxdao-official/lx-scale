@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useScopedI18n } from '@/locales/client';
 import { calculateSCL90Results } from '../../test/private/SCL90Calculator';
 
 interface SCL90ResultProps {
@@ -8,6 +9,9 @@ interface SCL90ResultProps {
 }
 
 export function SCL90Result({ answers }: SCL90ResultProps) {
+  const t = useScopedI18n('components.scl90Result');
+  const tCommon = useScopedI18n('common');
+  
   // 转换答案格式为计算器需要的格式
   const answersMap: { [key: number]: string } = {};
   answers.forEach((answer, index) => {
@@ -20,23 +24,23 @@ export function SCL90Result({ answers }: SCL90ResultProps) {
   });
 
   const factorNames = {
-    somatization: "躯体化",
-    obsessive: "强迫症状",
-    interpersonal: "人际关系敏感",
-    depression: "抑郁",
-    anxiety: "焦虑",
-    hostility: "敌对",
-    phobic: "恐怖",
-    paranoid: "偏执",
-    psychotic: "精神病性",
-    other: "其他"
+    somatization: t('factors.somatization'),
+    obsessive: t('factors.obsessive'),
+    interpersonal: t('factors.interpersonal'),
+    depression: t('factors.depression'),
+    anxiety: t('factors.anxiety'),
+    hostility: t('factors.hostility'),
+    phobic: t('factors.phobic'),
+    paranoid: t('factors.paranoid'),
+    psychotic: t('factors.psychotic'),
+    other: t('factors.other')
   };
 
   const severityNames = {
-    normal: "正常",
-    mild: "轻度",
-    moderate: "中度",
-    severe: "重度"
+    normal: tCommon('severity.normal'),
+    mild: tCommon('severity.mild'),
+    moderate: tCommon('severity.moderate'),
+    severe: tCommon('severity.severe')
   };
 
   const getSeverityColor = (severity: string) => {
@@ -60,13 +64,13 @@ export function SCL90Result({ answers }: SCL90ResultProps) {
     <div className="mt-6 space-y-6">
       {/* 总体得分 */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
-        <h3 className="text-lg font-semibold mb-4">总体评估</h3>
+        <h3 className="text-lg font-semibold mb-4">{t('labels.overall_assessment')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <MetricCard title="总分" value={results.totalScore} />
-          <MetricCard title="阳性项目数" value={results.positiveItemCount} />
-          <MetricCard title="阳性症状均分" value={results.positiveItemAverage.toFixed(2)} />
+          <MetricCard title={tCommon('labels.total_score')} value={results.totalScore} />
+          <MetricCard title={t('labels.positive_item_count')} value={results.positiveItemCount} />
+          <MetricCard title={t('labels.positive_symptom_average')} value={results.positiveItemAverage.toFixed(2)} />
           <MetricCard 
-            title="严重程度" 
+            title={tCommon('labels.severity_level')} 
             value={severityNames[results.severity as keyof typeof severityNames] || "未知"}
             className={getSeverityColor(results.severity)}
           />
@@ -75,7 +79,7 @@ export function SCL90Result({ answers }: SCL90ResultProps) {
 
       {/* 因子分数 */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
-        <h3 className="text-lg font-semibold mb-4">因子分析</h3>
+        <h3 className="text-lg font-semibold mb-4">{t('labels.factor_analysis')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {Object.entries(results.factorScores).map(([factor, score]) => {
             const factorSeverity = getFactorSeverity(Number(score));
@@ -96,16 +100,16 @@ export function SCL90Result({ answers }: SCL90ResultProps) {
 
       {/* 结果解释 */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
-        <h3 className="text-lg font-semibold mb-4">结果解释</h3>
+        <h3 className="text-lg font-semibold mb-4">{tCommon('labels.result_interpretation')}</h3>
         <div className="space-y-3 text-sm text-gray-700">
           <div>
-            <strong>评分标准：</strong>
+            <strong>{t('clinical.rating_criteria')}：</strong>
             <ul className="mt-1 ml-4 space-y-1">
               <li>• 1 = 没有 | 2 = 很轻 | 3 = 中等 | 4 = 偏重 | 5 = 严重</li>
             </ul>
           </div>
           <div>
-            <strong>判断标准：</strong>
+            <strong>{t('clinical.judgment_criteria')}：</strong>
             <ul className="mt-1 ml-4 space-y-1">
               <li>• 总分 ≥ 160 分或阳性项目数 ≥ 43 个：提示可能存在心理问题</li>
               <li>• 因子分 ≥ 2 分：该因子异常，需要关注</li>
@@ -122,7 +126,7 @@ export function SCL90Result({ answers }: SCL90ResultProps) {
                 </div>
                 <div className="ml-3">
                   <div className="text-sm font-medium text-red-800">
-                    您的得分提示可能存在心理健康问题，建议咨询专业的心理健康专家。
+                    {t('warnings.severe_condition')}
                   </div>
                 </div>
               </div>
