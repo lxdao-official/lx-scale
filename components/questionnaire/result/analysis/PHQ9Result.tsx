@@ -2,12 +2,15 @@
 
 import React from 'react';
 import { calculatePHQ9Results } from '../../test/private/PHQ9Calculator';
+import { useScopedI18n } from '@/locales/client';
 
 interface PHQ9ResultProps {
   answers: string[];
 }
 
 export function PHQ9Result({ answers }: PHQ9ResultProps) {
+  const t = useScopedI18n('components.phq9Result');
+  
   // 转换答案格式为计算器需要的格式
   const answersMap: { [key: number]: string } = {};
   answers.forEach((answer, index) => {
@@ -20,19 +23,19 @@ export function PHQ9Result({ answers }: PHQ9ResultProps) {
   });
 
   const severityNames = {
-    minimal: "无/最低程度",
-    mild: "轻度抑郁",
-    moderate: "中度抑郁",
-    moderately_severe: "中重度抑郁",
-    severe: "重度抑郁"
+    minimal: t('severity.minimal'),
+    mild: t('severity.mild'),
+    moderate: t('severity.moderate'),
+    moderately_severe: t('severity.moderately_severe'),
+    severe: t('severity.severe')
   };
 
   const severityDescriptions = {
-    minimal: "您的抑郁水平很低，目前没有显著的抑郁症状。",
-    mild: "您可能存在轻度抑郁症状，建议关注自己的情绪状态。",
-    moderate: "您可能存在中度抑郁症状，建议考虑寻求专业帮助。",
-    moderately_severe: "您可能存在中重度抑郁症状，强烈建议寻求专业医疗帮助。",
-    severe: "您可能存在重度抑郁症状，请立即寻求专业医疗帮助。"
+    minimal: t('severityDescriptions.minimal'),
+    mild: t('severityDescriptions.mild'),
+    moderate: t('severityDescriptions.moderate'),
+    moderately_severe: t('severityDescriptions.moderately_severe'),
+    severe: t('severityDescriptions.severe')
   };
 
   const getSeverityColor = (severity: string) => {
@@ -47,28 +50,21 @@ export function PHQ9Result({ answers }: PHQ9ResultProps) {
   };
 
   const questionTexts = [
-    "做事时提不起劲或没有兴趣",
-    "感到心情低落、沮丧或绝望",
-    "入睡困难、睡不安稳或睡眠过多",
-    "感觉疲倦或没有活力",
-    "食欲不振或吃太多",
-    "觉得自己很糟糕，或觉得自己很失败，或让自己或家人失望",
-    "对事物专注有困难，例如阅读报纸或看电视时",
-    "动作或说话速度缓慢到别人已经察觉？或正好相反——比平时更加烦躁或坐立不安，动来动去",
-    "有不如死掉或用某种方式伤害自己的念头"
+    t('questions.0'), t('questions.1'), t('questions.2'), t('questions.3'), t('questions.4'),
+    t('questions.5'), t('questions.6'), t('questions.7'), t('questions.8')
   ];
 
   return (
     <div className="mt-6 space-y-6">
       {/* 总体得分 */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
-        <h3 className="text-lg font-semibold mb-4">评估结果</h3>
+        <h3 className="text-lg font-semibold mb-4">{t('title')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <MetricCard title="总分" value={`${results.totalScore}/27`} />
-          <MetricCard title="高分项目数" value={`${results.highScoreItemCount}/9`} />
+          <MetricCard title={t('labels.total_score')} value={`${results.totalScore}/27`} />
+          <MetricCard title={t('labels.high_score_items')} value={`${results.highScoreItemCount}/9`} />
           <MetricCard 
-            title="抑郁程度" 
-            value={severityNames[results.severity as keyof typeof severityNames] || "未知"}
+            title={t('labels.depression_level')} 
+            value={severityNames[results.severity as keyof typeof severityNames] || t('labels.unknown')}
             className={getSeverityColor(results.severity).split(' ')[0]}
           />
         </div>
@@ -84,14 +80,14 @@ export function PHQ9Result({ answers }: PHQ9ResultProps) {
               </svg>
             </div>
             <div className="ml-3">
-              <h3 className="text-lg font-bold text-red-800">紧急提醒</h3>
+              <h3 className="text-lg font-bold text-red-800">{t('labels.emergency_reminder')}</h3>
               <div className="text-sm font-medium text-red-700 mt-1">
-                您报告了自伤或自杀的想法。这是一个严重的信号，请立即寻求专业帮助：
+                {t('crisis.suicide_warning')}
                 <ul className="mt-2 ml-4 space-y-1">
-                  <li>• 立即联系心理危机干预热线：400-161-9995</li>
-                  <li>• 前往最近的医院急诊科</li>
-                  <li>• 联系您的医生或心理健康专家</li>
-                  <li>• 与信任的家人或朋友在一起，不要独处</li>
+                  <li>{t('crisis.hotline')}</li>
+                  <li>{t('crisis.hospital')}</li>
+                  <li>{t('crisis.doctor')}</li>
+                  <li>{t('crisis.support')}</li>
                 </ul>
               </div>
             </div>
@@ -101,26 +97,26 @@ export function PHQ9Result({ answers }: PHQ9ResultProps) {
 
       {/* 严重程度说明 */}
       <div className={`border rounded-lg p-6 shadow-sm ${getSeverityColor(results.severity)}`}>
-        <h3 className="text-lg font-semibold mb-3">结果解释</h3>
+        <h3 className="text-lg font-semibold mb-3">{t('labels.result_interpretation')}</h3>
         <p className="text-sm mb-4">
           {severityDescriptions[results.severity as keyof typeof severityDescriptions] || "评估结果异常，请重新测试。"}
         </p>
         
         <div className="space-y-2 text-sm">
-          <div><strong>评分标准：</strong></div>
+          <div><strong>{t('labels.scoring_criteria')}：</strong></div>
           <ul className="ml-4 space-y-1">
-            <li>• 0-4分：无/最低程度抑郁</li>
-            <li>• 5-9分：轻度抑郁</li>
-            <li>• 10-14分：中度抑郁</li>
-            <li>• 15-19分：中重度抑郁</li>
-            <li>• 20-27分：重度抑郁</li>
+            <li>{t('scoring.range_0_4')}</li>
+            <li>{t('scoring.range_5_9')}</li>
+            <li>{t('scoring.range_10_14')}</li>
+            <li>{t('scoring.range_15_19')}</li>
+            <li>{t('scoring.range_20_27')}</li>
           </ul>
         </div>
 
         {results.majorDepressionCriteria && (
           <div className="mt-4 bg-yellow-100 border border-yellow-300 rounded p-3">
             <div className="text-yellow-900 font-medium">
-              注意：您的症状模式符合主要抑郁发作的筛查标准，强烈建议寻求专业医疗评估。
+              {t('clinical.major_depression_warning')}
             </div>
           </div>
         )}
@@ -128,7 +124,7 @@ export function PHQ9Result({ answers }: PHQ9ResultProps) {
 
       {/* 项目分析 */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
-        <h3 className="text-lg font-semibold mb-4">项目分析</h3>
+        <h3 className="text-lg font-semibold mb-4">{t('labels.item_analysis')}</h3>
         <div className="space-y-3">
           {results.itemAnalysis.map((item: any, index: number) => (
             <div key={item.questionId} className={`flex items-center justify-between p-3 rounded-lg ${
@@ -139,7 +135,7 @@ export function PHQ9Result({ answers }: PHQ9ResultProps) {
                   {index + 1}. {questionTexts[index]}
                 </span>
                 {item.questionId === 9 && item.score >= 1 && (
-                  <div className="text-xs text-red-600 mt-1">⚠️ 需要立即关注</div>
+                  <div className="text-xs text-red-600 mt-1">{t('labels.needs_immediate_attention')}</div>
                 )}
               </div>
               <div className="flex items-center space-x-2">
@@ -152,7 +148,7 @@ export function PHQ9Result({ answers }: PHQ9ResultProps) {
                 </span>
                 {item.isHigh && item.questionId !== 9 && (
                   <span className="px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full">
-                    需要关注
+                    {t('labels.needs_attention')}
                   </span>
                 )}
               </div>
@@ -162,10 +158,9 @@ export function PHQ9Result({ answers }: PHQ9ResultProps) {
 
         {results.highScoreItemCount > 0 && (
           <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h4 className="font-medium text-blue-900 mb-2">高分项目分析</h4>
+            <h4 className="font-medium text-blue-900 mb-2">{t('labels.high_score_item_analysis')}</h4>
             <div className="text-sm text-blue-800">
-              您在 {results.highScoreItemCount} 个项目上得分较高（≥2分），这些症状在过去两周内出现频率较高。
-              这些项目反映的问题领域可能是您需要重点关注和改善的方面。
+              {t('highScoreAnalysis.message', { count: results.highScoreItemCount })}
             </div>
           </div>
         )}
@@ -173,31 +168,31 @@ export function PHQ9Result({ answers }: PHQ9ResultProps) {
 
       {/* 专业建议 */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
-        <h3 className="text-lg font-semibold mb-4">专业建议</h3>
+        <h3 className="text-lg font-semibold mb-4">{t('labels.professional_advice')}</h3>
         <div className="space-y-3 text-sm text-gray-700">
           
           {results.severity === "minimal" ? (
             <div className="bg-green-50 border border-green-200 rounded-lg p-4">
               <div className="text-green-800">
-                <strong>保持良好状态：</strong>
+                <strong>{t('advice.maintain_good_state')}：</strong>
                 <ul className="mt-2 ml-4 space-y-1">
-                  <li>• 继续保持健康的生活方式</li>
-                  <li>• 规律运动和充足睡眠</li>
-                  <li>• 维持良好的社交关系</li>
-                  <li>• 学习压力管理技巧</li>
+                  <li>{t('advice.maintain_good_state_item_1')}</li>
+                  <li>{t('advice.maintain_good_state_item_2')}</li>
+                  <li>{t('advice.maintain_good_state_item_3')}</li>
+                  <li>{t('advice.maintain_good_state_item_4')}</li>
                 </ul>
               </div>
             </div>
           ) : (
             <div>
-              <strong>自我管理建议：</strong>
+              <strong>{t('advice.self_management_advice')}：</strong>
               <ul className="mt-2 ml-4 space-y-1">
-                <li>• 建立规律的日常作息</li>
-                <li>• 适度运动，如散步、游泳等</li>
-                <li>• 保持健康饮食，避免过量饮酒</li>
-                <li>• 与亲友保持联系，寻求社会支持</li>
-                <li>• 尝试放松技巧，如冥想、深呼吸</li>
-                <li>• 设定现实可行的目标</li>
+                <li>{t('advice.self_management_item_1')}</li>
+                <li>{t('advice.self_management_item_2')}</li>
+                <li>{t('advice.self_management_item_3')}</li>
+                <li>{t('advice.self_management_item_4')}</li>
+                <li>{t('advice.self_management_item_5')}</li>
+                <li>{t('advice.self_management_item_6')}</li>
               </ul>
             </div>
           )}
@@ -205,12 +200,12 @@ export function PHQ9Result({ answers }: PHQ9ResultProps) {
           {(results.severity === "moderate" || results.severity === "moderately_severe" || results.severity === "severe") && (
             <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
               <div className="text-orange-900">
-                <strong>专业治疗建议：</strong>
+                <strong>{t('advice.professional_treatment')}：</strong>
                 <ul className="mt-2 ml-4 space-y-1">
-                  <li>• 心理治疗：认知行为疗法、人际治疗等</li>
-                  <li>• 药物治疗：抗抑郁药物（需医生处方）</li>
-                  <li>• 综合治疗：结合心理和药物治疗</li>
-                  <li>• 定期随访：监测症状变化和治疗效果</li>
+                  <li>{t('advice.professional_treatment_item_1')}</li>
+                  <li>{t('advice.professional_treatment_item_2')}</li>
+                  <li>{t('advice.professional_treatment_item_3')}</li>
+                  <li>{t('advice.professional_treatment_item_4')}</li>
                 </ul>
               </div>
             </div>
@@ -218,7 +213,7 @@ export function PHQ9Result({ answers }: PHQ9ResultProps) {
 
           <div className="bg-blue-50 border border-blue-200 rounded p-3">
             <p className="text-blue-800">
-              <strong>注意：</strong>PHQ-9量表仅供参考，不能替代专业医生的诊断。抑郁症是可以治疗的疾病，及早干预效果更好。
+              <strong>{t('labels.note')}：</strong>{t('disclaimer')}
             </p>
           </div>
         </div>
