@@ -22,7 +22,9 @@ export function AIChat({ questionnaireResults, questionnaireType }: AIChatProps)
   const [isLoading, setIsLoading] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const [initialSuggestion, setInitialSuggestion] = useState<string>('');
-  const [isLoadingInitialSuggestion, setIsLoadingInitialSuggestion] = useState(true);
+  const [isLoadingInitialSuggestion, setIsLoadingInitialSuggestion] = useState(false);
+  const [messageCount, setMessageCount] = useState(0);
+  const [lastMessageTime, setLastMessageTime] = useState(0);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const t = useScopedI18n('component.questionnaire.result.public.aiChat');
   const lang = useGetLang();
@@ -37,11 +39,7 @@ export function AIChat({ questionnaireResults, questionnaireType }: AIChatProps)
       // Prepare messages to send to API
       const initialPrompt = {
         role: 'system',
-        content: `你是一个心理健康助手，需要根据用户完成的心理测评问卷提供简短的建议和支持。
-        问卷ID: ${questionnaireType}
-        问卷结果: ${JSON.stringify(questionnaireResults)}
-        请提供一段简短的建议，帮助用户理解测评结果并给出一些实用的日常缓解方法。使用${lang === 'zh' ? '中文' : 'English'}回复。
-        回复应该友善、支持性且有帮助，但不要做出医疗诊断。可以使用一些emoji，350字左右。`
+        content: `作为心理健康助手，基于${questionnaireType}测评结果${JSON.stringify(questionnaireResults)}，请用${lang === 'zh' ? '中文' : 'English'}提供简短建议和日常缓解方法。友善支持，非医疗诊断，200字内。`
       };
 
       // Call our API route
@@ -54,7 +52,7 @@ export function AIChat({ questionnaireResults, questionnaireType }: AIChatProps)
           model: 'deepseek-chat',
           messages: [initialPrompt],
           temperature: 0.7,
-          max_tokens: 500
+          max_tokens: 300 // 减少token使用
         })
       });
 
@@ -78,10 +76,10 @@ export function AIChat({ questionnaireResults, questionnaireType }: AIChatProps)
     }
   }, [questionnaireType, questionnaireResults, lang, t]);
 
-  // Generate initial suggestion when component loads
-  useEffect(() => {
-    generateInitialSuggestion();
-  }, [generateInitialSuggestion]);
+  // 移除自动生成，改为手动触发
+  // useEffect(() => {
+  //   generateInitialSuggestion();
+  // }, [generateInitialSuggestion]);
 
   // Scroll to the latest message
   useEffect(() => {
@@ -94,6 +92,28 @@ export function AIChat({ questionnaireResults, questionnaireType }: AIChatProps)
   const handleSendMessage = async () => {
     if (!input.trim() || isLoading) return;
 
+    // 检查消息长度限制
+    if (input.length > 500) {
+      alert('消息长度不能超过500字符');
+      return;
+    }
+
+    // 检查对话次数限制
+    if (messageCount >= 10) {
+      alert('本次会话已达到10次对话限制。刷新页面可重新开始对话。');
+      return;
+    }
+
+    // 检查发送频率限制
+    const now = Date.now();
+    if (now - lastMessageTime < 3000) {
+      alert('发送过于频繁，请稍等3秒后再试');
+      return;
+    }
+
+    setLastMessageTime(now);
+    setMessageCount(prev => prev + 1);
+
      // Add user message
     const userMessage: Message = { role: 'user', content: input };
     setMessages((prev) => [...prev, userMessage]);
@@ -105,11 +125,7 @@ export function AIChat({ questionnaireResults, questionnaireType }: AIChatProps)
       const messageHistory = [
         {
           role: 'system',
-          content: `你是一个心理健康助手，基于用户完成的心理测评问卷提供建议和支持。
-          问卷类型: ${questionnaireType}
-          问卷结果: ${JSON.stringify(questionnaireResults)}
-          请根据用户的问题和问卷结果提供有帮助的回应。使用${lang === 'zh' ? '中文' : 'English'}回复。
-          你的回复应该友善、支持性且有帮助，但不要做出医疗诊断。可以使用一些emoji，350字左右`
+          content: `心理健康助手，基于${questionnaireType}结果${JSON.stringify(questionnaireResults)}回答。用${lang === 'zh' ? '中文' : 'English'}，友善支持，非医疗诊断，简洁回复。`
         },
         ...messages,
         userMessage
@@ -125,7 +141,7 @@ export function AIChat({ questionnaireResults, questionnaireType }: AIChatProps)
           model: 'deepseek-chat',
           messages: messageHistory,
           temperature: 0.7,
-          max_tokens: 1000
+          max_tokens: 400 // 减少token使用
         })
       });
 
@@ -179,19 +195,34 @@ export function AIChat({ questionnaireResults, questionnaireType }: AIChatProps)
 
   return (
     <div className="mt-6">
-      {/* 初始AI建议 */}
+      {/* AI分析区域 */}
       <div className="mb-4 bg-blue-50 p-4 rounded-lg border border-blue-200">
-        {isLoadingInitialSuggestion ? (
-          <div className="flex items-center justify-center py-4">
-            <div className="flex space-x-2">
-              <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
-              <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-              <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
-            </div>
-          </div>
-        ) : (
+        {initialSuggestion ? (
           <div className="text-blue-800">
             {renderMessageContent(initialSuggestion)}
+          </div>
+        ) : (
+          <div className="text-center py-4">
+            {isLoadingInitialSuggestion ? (
+              <div className="flex items-center justify-center">
+                <div className="flex space-x-2">
+                  <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <p className="text-blue-700 mb-3">🤖 想获得AI的专业分析和建议吗？</p>
+                <Button 
+                  onClick={generateInitialSuggestion}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2"
+                  disabled={isLoadingInitialSuggestion}
+                >
+                  获取AI分析建议
+                </Button>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -207,8 +238,11 @@ export function AIChat({ questionnaireResults, questionnaireType }: AIChatProps)
         </Button>
       ) : (
         <div className="border rounded-lg overflow-hidden bg-white">
-          <div className="bg-blue-50 p-3 border-b">
+          <div className="bg-blue-50 p-3 border-b flex justify-between items-center">
             <h3 className="font-medium text-blue-800">{t('chatTitle')}</h3>
+            <span className="text-sm text-blue-600">
+              剩余对话次数: {10 - messageCount}/10
+            </span>
           </div>
           
           {/* 消息区域 */}
@@ -252,23 +286,34 @@ export function AIChat({ questionnaireResults, questionnaireType }: AIChatProps)
           <Separator />
           
           {/* 输入区域 */}
-          <div className="p-3 flex">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder={t('inputPlaceholder')}
-              className="flex-1 border rounded-l-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              disabled={isLoading}
-            />
-            <Button 
-              onClick={handleSendMessage} 
-              disabled={isLoading || !input.trim()}
-              className="rounded-l-none"
-            >
-              {t('sendButton')}
-            </Button>
+          <div className="p-3">
+            <div className="flex mb-2">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder={messageCount >= 10 ? '已达到对话限制' : t('inputPlaceholder')}
+                className="flex-1 border rounded-l-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                disabled={isLoading || messageCount >= 10}
+                maxLength={500}
+              />
+              <Button 
+                onClick={handleSendMessage} 
+                disabled={isLoading || !input.trim() || messageCount >= 10}
+                className="rounded-l-none"
+              >
+                {t('sendButton')}
+              </Button>
+            </div>
+            <div className="flex justify-between text-xs text-gray-500">
+              <span>{input.length}/500 字符</span>
+              {messageCount >= 10 && (
+                <span className="text-orange-600">
+                  已达到对话限制，刷新页面可重新开始
+                </span>
+              )}
+            </div>
           </div>
         </div>
       )}
