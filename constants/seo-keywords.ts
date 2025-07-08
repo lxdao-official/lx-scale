@@ -110,21 +110,22 @@ export const QUESTIONNAIRE_KEYWORDS: Record<string, Record<string, string[]>> = 
 };
 
 /**
- * 通用心理健康关键词
- * General Mental Health Keywords
+ * 通用心理健康关键词（强调免费、权威、AI分析）
+ * General Mental Health Keywords (emphasizing free, authoritative, AI analysis)
  */
 export const GENERAL_MENTAL_HEALTH_KEYWORDS: Record<string, string[]> = {
   'zh': [
-    '心理健康', '心理测评', '心理筛查', '心理评估', '心理测试', '精神健康',
-    '心理量表', '免费心理测试', '心理诊断', '心理咨询', '心理问题', '心理状态',
-    '心理障碍', '心理症状', '心理测量', '心理分析', '心理自评', '心理检测'
+    '免费心理测试', '免费心理评估', '免费心理筛查', '权威心理量表', '专业心理测评', 
+    'AI心理分析', 'AI智能分析', '人工智能心理测评', '免费AI分析', '权威心理诊断',
+    '标准化心理量表', '临床心理评估', '专业免费测试', '国际标准量表', '科学心理测评',
+    '心理健康', '心理测评', '心理筛查', '心理评估', '精神健康', '心理量表'
   ],
   'en': [
-    'mental health', 'psychological assessment', 'mental health screening', 'psychological evaluation',
-    'mental health test', 'psychiatric assessment', 'psychological scale', 'free mental health test',
-    'mental health diagnosis', 'psychological counseling', 'mental wellness', 'mental state',
-    'mental disorder', 'psychological symptoms', 'psychological measurement', 'psychological analysis',
-    'self-assessment', 'mental health check'
+    'free mental health test', 'free psychological assessment', 'free mental health screening', 
+    'authoritative psychological scale', 'professional mental health assessment', 'AI psychological analysis',
+    'AI-powered mental health', 'artificial intelligence psychology', 'free AI analysis', 'clinical assessment',
+    'standardized psychological test', 'evidence-based assessment', 'professional free test', 'validated scale',
+    'mental health', 'psychological evaluation', 'mental wellness', 'psychiatric assessment'
   ]
 };
 
