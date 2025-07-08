@@ -1,0 +1,38 @@
+export default {
+    subscales: {
+        emotional: 'Emotional Symptoms',
+        cognitive: 'Cognitive Symptoms',
+        somatic: 'Somatic Symptoms',
+        behavioral: 'Behavioral Symptoms',
+    },
+    labels: {
+        symptom_dimension_analysis: 'Symptom Dimension Analysis',
+    },
+    advice: {
+        daily_management: 'Daily Life Management',
+        social_support: 'Social Support',
+    },
+    symptoms: {
+        0: 'Sadness',
+        1: 'Pessimism',
+        2: 'Past failure',
+        3: 'Loss of pleasure',
+        4: 'Guilty feelings',
+        5: 'Punishment feelings',
+        6: 'Self-dislike',
+        7: 'Self-criticalness',
+        8: 'Suicidal thoughts',
+        9: 'Crying',
+        10: 'Agitation',
+        11: 'Loss of interest',
+        12: 'Indecisiveness',
+        13: 'Worthlessness',
+        14: 'Loss of energy',
+        15: 'Changes in sleep',
+        16: 'Irritability',
+        17: 'Changes in appetite',
+        18: 'Concentration difficulty',
+        19: 'Tiredness or fatigue',
+        20: 'Loss of interest in sex',
+    },
+} as const;
