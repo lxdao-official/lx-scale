@@ -2,12 +2,15 @@
 
 import React from 'react';
 import { calculateDASS21Results } from '../../test/private/DASS21Calculator';
+import { useScopedI18n } from '@/locales/client';
 
 interface DASS21ResultProps {
   answers: string[];
 }
 
 export function DASS21Result({ answers }: DASS21ResultProps) {
+  const t = useScopedI18n('components.dass21Result');
+  
   // 转换答案格式为计算器需要的格式
   const answersMap: { [key: number]: string } = {};
   answers.forEach((answer, index) => {
@@ -20,11 +23,11 @@ export function DASS21Result({ answers }: DASS21ResultProps) {
   });
 
   const severityNames = {
-    normal: "正常",
-    mild: "轻度",
-    moderate: "中度",
-    severe: "重度",
-    extremely_severe: "极重度"
+    normal: t('severity.normal'),
+    mild: t('severity.mild'),
+    moderate: t('severity.moderate'),
+    severe: t('severity.severe'),
+    extremely_severe: t('severity.extremely_severe')
   };
 
   const getSeverityColor = (severity: string) => {
@@ -40,24 +43,24 @@ export function DASS21Result({ answers }: DASS21ResultProps) {
 
   const dimensionInfo = {
     depression: {
-      name: "抑郁",
+      name: t('dimensions.depression'),
       score: results.depressionScore,
       severity: results.depressionSeverity,
-      description: "情绪低落、绝望、生活缺乏意义等",
+      description: t('descriptions.depression'),
       maxScore: 42
     },
     anxiety: {
-      name: "焦虑",
+      name: t('dimensions.anxiety'),
       score: results.anxietyScore,
       severity: results.anxietySeverity,
-      description: "自主神经系统唤起、肌肉紧张等",
+      description: t('descriptions.anxiety'),
       maxScore: 42
     },
     stress: {
-      name: "压力",
+      name: t('dimensions.stress'),
       score: results.stressScore,
       severity: results.stressSeverity,
-      description: "持续紧张、易激惹、过度反应等",
+      description: t('descriptions.stress'),
       maxScore: 42
     }
   };
@@ -66,18 +69,18 @@ export function DASS21Result({ answers }: DASS21ResultProps) {
     <div className="mt-6 space-y-6">
       {/* 总体得分 */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
-        <h3 className="text-lg font-semibold mb-4">DASS-21 评估结果</h3>
+        <h3 className="text-lg font-semibold mb-4">{t('title')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <MetricCard title="总分" value={`${results.totalScore}/63`} />
-          <MetricCard title="抑郁分数" value={`${results.depressionScore}/42`} />
-          <MetricCard title="焦虑分数" value={`${results.anxietyScore}/42`} />
-          <MetricCard title="压力分数" value={`${results.stressScore}/42`} />
+          <MetricCard title={t('labels.total_score')} value={`${results.totalScore}/63`} />
+          <MetricCard title={t('labels.depression_score')} value={`${results.depressionScore}/42`} />
+          <MetricCard title={t('labels.anxiety_score')} value={`${results.anxietyScore}/42`} />
+          <MetricCard title={t('labels.stress_score')} value={`${results.stressScore}/42`} />
         </div>
       </div>
 
       {/* 三维度分析 */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
-        <h3 className="text-lg font-semibold mb-4">三维度详细分析</h3>
+        <h3 className="text-lg font-semibold mb-4">{t('labels.three_dimension_analysis')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {Object.entries(dimensionInfo).map(([key, info]) => (
             <div key={key} className={`border rounded-lg p-4 ${getSeverityColor(info.severity)}`}>
@@ -122,39 +125,39 @@ export function DASS21Result({ answers }: DASS21ResultProps) {
 
       {/* 严重程度标准 */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
-        <h3 className="text-lg font-semibold mb-4">评分标准</h3>
+        <h3 className="text-lg font-semibold mb-4">{t('labels.scoring_criteria')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           
           <div className="space-y-2">
-            <h4 className="font-medium text-green-700">抑郁维度</h4>
+            <h4 className="font-medium text-green-700">{t('labels.depression_dimension')}</h4>
             <div className="text-sm space-y-1">
-              <div>正常：0-9分</div>
-              <div>轻度：10-13分</div>
-              <div>中度：14-20分</div>
-              <div>重度：21-27分</div>
-              <div>极重度：28+分</div>
+              <div>{t('scoring.depression.normal')}</div>
+              <div>{t('scoring.depression.mild')}</div>
+              <div>{t('scoring.depression.moderate')}</div>
+              <div>{t('scoring.depression.severe')}</div>
+              <div>{t('scoring.depression.extremely_severe')}</div>
             </div>
           </div>
 
           <div className="space-y-2">
-            <h4 className="font-medium text-blue-700">焦虑维度</h4>
+            <h4 className="font-medium text-blue-700">{t('labels.anxiety_dimension')}</h4>
             <div className="text-sm space-y-1">
-              <div>正常：0-7分</div>
-              <div>轻度：8-9分</div>
-              <div>中度：10-14分</div>
-              <div>重度：15-19分</div>
-              <div>极重度：20+分</div>
+              <div>{t('scoring.anxiety.normal')}</div>
+              <div>{t('scoring.anxiety.mild')}</div>
+              <div>{t('scoring.anxiety.moderate')}</div>
+              <div>{t('scoring.anxiety.severe')}</div>
+              <div>{t('scoring.anxiety.extremely_severe')}</div>
             </div>
           </div>
 
           <div className="space-y-2">
-            <h4 className="font-medium text-purple-700">压力维度</h4>
+            <h4 className="font-medium text-purple-700">{t('labels.stress_dimension')}</h4>
             <div className="text-sm space-y-1">
-              <div>正常：0-14分</div>
-              <div>轻度：15-18分</div>
-              <div>中度：19-25分</div>
-              <div>重度：26-33分</div>
-              <div>极重度：34+分</div>
+              <div>{t('scoring.stress.normal')}</div>
+              <div>{t('scoring.stress.mild')}</div>
+              <div>{t('scoring.stress.moderate')}</div>
+              <div>{t('scoring.stress.severe')}</div>
+              <div>{t('scoring.stress.extremely_severe')}</div>
             </div>
           </div>
         </div>
@@ -162,17 +165,17 @@ export function DASS21Result({ answers }: DASS21ResultProps) {
 
       {/* 结果解释和建议 */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
-        <h3 className="text-lg font-semibold mb-4">结果解释与建议</h3>
+        <h3 className="text-lg font-semibold mb-4">{t('labels.result_interpretation_advice')}</h3>
         <div className="space-y-4">
           
           {/* 整体评估 */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h4 className="font-medium text-blue-900 mb-2">整体评估</h4>
+            <h4 className="font-medium text-blue-900 mb-2">{t('labels.overall_assessment')}</h4>
             <div className="text-sm text-blue-800">
               {results.isSevere ? (
-                <p>您在一个或多个维度上显示出较高的困扰水平，建议寻求专业心理健康服务的帮助。</p>
+                <p>{t('assessment.severe_message')}</p>
               ) : (
-                <p>您的整体情绪状态在可接受范围内，继续保持良好的心理健康习惯。</p>
+                <p>{t('assessment.normal_message')}</p>
               )}
             </div>
           </div>
@@ -180,14 +183,14 @@ export function DASS21Result({ answers }: DASS21ResultProps) {
           {/* 维度特定建议 */}
           {results.depressionSeverity !== "normal" && (
             <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-              <h4 className="font-medium text-green-900 mb-2">抑郁维度建议</h4>
+              <h4 className="font-medium text-green-900 mb-2">{t('advice.depression_dimension')}</h4>
               <div className="text-sm text-green-800 space-y-1">
-                <p>• 建立规律的日常作息和活动计划</p>
-                <p>• 参与愉快的活动，即使最初没有兴趣</p>
-                <p>• 与亲友保持联系，寻求社会支持</p>
-                <p>• 适度运动，如散步、瑜伽等</p>
+                <p>{t('advice.depression_item_1')}</p>
+                <p>{t('advice.depression_item_2')}</p>
+                <p>{t('advice.depression_item_3')}</p>
+                <p>{t('advice.depression_item_4')}</p>
                 {(results.depressionSeverity === "severe" || results.depressionSeverity === "extremely_severe") && (
-                  <p className="font-medium">• 建议尽快寻求专业心理治疗或医疗帮助</p>
+                  <p className="font-medium">{t('advice.depression_severe')}</p>
                 )}
               </div>
             </div>
@@ -195,14 +198,14 @@ export function DASS21Result({ answers }: DASS21ResultProps) {
 
           {results.anxietySeverity !== "normal" && (
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-              <h4 className="font-medium text-yellow-900 mb-2">焦虑维度建议</h4>
+              <h4 className="font-medium text-yellow-900 mb-2">{t('advice.anxiety_dimension')}</h4>
               <div className="text-sm text-yellow-800 space-y-1">
-                <p>• 练习深呼吸和渐进性肌肉放松</p>
-                <p>• 学习正念冥想技巧</p>
-                <p>• 识别和挑战焦虑想法</p>
-                <p>• 逐步面对恐惧情境，避免完全回避</p>
+                <p>{t('advice.anxiety_item_1')}</p>
+                <p>{t('advice.anxiety_item_2')}</p>
+                <p>{t('advice.anxiety_item_3')}</p>
+                <p>{t('advice.anxiety_item_4')}</p>
                 {(results.anxietySeverity === "severe" || results.anxietySeverity === "extremely_severe") && (
-                  <p className="font-medium">• 考虑认知行为疗法或药物治疗</p>
+                  <p className="font-medium">{t('advice.anxiety_severe')}</p>
                 )}
               </div>
             </div>
@@ -210,14 +213,14 @@ export function DASS21Result({ answers }: DASS21ResultProps) {
 
           {results.stressSeverity !== "normal" && (
             <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
-              <h4 className="font-medium text-purple-900 mb-2">压力维度建议</h4>
+              <h4 className="font-medium text-purple-900 mb-2">{t('advice.stress_dimension')}</h4>
               <div className="text-sm text-purple-800 space-y-1">
-                <p>• 学习时间管理和优先级设定</p>
-                <p>• 练习压力管理技巧，如冥想、瑜伽</p>
-                <p>• 设定现实可行的目标和期望</p>
-                <p>• 寻找健康的压力释放方式</p>
+                <p>{t('advice.stress_item_1')}</p>
+                <p>{t('advice.stress_item_2')}</p>
+                <p>{t('advice.stress_item_3')}</p>
+                <p>{t('advice.stress_item_4')}</p>
                 {(results.stressSeverity === "severe" || results.stressSeverity === "extremely_severe") && (
-                  <p className="font-medium">• 考虑压力管理课程或专业咨询</p>
+                  <p className="font-medium">{t('advice.stress_severe')}</p>
                 )}
               </div>
             </div>
@@ -234,8 +237,7 @@ export function DASS21Result({ answers }: DASS21ResultProps) {
                 </div>
                 <div className="ml-3">
                   <div className="text-sm font-medium text-red-800">
-                    重要提醒：您的得分显示存在显著的心理困扰，强烈建议寻求专业心理健康服务。
-                    早期干预可以有效改善症状并提高生活质量。
+                    {t('labels.important_reminder')}：{t('warning.severe_distress')}
                   </div>
                 </div>
               </div>
@@ -244,8 +246,7 @@ export function DASS21Result({ answers }: DASS21ResultProps) {
 
           <div className="bg-gray-50 border border-gray-200 rounded p-3">
             <p className="text-gray-800 text-sm">
-              <strong>注意：</strong>DASS-21是筛查工具，不能替代专业诊断。如果您对结果有疑问或需要帮助，
-              请咨询合格的心理健康专业人员。
+              <strong>{t('labels.note')}：</strong>{t('disclaimer')}
             </p>
           </div>
         </div>
