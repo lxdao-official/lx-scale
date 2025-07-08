@@ -20,9 +20,14 @@ export default {
     clinical: {
         rating_criteria: '评分标准',
         judgment_criteria: '判断标准',
+        rating_scale: '1 = 没有 | 2 = 很轻 | 3 = 中等 | 4 = 偏重 | 5 = 严重',
+        total_score_criteria: '总分 ≥ 160 分或阳性项目数 ≥ 43 个：提示可能存在心理问题',
+        factor_score_2: '因子分 ≥ 2 分：该因子异常，需要关注',
+        factor_score_3: '因子分 ≥ 3 分：该因子严重异常，建议寻求专业帮助',
     },
     warnings: {
         severe_condition: '您的症状可能表明存在严重问题，请立即寻求专业帮助。',
+        unknown_level: '未知',
     },
     description: {
         total_score: '总分反映整体心理困扰水平',

@@ -71,7 +71,7 @@ export function SCL90Result({ answers }: SCL90ResultProps) {
           <MetricCard title={t('labels.positive_symptom_average')} value={results.positiveItemAverage.toFixed(2)} />
           <MetricCard 
             title={tCommon('labels.severity_level')} 
-            value={severityNames[results.severity as keyof typeof severityNames] || "未知"}
+            value={severityNames[results.severity as keyof typeof severityNames] || t('warnings.unknown_level')}
             className={getSeverityColor(results.severity)}
           />
         </div>
@@ -105,15 +105,15 @@ export function SCL90Result({ answers }: SCL90ResultProps) {
           <div>
             <strong>{t('clinical.rating_criteria')}：</strong>
             <ul className="mt-1 ml-4 space-y-1">
-              <li>• 1 = 没有 | 2 = 很轻 | 3 = 中等 | 4 = 偏重 | 5 = 严重</li>
+              <li>• {t('clinical.rating_scale')}</li>
             </ul>
           </div>
           <div>
             <strong>{t('clinical.judgment_criteria')}：</strong>
             <ul className="mt-1 ml-4 space-y-1">
-              <li>• 总分 ≥ 160 分或阳性项目数 ≥ 43 个：提示可能存在心理问题</li>
-              <li>• 因子分 ≥ 2 分：该因子异常，需要关注</li>
-              <li>• 因子分 ≥ 3 分：该因子严重异常，建议寻求专业帮助</li>
+              <li>• {t('clinical.total_score_criteria')}</li>
+              <li>• {t('clinical.factor_score_2')}</li>
+              <li>• {t('clinical.factor_score_3')}</li>
             </ul>
           </div>
           {results.isSevere && (
