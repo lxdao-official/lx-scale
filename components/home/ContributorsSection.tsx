@@ -130,22 +130,12 @@ export async function ContributorsSection() {
               const todoItems =
                 locale === 'zh'
                   ? [
-                    '设计 LOGO',
-                    'UI 升级',
-                    '多问卷架构实现，整合 10+ 专业评估问卷',
-                    '问卷数据本地浏览器存储功能',
-                    'AI 分析能力升级，实现用户-AI交互式对话',
-                    '多语言支持',
-                    'SEO 优化，实现谷歌搜索相关关键词排名前 10',
+                    'SEO 优化',
+                    'Prompt 优化',
                   ]
                   : [
-                    'Design LOGO',
-                    'UI Upgrade',
-                    'Implement multi - questionnaire architecture and integrate more than 10 professional assessment questionnaires',
-                    'Local browser storage function for questionnaire data',
-                    'Upgrade AI analysis capabilities to achieve user - AI interactive dialogue',
-                    'Multi - language support',
-                    'SEO optimization to rank in the top 10 for relevant keywords on Google search',
+                    'SEO optimization',
+                    'Prompt optimization',
                   ];
 
               return (
