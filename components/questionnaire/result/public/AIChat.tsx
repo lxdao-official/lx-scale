@@ -67,7 +67,12 @@ export function AIChat({ questionnaireResults, questionnaireType }: AIChatProps)
       setInitialSuggestion(suggestion);
     } catch (error) {
       console.error('Error generating initial suggestion:', error);
-      setInitialSuggestion(t('initialSuggestionError'));
+      // 检查是否是402付费错误
+      if (error instanceof Error && error.message.includes('402')) {
+        setInitialSuggestion('🔔 AI分析功能暂时不可用，请稍后再试。我们正在升级服务以提供更好的体验！');
+      } else {
+        setInitialSuggestion(t('initialSuggestionError') || '⚠️ 无法生成AI建议，请稍后再试。');
+      }
     } finally {
       setIsLoadingInitialSuggestion(false);
     }
@@ -135,10 +140,17 @@ export function AIChat({ questionnaireResults, questionnaireType }: AIChatProps)
       setMessages((prev) => [...prev, { role: 'assistant', content: aiResponse }]);
     } catch (error) {
       console.error('Error calling AI API:', error);
+      // 检查错误类型，提供更具体的错误消息
+      let errorMessage = t('apiErrorMessage') || '⚠️ AI服务暂时不可用，请稍后再试。';
+      
+      if (error instanceof Error && error.message.includes('402')) {
+        errorMessage = '🔔 AI分析功能暂时不可用，我们正在升级服务容量。感谢您的理解！';
+      }
+      
       // Add error message
       setMessages((prev) => [
         ...prev,
-        { role: 'assistant', content: t('apiErrorMessage') }
+        { role: 'assistant', content: errorMessage }
       ]);
     } finally {
       setIsLoading(false);
