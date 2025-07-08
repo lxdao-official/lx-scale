@@ -2,12 +2,15 @@
 
 import React from 'react';
 import { calculateISIResults } from '../../test/private/ISICalculator';
+import { useScopedI18n } from '@/locales/client';
 
 interface ISIResultProps {
   answers: string[];
 }
 
 export function ISIResult({ answers }: ISIResultProps) {
+  const t = useScopedI18n('components.isiResult');
+  
   const answersMap: { [key: number]: string } = {};
   answers.forEach((answer, index) => {
     answersMap[index + 1] = answer;
@@ -19,10 +22,10 @@ export function ISIResult({ answers }: ISIResultProps) {
   });
 
   const severityNames = {
-    no_insomnia: "无临床意义失眠",
-    subthreshold: "亚临床失眠",
-    moderate: "中度失眠",
-    severe: "重度失眠"
+    no_insomnia: t('severity.no_insomnia'),
+    subthreshold: t('severity.subthreshold'),
+    moderate: t('severity.moderate'),
+    severe: t('severity.severe')
   };
 
   const getSeverityColor = (severity: string) => {
@@ -38,27 +41,27 @@ export function ISIResult({ answers }: ISIResultProps) {
   return (
     <div className="mt-6 space-y-6">
       <div className="bg-white border rounded-lg p-6 shadow-sm">
-        <h3 className="text-lg font-semibold mb-4">ISI 失眠评估结果</h3>
+        <h3 className="text-lg font-semibold mb-4">{t('title')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <MetricCard title="总分" value={`${results.totalScore}/28`} />
-          <MetricCard title="高分项目数" value={`${results.highScoreItemCount}/7`} />
+          <MetricCard title={t('labels.total_score')} value={`${results.totalScore}/28`} />
+          <MetricCard title={t('labels.high_score_items')} value={`${results.highScoreItemCount}/7`} />
           <MetricCard 
-            title="失眠程度" 
-            value={severityNames[results.severity as keyof typeof severityNames] || "未知"}
+            title={t('labels.insomnia_level')} 
+            value={severityNames[results.severity as keyof typeof severityNames] || t('labels.unknown')}
             className={getSeverityColor(results.severity).split(' ')[0]}
           />
         </div>
       </div>
 
       <div className={`border rounded-lg p-6 shadow-sm ${getSeverityColor(results.severity)}`}>
-        <h3 className="text-lg font-semibold mb-3">结果解释</h3>
+        <h3 className="text-lg font-semibold mb-3">{t('labels.result_interpretation')}</h3>
         <div className="space-y-2 text-sm">
-          <div><strong>ISI 评分标准：</strong></div>
+          <div><strong>{t('labels.scoring_criteria')}：</strong></div>
           <ul className="ml-4 space-y-1">
-            <li>• 0-7分：无临床意义失眠</li>
-            <li>• 8-14分：亚临床失眠</li>
-            <li>• 15-21分：中度失眠</li>
-            <li>• 22-28分：重度失眠</li>
+            <li>{t('scoring.range_0_7')}</li>
+            <li>{t('scoring.range_8_14')}</li>
+            <li>{t('scoring.range_15_21')}</li>
+            <li>{t('scoring.range_22_28')}</li>
           </ul>
         </div>
       </div>
@@ -66,7 +69,7 @@ export function ISIResult({ answers }: ISIResultProps) {
       {results.isSevere && (
         <div className="bg-red-50 border border-red-200 rounded-lg p-4">
           <div className="text-sm font-medium text-red-800">
-            建议咨询睡眠专科医生，寻求专业的睡眠治疗方案。
+            {t('advice.sleep_specialist_message')}
           </div>
         </div>
       )}
