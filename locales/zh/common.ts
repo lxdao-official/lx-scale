@@ -35,4 +35,9 @@ export default {
         lifestyle_management: '生活方式管理',
         social_support: '社会支持',
     },
+    answerList: {
+        title: '选择明细',
+        option: '选项',
+        unanswered: '未作答'
+    },
 } as const;

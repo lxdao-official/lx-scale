@@ -1,4 +1,5 @@
 import { Questionnaire } from '@/types';
+import { useScopedI18n } from '@/locales/client';
 
 interface AnswerListProps {
     questions: Questionnaire['questions'];
@@ -7,11 +8,13 @@ interface AnswerListProps {
 }
 
 export function AnswerList({ questions, answers, renderOptions }: AnswerListProps) {
+    const t = useScopedI18n('common');
+    
     if (!questions || questions.length === 0) return null;
 
     return (
         <div className="mt-6">
-            <h3 className="text-lg font-medium mb-3">选择明细</h3>
+            <h3 className="text-lg font-medium mb-3">{t('answerList.title')}</h3>
             <div className="space-y-2">
                 {questions.map((q, idx) => {
                     const selectedValue = answers[idx];
@@ -19,8 +22,8 @@ export function AnswerList({ questions, answers, renderOptions }: AnswerListProp
                     const optionContent = selectedValue !== undefined ? (() => {
                         const opts = renderOptions(q.id) || [];
                         const found = opts.find(o => String(o.value) === String(selectedValue));
-                        return found ? found.content : `选项 ${selectedValue}`;
-                    })() : '未作答';
+                        return found ? found.content : `${t('answerList.option')} ${selectedValue}`;
+                    })() : t('answerList.unanswered');
 
                     return (
                         <div
@@ -29,7 +32,7 @@ export function AnswerList({ questions, answers, renderOptions }: AnswerListProp
                         >
                             <span className="font-medium">{idx + 1}. {q.content}</span>
                             <span className="ml-auto">
-                                {selectedValue !== undefined ? `${optionContent}` : '未作答'}
+                                {selectedValue !== undefined ? `${optionContent}` : t('answerList.unanswered')}
                             </span>
                         </div>
                     );

@@ -35,4 +35,9 @@ export default {
         lifestyle_management: 'Lifestyle management',
         social_support: 'Social support',
     },
+    answerList: {
+        title: 'Answer Details',
+        option: 'Option',
+        unanswered: 'Unanswered'
+    },
 } as const;
