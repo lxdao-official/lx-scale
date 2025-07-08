@@ -2,12 +2,15 @@
 
 import React from 'react';
 import { calculateSDSResults } from '../../test/private/SDSCalculator';
+import { useScopedI18n } from '@/locales/client';
 
 interface SDSResultProps {
   answers: string[];
 }
 
 export function SDSResult({ answers }: SDSResultProps) {
+  const t = useScopedI18n('components.sdsResult');
+  
   // 转换答案格式为计算器需要的格式
   const answersMap: { [key: number]: string } = {};
   answers.forEach((answer, index) => {
@@ -20,17 +23,17 @@ export function SDSResult({ answers }: SDSResultProps) {
   });
 
   const severityNames = {
-    normal: "正常",
-    mild: "轻度抑郁",
-    moderate: "中度抑郁", 
-    severe: "重度抑郁"
+    normal: t('severity.normal'),
+    mild: t('severity.mild'),
+    moderate: t('severity.moderate'), 
+    severe: t('severity.severe')
   };
 
   const severityDescriptions = {
-    normal: "您的得分在正常范围内，没有显著的抑郁症状。",
-    mild: "您可能存在轻度抑郁症状，建议关注自己的心理状态，必要时寻求专业帮助。",
-    moderate: "您可能存在中度抑郁症状，建议尽快咨询专业的心理医生。",
-    severe: "您可能存在重度抑郁症状，强烈建议立即寻求专业医疗帮助。"
+    normal: t('severityDescriptions.normal'),
+    mild: t('severityDescriptions.mild'),
+    moderate: t('severityDescriptions.moderate'),
+    severe: t('severityDescriptions.severe')
   };
 
   const getSeverityColor = (severity: string) => {
@@ -50,13 +53,13 @@ export function SDSResult({ answers }: SDSResultProps) {
     <div className="mt-6 space-y-6">
       {/* 总体得分 */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
-        <h3 className="text-lg font-semibold mb-4">评估结果</h3>
+        <h3 className="text-lg font-semibold mb-4">{t('title')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <MetricCard title="原始总分" value={`${rawScore}/80`} />
-          <MetricCard title="标准分" value={results.totalScore} />
+          <MetricCard title={t('labels.raw_total_score')} value={`${rawScore}/80`} />
+          <MetricCard title={t('labels.standard_score')} value={results.totalScore} />
           <MetricCard 
-            title="抑郁程度" 
-            value={severityNames[results.severity as keyof typeof severityNames] || "未知"}
+            title={t('labels.depression_level')} 
+            value={severityNames[results.severity as keyof typeof severityNames] || t('labels.unknown')}
             className={getSeverityColor(results.severity).split(' ')[0]}
           />
         </div>
@@ -64,45 +67,45 @@ export function SDSResult({ answers }: SDSResultProps) {
 
       {/* 严重程度说明 */}
       <div className={`border rounded-lg p-6 shadow-sm ${getSeverityColor(results.severity)}`}>
-        <h3 className="text-lg font-semibold mb-3">结果解释</h3>
+        <h3 className="text-lg font-semibold mb-3">{t('labels.result_interpretation')}</h3>
         <p className="text-sm mb-4">
-          {severityDescriptions[results.severity as keyof typeof severityDescriptions] || "评估结果异常，请重新测试。"}
+          {severityDescriptions[results.severity as keyof typeof severityDescriptions]}
         </p>
         
         <div className="space-y-2 text-sm">
-          <div><strong>评分标准：</strong></div>
+          <div><strong>{t('labels.scoring_criteria')}：</strong></div>
           <ul className="ml-4 space-y-1">
-            <li>• 标准分 ≤ 52：正常范围</li>
-            <li>• 标准分 53-62：轻度抑郁</li>
-            <li>• 标准分 63-72：中度抑郁</li>
-            <li>• 标准分 ≥ 73：重度抑郁</li>
+            <li>• {t('scoring.range_0_52')}</li>
+            <li>• {t('scoring.range_53_62')}</li>
+            <li>• {t('scoring.range_63_72')}</li>
+            <li>• {t('scoring.range_73_plus')}</li>
           </ul>
         </div>
       </div>
 
       {/* 项目分析 */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
-        <h3 className="text-lg font-semibold mb-4">详细分析</h3>
+        <h3 className="text-lg font-semibold mb-4">{t('labels.detailed_analysis')}</h3>
         <div className="space-y-4">
           
           {/* 高分项目提示 */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h4 className="font-medium text-blue-900 mb-2">量表说明</h4>
+            <h4 className="font-medium text-blue-900 mb-2">{t('labels.scale_description')}</h4>
             <div className="text-sm text-blue-800 space-y-1">
-              <p>• SDS量表包含20个项目，涵盖情感、躯体、精神运动和心理方面的症状</p>
-              <p>• 其中10个项目为正向计分，10个项目为反向计分</p>
-              <p>• 原始分数乘以1.25得到标准分，便于与其他研究结果比较</p>
+              <p>• {t('scaleInfo.description_1')}</p>
+              <p>• {t('scaleInfo.description_2')}</p>
+              <p>• {t('scaleInfo.description_3')}</p>
             </div>
           </div>
 
           {/* 计分方式说明 */}
           <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <h4 className="font-medium text-gray-900 mb-2">计分方式</h4>
+            <h4 className="font-medium text-gray-900 mb-2">{t('labels.scoring_method')}</h4>
             <div className="text-sm text-gray-700 space-y-1">
-              <p><strong>正向计分项目：</strong>1、3、4、7、8、9、10、13、15、19题</p>
-              <p><strong>反向计分项目：</strong>2、5、6、11、12、14、16、17、18、20题</p>
-              <p><strong>选项计分：</strong>很少=1分，有些时间=2分，相当多时间=3分，绝大部分时间=4分</p>
-              <p><strong>反向计分：</strong>4分→1分，3分→2分，2分→3分，1分→4分</p>
+              <p><strong>正向计分项目：</strong>{t('scaleInfo.positive_items')}</p>
+              <p><strong>反向计分项目：</strong>{t('scaleInfo.reverse_items')}</p>
+              <p><strong>选项计分：</strong>{t('scaleInfo.option_scoring')}</p>
+              <p><strong>反向计分：</strong>{t('scaleInfo.reverse_scoring')}</p>
             </div>
           </div>
 
@@ -116,7 +119,7 @@ export function SDSResult({ answers }: SDSResultProps) {
                 </div>
                 <div className="ml-3">
                   <div className="text-sm font-medium text-red-800">
-                    重要提醒：您的得分提示可能存在抑郁症状，请尽快联系专业心理医生或精神科医生进行进一步评估和治疗。
+                    {t('labels.important_reminder')}：{t('warnings.depression_reminder')}
                   </div>
                 </div>
               </div>
@@ -127,21 +130,21 @@ export function SDSResult({ answers }: SDSResultProps) {
 
       {/* 专业建议 */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
-        <h3 className="text-lg font-semibold mb-4">专业建议</h3>
+        <h3 className="text-lg font-semibold mb-4">{t('labels.professional_advice')}</h3>
         <div className="space-y-3 text-sm text-gray-700">
           <div>
-            <strong>如果您的得分较高，建议：</strong>
+            <strong>{t('advice.high_score_title')}</strong>
             <ul className="mt-2 ml-4 space-y-1">
-              <li>• 寻求专业心理医生或精神科医生的帮助</li>
-              <li>• 与信任的家人或朋友分享您的感受</li>
-              <li>• 保持规律的作息和适度的运动</li>
-              <li>• 避免酗酒和滥用药物</li>
-              <li>• 如有自杀想法，请立即寻求帮助</li>
+              <li>• {t('advice.seek_professional')}</li>
+              <li>• {t('advice.share_feelings')}</li>
+              <li>• {t('advice.maintain_routine')}</li>
+              <li>• {t('advice.avoid_substances')}</li>
+              <li>• {t('advice.suicide_help')}</li>
             </ul>
           </div>
           <div className="bg-yellow-50 border border-yellow-200 rounded p-3">
             <p className="text-yellow-800">
-              <strong>注意：</strong>本量表仅供参考，不能替代专业医生的诊断。如有疑问，请咨询专业医疗人员。
+              <strong>{t('labels.note')}：</strong>{t('disclaimer')}
             </p>
           </div>
         </div>
