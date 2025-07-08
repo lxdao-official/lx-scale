@@ -46,7 +46,7 @@ export async function HeroSection() {
               </Link>
             </div>
 
-            <div className="flex gap-6 pt-4">
+            <div className="flex flex-col sm:flex-row gap-6 pt-4">
               <div className="flex items-center gap-2">
                 <Shield className="h-5 w-5 text-primary" />
                 <span className="text-sm">{t('completelyFree')}</span>
@@ -55,6 +55,22 @@ export async function HeroSection() {
                 <Lock className="h-5 w-5 text-primary" />
                 <span className="text-sm">{t('localProcessing')}</span>
               </div>
+            </div>
+
+            <div className="pt-4">
+              <a 
+                href="https://www.producthunt.com/products/lxscale?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-lxscale" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                <img 
+                  src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=989739&theme=light&t=1751949702359" 
+                  alt="LXScale - Professional psychological scale testing platform | Product Hunt" 
+                  style={{ width: '250px', height: '54px' }} 
+                  width="250" 
+                  height="54" 
+                />
+              </a>
             </div>
           </div>
 

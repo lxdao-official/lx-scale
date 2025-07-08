@@ -14,6 +14,7 @@ const eslintConfig = [
   ...compat.config({
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
+      "@next/next/no-img-element": "off",
     },
   }),
 ];
