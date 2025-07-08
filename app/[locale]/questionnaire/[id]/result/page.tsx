@@ -99,7 +99,13 @@ export default function QuestionnaireResultPage({
   }
 
   return (
-    <ResultContainer title={questionnaire.title} id={id}>
+    <ResultContainer 
+      title={questionnaire.title} 
+      id={id}
+      questionnaire={questionnaire}
+      answers={decodedAnswers}
+      questionnaireResults={questionnaireResults}
+    >
       <AnswerList
         questions={questionnaire.questions}
         answers={decodedAnswers}

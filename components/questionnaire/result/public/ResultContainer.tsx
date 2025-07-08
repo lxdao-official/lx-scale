@@ -2,16 +2,20 @@ import Link from 'next/link';
 import { ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { useScopedI18n } from '@/locales/client';
-import { Copy } from 'lucide-react';
+import { Copy, FileText } from 'lucide-react';
 import { toast } from 'sonner';
+import { Questionnaire } from '@/types';
 
 interface ResultContainerProps {
   title: string;
   id: string;
   children: ReactNode;
+  questionnaire?: Questionnaire;
+  answers?: string[];
+  questionnaireResults?: Record<string, string>;
 }
 
-export function ResultContainer({ title, id, children }: ResultContainerProps) {
+export function ResultContainer({ title, id, children, questionnaire, answers, questionnaireResults }: ResultContainerProps) {
   const t = useScopedI18n(
     'component.questionnaire.result.public.resultContainer'
   );
@@ -22,6 +26,39 @@ export function ResultContainer({ title, id, children }: ResultContainerProps) {
       toast.success(t('copySuccess'));
     } catch {
       toast.error(t('copyError'));
+    }
+  };
+
+  const handleCopyResultData = async () => {
+    if (!questionnaire || !answers || !questionnaireResults) {
+      toast.error(t('copyResultDataError'));
+      return;
+    }
+
+    try {
+      const currentTime = new Date().toLocaleString();
+
+      let resultData = `# ${t('copyTemplate.title')}\n\n`;
+      resultData += `## ${t('copyTemplate.basicInfo')}\n`;
+      resultData += `- ${t('copyTemplate.questionnaireName')}: ${questionnaire.title}\n`;
+      resultData += `- ${t('copyTemplate.questionnaireId')}: ${id}\n`;
+      resultData += `- ${t('copyTemplate.assessmentTime')}: ${currentTime}\n`;
+      resultData += `- ${t('copyTemplate.questionCount')}: ${questionnaire.questions.length}\n\n`;
+      
+      resultData += `## ${t('copyTemplate.questionsAndAnswers')}\n`;
+      Object.entries(questionnaireResults).forEach(([question, answer], index) => {
+        resultData += `${index + 1}. ${question}\n   ${t('copyTemplate.answer')}: ${answer}\n\n`;
+      });
+      
+      resultData += `## ${t('copyTemplate.usage')}\n`;
+      resultData += `${t('copyTemplate.disclaimer')}\n\n`;
+      resultData += `${t('copyTemplate.source')}: ${t('copyTemplate.platform')}\n`;
+      resultData += `${t('copyTemplate.website')}: https://lxscale.xyz\n`;
+      
+      await navigator.clipboard.writeText(resultData);
+      toast.success(t('copyResultDataSuccess'));
+    } catch {
+      toast.error(t('copyResultDataError'));
     }
   };
   return (
@@ -43,6 +80,10 @@ export function ResultContainer({ title, id, children }: ResultContainerProps) {
             <Button variant="outline" onClick={handleCopyResultLink} className="w-full sm:w-auto">
               <Copy className="w-4 h-4 mr-2" />
               {t('copyResultLink')}
+            </Button>
+            <Button variant="outline" onClick={handleCopyResultData} className="w-full sm:w-auto">
+              <FileText className="w-4 h-4 mr-2" />
+              {t('copyResultData')}
             </Button>
             <Button className="w-full sm:w-auto">
               <Link href="/questionnaire">{t('completeTest')}</Link>
