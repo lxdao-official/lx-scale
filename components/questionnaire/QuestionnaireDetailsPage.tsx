@@ -27,7 +27,7 @@ export default function QuestionnaireDetailsPage({ questionnaire, locale = 'zh' 
     const { title, details, id, tags } = questionnaire;
 
     return (
-        <div className="container mx-auto px-4 py-8 max-w-4xl">
+        <div className="container px-4 py-8 max-w-6xl mx-auto">
             {/* Breadcrumb */}
             <nav className="mb-6">
                 <Link 
