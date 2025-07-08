@@ -203,10 +203,10 @@ export function BDI2Result({ answers }: BDI2ResultProps) {
               <div className="text-green-800">
                 <strong>{t('advice.maintain_good_state')}：</strong>
                 <ul className="mt-2 ml-4 space-y-1">
-                  <li>• 继续保持健康的生活方式</li>
-                  <li>• 维持良好的社交关系</li>
-                  <li>• 定期进行自我评估</li>
-                  <li>• 学习压力管理技巧</li>
+                  <li>{t('advice.maintain_good_state_item_1')}</li>
+                  <li>{t('advice.maintain_good_state_item_2')}</li>
+                  <li>{t('advice.maintain_good_state_item_3')}</li>
+                  <li>{t('advice.maintain_good_state_item_4')}</li>
                 </ul>
               </div>
             </div>
@@ -218,22 +218,22 @@ export function BDI2Result({ answers }: BDI2ResultProps) {
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                   <h4 className="font-medium text-blue-900 mb-2">{t('advice.daily_management')}</h4>
                   <ul className="text-blue-800 space-y-1 text-sm">
-                    <li>• 建立规律的作息时间</li>
-                    <li>• 设定小而可实现的目标</li>
-                    <li>• 参与愉快的活动</li>
-                    <li>• 适度运动，如散步、瑜伽</li>
-                    <li>• 保持营养均衡的饮食</li>
+                    <li>{t('advice.daily_management_item_1')}</li>
+                    <li>{t('advice.daily_management_item_2')}</li>
+                    <li>{t('advice.daily_management_item_3')}</li>
+                    <li>{t('advice.daily_management_item_4')}</li>
+                    <li>{t('advice.daily_management_item_5')}</li>
                   </ul>
                 </div>
 
                 <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
                   <h4 className="font-medium text-purple-900 mb-2">{t('advice.social_support')}</h4>
                   <ul className="text-purple-800 space-y-1 text-sm">
-                    <li>• 与亲友保持联系</li>
-                    <li>• 参加支持小组</li>
-                    <li>• 寻求专业心理咨询</li>
-                    <li>• 考虑认知行为疗法</li>
-                    <li>• 必要时接受药物治疗</li>
+                    <li>{t('advice.social_support_item_1')}</li>
+                    <li>{t('advice.social_support_item_2')}</li>
+                    <li>{t('advice.social_support_item_3')}</li>
+                    <li>{t('advice.social_support_item_4')}</li>
+                    <li>{t('advice.social_support_item_5')}</li>
                   </ul>
                 </div>
               </div>
@@ -245,11 +245,11 @@ export function BDI2Result({ answers }: BDI2ResultProps) {
               <div className="text-orange-900">
                 <strong>{t('advice.professional_treatment')}：</strong>
                 <ul className="mt-2 ml-4 space-y-1">
-                  <li>• 寻求精神科医生或心理治疗师帮助</li>
-                  <li>• 考虑系统性心理治疗（如CBT、IPT）</li>
-                  <li>• 评估是否需要抗抑郁药物治疗</li>
-                  <li>• 建立危机干预计划</li>
-                  <li>• 定期随访监测症状变化</li>
+                  <li>{t('advice.professional_treatment_item_1')}</li>
+                  <li>{t('advice.professional_treatment_item_2')}</li>
+                  <li>{t('advice.professional_treatment_item_3')}</li>
+                  <li>{t('advice.professional_treatment_item_4')}</li>
+                  <li>{t('advice.professional_treatment_item_5')}</li>
                 </ul>
               </div>
             </div>
