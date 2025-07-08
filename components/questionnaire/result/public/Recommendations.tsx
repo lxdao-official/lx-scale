@@ -4,11 +4,13 @@ import { AIChat } from './AIChat';
 interface RecommendationsProps {
   questionnaireId?: string;
   questionnaireResults: Record<string, string>;
+  onChatLimitReached?: (isReached: boolean) => void;
 }
 
 export function Recommendations({
   questionnaireId = 'unknown',
   questionnaireResults,
+  onChatLimitReached,
 }: RecommendationsProps) {
   const t = useScopedI18n(
     'component.questionnaire.result.public.recommendations'
@@ -27,6 +29,7 @@ export function Recommendations({
         <AIChat
           questionnaireResults={questionnaireResults}
           questionnaireType={questionnaireId}
+          onLimitReached={onChatLimitReached}
         />
       </div>
     </div>

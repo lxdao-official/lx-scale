@@ -163,6 +163,8 @@ export default {
     'component.questionnaire.result.public.resultContainer.copyTemplate.source': '数据来源',
     'component.questionnaire.result.public.resultContainer.copyTemplate.platform': 'LXScale - 免费开源心理健康评估平台',
     'component.questionnaire.result.public.resultContainer.copyTemplate.website': '网站',
+    'component.questionnaire.result.public.resultContainer.chatLimitReachedTitle': 'AI对话次数已用完',
+    'component.questionnaire.result.public.resultContainer.chatLimitReachedDesc': '您可以复制结果数据，在其他LLM平台（如ChatGPT、文心一言等）进行进一步分析。',
     'component.questionnaire.result.public.resultContainer.completeTest': '完成测评',
     'component.questionnaire.result.public.resultContainer.copyResultLink': '复制结果链接',
     'component.questionnaire.result.public.resultContainer.copySuccess': '结果链接已复制到剪贴板',

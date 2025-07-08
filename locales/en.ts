@@ -163,6 +163,8 @@ export default {
     'component.questionnaire.result.public.resultContainer.copyTemplate.source': 'Data Source',
     'component.questionnaire.result.public.resultContainer.copyTemplate.platform': 'LXScale - Free Open Source Mental Health Assessment Platform',
     'component.questionnaire.result.public.resultContainer.copyTemplate.website': 'Website',
+    'component.questionnaire.result.public.resultContainer.chatLimitReachedTitle': 'AI Chat Limit Reached',
+    'component.questionnaire.result.public.resultContainer.chatLimitReachedDesc': 'You can copy the result data and perform further analysis on other LLM platforms (such as ChatGPT, Claude, etc.).',
     'component.questionnaire.result.public.resultContainer.completeTest': 'Complete Assessment',
     'component.questionnaire.result.public.resultContainer.copyResultLink': 'Copy Result Link',
     'component.questionnaire.result.public.resultContainer.copySuccess': 'Result link copied to clipboard',

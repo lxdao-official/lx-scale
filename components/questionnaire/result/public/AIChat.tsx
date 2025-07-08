@@ -14,9 +14,10 @@ interface Message {
 interface AIChatProps {
   questionnaireResults: Record<string, unknown>;
   questionnaireType: string;
+  onLimitReached?: (isReached: boolean) => void;
 }
 
-export function AIChat({ questionnaireResults, questionnaireType }: AIChatProps) {
+export function AIChat({ questionnaireResults, questionnaireType, onLimitReached }: AIChatProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -28,6 +29,13 @@ export function AIChat({ questionnaireResults, questionnaireType }: AIChatProps)
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const t = useScopedI18n('component.questionnaire.result.public.aiChat');
   const lang = useGetLang(); // 用于API调用中的语言设置
+
+  // 监听对话限制状态变化
+  useEffect(() => {
+    if (onLimitReached) {
+      onLimitReached(messageCount >= 10);
+    }
+  }, [messageCount, onLimitReached]);
 
   //Use our API route instead of calling Deepseek API directly
   const API_ENDPOINT = '/api/chat';

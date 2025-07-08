@@ -53,6 +53,8 @@ export default function QuestionnaireResultPage({
 
   // 存储解码后的答案
   const [decodedAnswers, setDecodedAnswers] = useState<string[]>([]);
+  // 对话限制状态
+  const [isChatLimitReached, setIsChatLimitReached] = useState(false);
 
   // 根据已解码答案构造 问题-选项 文本 kv 对，用于 AI
   const questionnaireResults: Record<string, string> = useMemo(() => {
@@ -105,6 +107,7 @@ export default function QuestionnaireResultPage({
       questionnaire={questionnaire}
       answers={decodedAnswers}
       questionnaireResults={questionnaireResults}
+      isChatLimitReached={isChatLimitReached}
     >
       <AnswerList
         questions={questionnaire.questions}
@@ -116,6 +119,7 @@ export default function QuestionnaireResultPage({
       <Recommendations
         questionnaireId={id}
         questionnaireResults={questionnaireResults}
+        onChatLimitReached={setIsChatLimitReached}
       />
     </ResultContainer>
   );
