@@ -27,7 +27,7 @@ export function AIChat({ questionnaireResults, questionnaireType }: AIChatProps)
   const [lastMessageTime, setLastMessageTime] = useState(0);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const t = useScopedI18n('component.questionnaire.result.public.aiChat');
-  const lang = useGetLang();
+  const lang = useGetLang(); // 用于API调用中的语言设置
 
   //Use our API route instead of calling Deepseek API directly
   const API_ENDPOINT = '/api/chat';
@@ -94,20 +94,20 @@ export function AIChat({ questionnaireResults, questionnaireType }: AIChatProps)
 
     // 检查消息长度限制
     if (input.length > 500) {
-      alert('消息长度不能超过500字符');
+      alert(t('messageTooLong'));
       return;
     }
 
     // 检查对话次数限制
     if (messageCount >= 10) {
-      alert('本次会话已达到10次对话限制。刷新页面可重新开始对话。');
+      alert(t('conversationLimitAlert'));
       return;
     }
 
     // 检查发送频率限制
     const now = Date.now();
     if (now - lastMessageTime < 3000) {
-      alert('发送过于频繁，请稍等3秒后再试');
+      alert(t('rateLimitAlert'));
       return;
     }
 
@@ -213,13 +213,15 @@ export function AIChat({ questionnaireResults, questionnaireType }: AIChatProps)
               </div>
             ) : (
               <div>
-                <p className="text-blue-700 mb-3">🤖 想获得AI的专业分析和建议吗？</p>
+                <p className="text-blue-700 mb-3">
+                  {t('getAnalysisPrompt')}
+                </p>
                 <Button 
                   onClick={generateInitialSuggestion}
                   className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2"
                   disabled={isLoadingInitialSuggestion}
                 >
-                  获取AI分析建议
+                  {t('getAnalysisButton')}
                 </Button>
               </div>
             )}
@@ -241,7 +243,7 @@ export function AIChat({ questionnaireResults, questionnaireType }: AIChatProps)
           <div className="bg-blue-50 p-3 border-b flex justify-between items-center">
             <h3 className="font-medium text-blue-800">{t('chatTitle')}</h3>
             <span className="text-sm text-blue-600">
-              剩余对话次数: {10 - messageCount}/10
+              {t('remainingCount')}: {10 - messageCount}/10
             </span>
           </div>
           
@@ -293,24 +295,24 @@ export function AIChat({ questionnaireResults, questionnaireType }: AIChatProps)
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder={messageCount >= 10 ? '已达到对话限制' : t('inputPlaceholder')}
-                className="flex-1 border rounded-l-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                placeholder={messageCount >= 10 ? t('conversationLimitReached') : t('inputPlaceholder')}
+                className="flex-1 border rounded-l-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 h-10"
                 disabled={isLoading || messageCount >= 10}
                 maxLength={500}
               />
               <Button 
                 onClick={handleSendMessage} 
                 disabled={isLoading || !input.trim() || messageCount >= 10}
-                className="rounded-l-none"
+                className="rounded-l-none h-10"
               >
                 {t('sendButton')}
               </Button>
             </div>
             <div className="flex justify-between text-xs text-gray-500">
-              <span>{input.length}/500 字符</span>
+              <span>{input.length}/500 {t('characters')}</span>
               {messageCount >= 10 && (
                 <span className="text-orange-600">
-                  已达到对话限制，刷新页面可重新开始
+                  {t('limitReachedRefresh')}
                 </span>
               )}
             </div>

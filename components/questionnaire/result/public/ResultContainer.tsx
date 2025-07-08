@@ -35,16 +35,16 @@ export function ResultContainer({ title, id, children }: ResultContainerProps) {
           <div className="space-y-6">{children}</div>
         </div>
 
-        <div className="flex justify-between mt-8">
-          <Button variant="outline">
+        <div className="flex flex-col sm:flex-row sm:justify-between gap-4 mt-8">
+          <Button variant="outline" className="w-full sm:w-auto">
             <Link href={`/questionnaire/${id}`}>{t('backToDetail')}</Link>
           </Button>
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={handleCopyResultLink}>
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+            <Button variant="outline" onClick={handleCopyResultLink} className="w-full sm:w-auto">
               <Copy className="w-4 h-4 mr-2" />
               {t('copyResultLink')}
             </Button>
-            <Button>
+            <Button className="w-full sm:w-auto">
               <Link href="/questionnaire">{t('completeTest')}</Link>
             </Button>
           </div>
