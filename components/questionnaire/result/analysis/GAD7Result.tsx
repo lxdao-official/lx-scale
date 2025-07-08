@@ -2,12 +2,15 @@
 
 import React from 'react';
 import { calculateGAD7Results } from '../../test/private/GAD7Calculator';
+import { useScopedI18n } from '@/locales/client';
 
 interface GAD7ResultProps {
   answers: string[];
 }
 
 export function GAD7Result({ answers }: GAD7ResultProps) {
+  const t = useScopedI18n('components.gad7Result');
+  
   // 转换答案格式为计算器需要的格式
   const answersMap: { [key: number]: string } = {};
   answers.forEach((answer, index) => {
@@ -20,17 +23,17 @@ export function GAD7Result({ answers }: GAD7ResultProps) {
   });
 
   const severityNames = {
-    minimal: "最低水平",
-    mild: "轻度焦虑",
-    moderate: "中度焦虑",
-    severe: "重度焦虑"
+    minimal: t('severity.minimal'),
+    mild: t('severity.mild'),
+    moderate: t('severity.moderate'),
+    severe: t('severity.severe')
   };
 
   const severityDescriptions = {
-    minimal: "您的焦虑水平很低，目前没有显著的焦虑症状。",
-    mild: "您可能存在轻度焦虑症状，建议关注自己的情绪状态。",
-    moderate: "您可能存在中度焦虑症状，建议考虑寻求专业帮助。",
-    severe: "您可能存在重度焦虑症状，强烈建议寻求专业医疗帮助。"
+    minimal: t('severityDescriptions.minimal'),
+    mild: t('severityDescriptions.mild'),
+    moderate: t('severityDescriptions.moderate'),
+    severe: t('severityDescriptions.severe')
   };
 
   const getSeverityColor = (severity: string) => {
@@ -44,26 +47,21 @@ export function GAD7Result({ answers }: GAD7ResultProps) {
   };
 
   const questionTexts = [
-    "感到紧张、担心或焦虑",
-    "无法停止或控制担心",
-    "对各种各样的事情担心过多",
-    "很难放松下来",
-    "坐立不安，难以静坐",
-    "变得容易烦恼或易怒",
-    "感到好像有什么可怕的事情会发生"
+    t('questions.0'), t('questions.1'), t('questions.2'), t('questions.3'),
+    t('questions.4'), t('questions.5'), t('questions.6')
   ];
 
   return (
     <div className="mt-6 space-y-6">
       {/* 总体得分 */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
-        <h3 className="text-lg font-semibold mb-4">评估结果</h3>
+        <h3 className="text-lg font-semibold mb-4">{t('title')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <MetricCard title="总分" value={`${results.totalScore}/21`} />
-          <MetricCard title="高分项目数" value={`${results.highScoreItemCount}/7`} />
+          <MetricCard title={t('labels.total_score')} value={`${results.totalScore}/21`} />
+          <MetricCard title={t('labels.high_score_items')} value={`${results.highScoreItemCount}/7`} />
           <MetricCard 
-            title="焦虑程度" 
-            value={severityNames[results.severity as keyof typeof severityNames] || "未知"}
+            title={t('labels.anxiety_level')} 
+            value={severityNames[results.severity as keyof typeof severityNames] || t('labels.unknown')}
             className={getSeverityColor(results.severity).split(' ')[0]}
           />
         </div>
@@ -71,25 +69,25 @@ export function GAD7Result({ answers }: GAD7ResultProps) {
 
       {/* 严重程度说明 */}
       <div className={`border rounded-lg p-6 shadow-sm ${getSeverityColor(results.severity)}`}>
-        <h3 className="text-lg font-semibold mb-3">结果解释</h3>
+        <h3 className="text-lg font-semibold mb-3">{t('labels.result_interpretation')}</h3>
         <p className="text-sm mb-4">
           {severityDescriptions[results.severity as keyof typeof severityDescriptions] || "评估结果异常，请重新测试。"}
         </p>
         
         <div className="space-y-2 text-sm">
-          <div><strong>评分标准：</strong></div>
+          <div><strong>{t('labels.scoring_criteria')}：</strong></div>
           <ul className="ml-4 space-y-1">
-            <li>• 0-4分：最低水平焦虑</li>
-            <li>• 5-9分：轻度焦虑</li>
-            <li>• 10-14分：中度焦虑</li>
-            <li>• 15-21分：重度焦虑</li>
+            <li>{t('scoring.range_0_4')}</li>
+            <li>{t('scoring.range_5_9')}</li>
+            <li>{t('scoring.range_10_14')}</li>
+            <li>{t('scoring.range_15_21')}</li>
           </ul>
         </div>
       </div>
 
       {/* 项目分析 */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
-        <h3 className="text-lg font-semibold mb-4">项目分析</h3>
+        <h3 className="text-lg font-semibold mb-4">{t('labels.item_analysis')}</h3>
         <div className="space-y-3">
           {results.itemAnalysis.map((item: any, index: number) => (
             <div key={item.questionId} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
@@ -107,7 +105,7 @@ export function GAD7Result({ answers }: GAD7ResultProps) {
                 </span>
                 {item.isHigh && (
                   <span className="px-2 py-1 text-xs bg-red-100 text-red-800 rounded-full">
-                    需要关注
+                    {t('labels.needs_attention')}
                   </span>
                 )}
               </div>
@@ -117,9 +115,9 @@ export function GAD7Result({ answers }: GAD7ResultProps) {
 
         {results.highScoreItemCount > 0 && (
           <div className="mt-4 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-            <h4 className="font-medium text-yellow-900 mb-2">高分项目提示</h4>
+            <h4 className="font-medium text-yellow-900 mb-2">{t('labels.high_score_item_alert')}</h4>
             <div className="text-sm text-yellow-800">
-              您在 {results.highScoreItemCount} 个项目上得分较高（≥2分），这些项目反映的症状在过去两周内出现频率较高，建议重点关注。
+              {t('highScoreAlert.message', { count: results.highScoreItemCount })}
             </div>
           </div>
         )}
@@ -127,30 +125,30 @@ export function GAD7Result({ answers }: GAD7ResultProps) {
 
       {/* 专业建议 */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
-        <h3 className="text-lg font-semibold mb-4">专业建议</h3>
+        <h3 className="text-lg font-semibold mb-4">{t('labels.professional_advice')}</h3>
         <div className="space-y-3 text-sm text-gray-700">
           
           {results.severity === "minimal" ? (
             <div className="bg-green-50 border border-green-200 rounded-lg p-4">
               <div className="text-green-800">
-                <strong>保持良好状态：</strong>
+                <strong>{t('advice.maintain_good_state')}：</strong>
                 <ul className="mt-2 ml-4 space-y-1">
-                  <li>• 继续保持健康的生活方式</li>
-                  <li>• 适度运动和充足睡眠</li>
-                  <li>• 学习压力管理技巧</li>
-                  <li>• 维持良好的社交关系</li>
+                  <li>{t('advice.maintain_good_state_item_1')}</li>
+                  <li>{t('advice.maintain_good_state_item_2')}</li>
+                  <li>{t('advice.maintain_good_state_item_3')}</li>
+                  <li>{t('advice.maintain_good_state_item_4')}</li>
                 </ul>
               </div>
             </div>
           ) : (
             <div>
-              <strong>自我管理建议：</strong>
+              <strong>{t('advice.self_management_advice')}：</strong>
               <ul className="mt-2 ml-4 space-y-1">
-                <li>• 练习深呼吸和放松技巧</li>
-                <li>• 规律运动，如散步、瑜伽等</li>
-                <li>• 保持规律的作息时间</li>
-                <li>• 限制咖啡因和酒精摄入</li>
-                <li>• 与信任的人分享您的感受</li>
+                <li>{t('advice.self_management_item_1')}</li>
+                <li>{t('advice.self_management_item_2')}</li>
+                <li>{t('advice.self_management_item_3')}</li>
+                <li>{t('advice.self_management_item_4')}</li>
+                <li>{t('advice.self_management_item_5')}</li>
               </ul>
             </div>
           )}
@@ -165,7 +163,7 @@ export function GAD7Result({ answers }: GAD7ResultProps) {
                 </div>
                 <div className="ml-3">
                   <div className="text-sm font-medium text-red-800">
-                    建议寻求专业帮助：您的得分提示存在{severityNames[results.severity as keyof typeof severityNames]}，建议咨询心理医生或精神科医生进行进一步评估。
+                    {t('advice.professional_help_message', { severity: severityNames[results.severity as keyof typeof severityNames] })}
                   </div>
                 </div>
               </div>
@@ -174,7 +172,7 @@ export function GAD7Result({ answers }: GAD7ResultProps) {
 
           <div className="bg-blue-50 border border-blue-200 rounded p-3">
             <p className="text-blue-800">
-              <strong>注意：</strong>GAD-7量表仅供参考，不能替代专业医生的诊断。如有疑问，请咨询专业医疗人员。
+              <strong>{t('labels.note')}：</strong>{t('disclaimer')}
             </p>
           </div>
         </div>
