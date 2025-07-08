@@ -40,9 +40,11 @@ export function AIChat({ questionnaireResults, questionnaireType, onLimitReached
   //Use our API route instead of calling Deepseek API directly
   const API_ENDPOINT = '/api/chat';
 
-  // Generate initial AI suggestion
+  // Generate initial AI suggestion with streaming
   const generateInitialSuggestion = useCallback(async () => {
     setIsLoadingInitialSuggestion(true);
+    setInitialSuggestion(''); // Clear previous suggestion
+    
     try {
       // Prepare messages to send to API
       const initialPrompt = {
@@ -50,7 +52,7 @@ export function AIChat({ questionnaireResults, questionnaireType, onLimitReached
         content: `作为心理健康助手，基于${questionnaireType}测评结果${JSON.stringify(questionnaireResults)}，请用${lang === 'zh' ? '中文' : 'English'}提供简短建议和日常缓解方法。友善支持，非医疗诊断，200字内。`
       };
 
-      // Call our API route
+      // Call our API route with streaming
       const response = await fetch(API_ENDPOINT, {
         method: 'POST',
         headers: {
@@ -60,7 +62,8 @@ export function AIChat({ questionnaireResults, questionnaireType, onLimitReached
           model: 'deepseek-chat',
           messages: [initialPrompt],
           temperature: 0.7,
-          max_tokens: 300 // 减少token使用
+          max_tokens: 300,
+          stream: true // Enable streaming
         })
       });
 
@@ -68,9 +71,44 @@ export function AIChat({ questionnaireResults, questionnaireType, onLimitReached
         throw new Error(`API error: ${response.status}`);
       }
 
-      const data = await response.json();
-      const suggestion = data.choices[0].message.content;
-      setInitialSuggestion(suggestion);
+      // Handle streaming response
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+      let suggestionContent = '';
+
+      if (reader) {
+        while (true) {
+          const { done, value } = await reader.read();
+          
+          if (done) break;
+          
+          const chunk = decoder.decode(value, { stream: true });
+          const lines = chunk.split('\n');
+          
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              const data = line.slice(6); // Remove 'data: ' prefix
+              
+              if (data === '[DONE]') {
+                break;
+              }
+              
+              try {
+                const parsed = JSON.parse(data);
+                const content = parsed.choices?.[0]?.delta?.content;
+                
+                if (content) {
+                  suggestionContent += content;
+                  setInitialSuggestion(suggestionContent);
+                }
+              } catch {
+                // Skip invalid JSON
+                continue;
+              }
+            }
+          }
+        }
+      }
     } catch (error) {
       console.error('Error generating initial suggestion:', error);
       // 检查是否是402付费错误
@@ -96,7 +134,7 @@ export function AIChat({ questionnaireResults, questionnaireType, onLimitReached
     }
   }, [messages]);
 
-  // Handle sending messages
+  // Handle sending messages with streaming
   const handleSendMessage = async () => {
     if (!input.trim() || isLoading) return;
 
@@ -122,11 +160,15 @@ export function AIChat({ questionnaireResults, questionnaireType, onLimitReached
     setLastMessageTime(now);
     setMessageCount(prev => prev + 1);
 
-     // Add user message
+    // Add user message
     const userMessage: Message = { role: 'user', content: input };
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
+
+    // Add empty AI message that will be filled with streaming content
+    const aiMessageIndex = messages.length + 1; // +1 for the user message we just added
+    setMessages((prev) => [...prev, { role: 'assistant', content: '' }]);
 
     try {
       // Prepare message history to send to API
@@ -139,7 +181,7 @@ export function AIChat({ questionnaireResults, questionnaireType, onLimitReached
         userMessage
       ];
 
-      // Call our API route
+      // Call our API route with streaming enabled
       const response = await fetch(API_ENDPOINT, {
         method: 'POST',
         headers: {
@@ -149,7 +191,8 @@ export function AIChat({ questionnaireResults, questionnaireType, onLimitReached
           model: 'deepseek-chat',
           messages: messageHistory,
           temperature: 0.7,
-          max_tokens: 400 // 减少token使用
+          max_tokens: 400,
+          stream: true // Enable streaming
         })
       });
 
@@ -157,11 +200,52 @@ export function AIChat({ questionnaireResults, questionnaireType, onLimitReached
         throw new Error(`API error: ${response.status}`);
       }
 
-      const data = await response.json();
-      const aiResponse = data.choices[0].message.content;
+      // Handle streaming response
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+      let aiResponseContent = '';
 
-      // Add AI response
-      setMessages((prev) => [...prev, { role: 'assistant', content: aiResponse }]);
+      if (reader) {
+        while (true) {
+          const { done, value } = await reader.read();
+          
+          if (done) break;
+          
+          const chunk = decoder.decode(value, { stream: true });
+          const lines = chunk.split('\n');
+          
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              const data = line.slice(6); // Remove 'data: ' prefix
+              
+              if (data === '[DONE]') {
+                break;
+              }
+              
+              try {
+                const parsed = JSON.parse(data);
+                const content = parsed.choices?.[0]?.delta?.content;
+                
+                if (content) {
+                  aiResponseContent += content;
+                  // Update the AI message with the new content
+                  setMessages((prev) => {
+                    const newMessages = [...prev];
+                    newMessages[aiMessageIndex] = {
+                      role: 'assistant',
+                      content: aiResponseContent
+                    };
+                    return newMessages;
+                  });
+                }
+              } catch {
+                // Skip invalid JSON
+                continue;
+              }
+            }
+          }
+        }
+      }
     } catch (error) {
       console.error('Error calling AI API:', error);
       // 检查错误类型，提供更具体的错误消息
@@ -171,11 +255,15 @@ export function AIChat({ questionnaireResults, questionnaireType, onLimitReached
         errorMessage = '🔔 AI分析功能暂时不可用，我们正在升级服务容量。感谢您的理解！';
       }
       
-      // Add error message
-      setMessages((prev) => [
-        ...prev,
-        { role: 'assistant', content: errorMessage }
-      ]);
+      // Update the AI message with error content
+      setMessages((prev) => {
+        const newMessages = [...prev];
+        newMessages[aiMessageIndex] = {
+          role: 'assistant',
+          content: errorMessage
+        };
+        return newMessages;
+      });
     } finally {
       setIsLoading(false);
     }

@@ -107,6 +107,7 @@ export async function POST(request: NextRequest) {
           messages: requestData.messages,
           temperature: requestData.temperature || 0.7,
           max_tokens: Math.min(requestData.max_tokens || 300, 500), // 限制最大token数量
+          stream: requestData.stream || false, // 支持流式请求
         }),
       }
     );
@@ -136,6 +137,20 @@ export async function POST(request: NextRequest) {
         },
         { status: response.status }
       );
+    }
+
+    // 如果是流式请求，直接返回流式响应
+    if (requestData.stream) {
+      // 返回流式响应
+      return new Response(response.body, {
+        status: response.status,
+        statusText: response.statusText,
+        headers: {
+          'Content-Type': 'text/plain; charset=utf-8',
+          'Cache-Control': 'no-cache',
+          'Connection': 'keep-alive',
+        },
+      });
     }
 
     // Return API response
