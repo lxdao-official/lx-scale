@@ -7,6 +7,14 @@ const I18nMiddleware = createI18nMiddleware({
 });
 
 export function middleware(request: NextRequest) {
+    // 跳过SEO相关文件的i18n处理
+    if (
+        request.nextUrl.pathname === '/sitemap.xml' ||
+        request.nextUrl.pathname === '/robots.txt'
+    ) {
+        return NextResponse.next();
+    }
+
     // 创建一个特殊路径前缀 /share/ 绕过语言路由
     if (request.nextUrl.pathname.startsWith('/share/')) {
         // 将请求重定向到实际的静态资源位置
