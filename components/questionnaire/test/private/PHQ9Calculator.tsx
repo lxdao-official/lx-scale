@@ -6,22 +6,22 @@ interface PHQ9CalculatorProps {
 }
 
 export const calculatePHQ9Results = ({ answers }: PHQ9CalculatorProps): any => {
-    // PHQ-9 计算逻辑
+    // PHQ-9 calculation logic
     let totalScore = 0;
     let suicidalIdeation = false;
 
-    // 计算总分（简单求和）
+    // Calculate total score (simple sum)
     Object.entries(answers).forEach(([questionId, score]) => {
         const scoreValue = parseInt(score);
         totalScore += scoreValue;
         
-        // 检查第9题（自杀想法）
+        // Check question 9 (suicidal ideation)
         if (parseInt(questionId) === 9 && scoreValue >= 1) {
             suicidalIdeation = true;
         }
     });
 
-    // 判断抑郁严重程度
+    // Determine depression severity level
     let severity = "minimal";
     if (totalScore >= 20) {
         severity = "severe";
@@ -33,16 +33,16 @@ export const calculatePHQ9Results = ({ answers }: PHQ9CalculatorProps): any => {
         severity = "mild";
     }
 
-    // 分析各项目得分
+    // Analyze item scores
     const itemAnalysis = Object.entries(answers).map(([questionId, score]) => ({
         questionId: parseInt(questionId),
         score: parseInt(score),
-        isHigh: parseInt(score) >= 2  // 2分以上认为是高分项目
+        isHigh: parseInt(score) >= 2  // Scores of 2 or above are considered high score items
     }));
 
     const highScoreItems = itemAnalysis.filter(item => item.isHigh);
 
-    // 判断主要抑郁发作的可能性（至少5个症状，其中至少包含前两个中的一个）
+    // Determine possibility of major depressive episode (at least 5 symptoms, including at least one of the first two)
     const coreSymptoms = itemAnalysis.slice(0, 2).filter(item => item.score >= 2);
     const otherSymptoms = itemAnalysis.slice(2).filter(item => item.score >= 2);
     const majorDepressionCriteria = coreSymptoms.length >= 1 && (coreSymptoms.length + otherSymptoms.length) >= 5;
@@ -54,7 +54,7 @@ export const calculatePHQ9Results = ({ answers }: PHQ9CalculatorProps): any => {
         itemAnalysis,
         highScoreItemCount: highScoreItems.length,
         majorDepressionCriteria,
-        factorScores: {}, // PHQ-9 是单因子量表
+        factorScores: {}, // PHQ-9 is a single-factor scale
         positiveItemCount: highScoreItems.length,
         positiveItemAverage: highScoreItems.length > 0 
             ? highScoreItems.reduce((sum, item) => sum + item.score, 0) / highScoreItems.length 

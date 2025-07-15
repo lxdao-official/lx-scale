@@ -6,7 +6,7 @@ const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
 // IP频率限制存储 (生产环境建议使用Redis)
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
 
-// 清理过期的频率限制记录
+// Clean up expired rate limit records
 const cleanupRateLimit = () => {
   const now = Date.now();
   for (const [ip, data] of rateLimitMap.entries()) {
@@ -16,13 +16,13 @@ const cleanupRateLimit = () => {
   }
 };
 
-// 检查IP频率限制
+// Check IP rate limit
 const checkRateLimit = (ip: string): boolean => {
   cleanupRateLimit();
   
   const now = Date.now();
   const windowMs = 60 * 1000; // 1分钟窗口
-  const maxRequests = 10; // 每分钟最多10次请求
+  const maxRequests = 10; // Maximum 10 requests per minute
   
   const current = rateLimitMap.get(ip);
   
@@ -46,12 +46,12 @@ const checkRateLimit = (ip: string): boolean => {
 
 export async function POST(request: NextRequest) {
   try {
-    // 获取客户端IP
+    // Get client IP
     const forwarded = request.headers.get("x-forwarded-for");
     const realIp = request.headers.get("x-real-ip");
     const ip = forwarded ? forwarded.split(",")[0] : realIp || "unknown";
     
-    // 检查IP频率限制
+    // Check IP rate limit
     if (!checkRateLimit(ip)) {
       return NextResponse.json(
         {
@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 检查API密钥是否可用
+    // Check if API key is available
     if (!DEEPSEEK_API_KEY || DEEPSEEK_API_KEY === "your-api-key-here") {
       return NextResponse.json(
         {
@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
     // Get message data from the request
     const requestData = await request.json();
     
-    // 验证请求数据
+    // Validate request data
     if (!requestData.messages || !Array.isArray(requestData.messages)) {
       return NextResponse.json(
         {
@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 限制消息数量 (防止过长的对话历史)
+    // Limit message count (prevent overly long conversation history)
     const maxMessages = 20;
     if (requestData.messages.length > maxMessages) {
       requestData.messages = requestData.messages.slice(-maxMessages);
@@ -106,17 +106,17 @@ export async function POST(request: NextRequest) {
           model: requestData.model || "deepseek-chat",
           messages: requestData.messages,
           temperature: requestData.temperature || 0.7,
-          max_tokens: Math.min(requestData.max_tokens || 300, 500), // 限制最大token数量
-          stream: requestData.stream || false, // 支持流式请求
+          max_tokens: Math.min(requestData.max_tokens || 300, 500), // Limit maximum token count
+          stream: requestData.stream || false, // Support streaming requests
         }),
       }
     );
 
-    // 处理不同的错误状态
+    // Handle different error states
     if (!response.ok) {
       const errorData = await response.json().catch(() => null);
 
-      // 特殊处理402付费错误
+      // Special handling for 402 payment error
       if (response.status === 402) {
         return NextResponse.json(
           {
@@ -128,7 +128,7 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      // 处理其他API错误
+      // Handle other API errors
       return NextResponse.json(
         {
           error: `API error: ${response.status}`,
@@ -139,9 +139,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 如果是流式请求，直接返回流式响应
+    // If it's a streaming request, return streaming response directly
     if (requestData.stream) {
-      // 返回流式响应
+      // Return streaming response
       return new Response(response.body, {
         status: response.status,
         statusText: response.statusText,

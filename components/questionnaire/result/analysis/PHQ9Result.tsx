@@ -11,7 +11,7 @@ interface PHQ9ResultProps {
 export function PHQ9Result({ answers }: PHQ9ResultProps) {
   const t = useScopedI18n('components.phq9Result');
   
-  // 转换答案格式为计算器需要的格式
+  // Convert answer format to the format required by calculator
   const answersMap: { [key: number]: string } = {};
   answers.forEach((answer, index) => {
     answersMap[index + 1] = answer;
@@ -56,7 +56,7 @@ export function PHQ9Result({ answers }: PHQ9ResultProps) {
 
   return (
     <div className="mt-6 space-y-6">
-      {/* 总体得分 */}
+      {/* Overall score */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-4">{t('title')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -70,7 +70,7 @@ export function PHQ9Result({ answers }: PHQ9ResultProps) {
         </div>
       </div>
 
-      {/* 重要警告 */}
+      {/* Important warning */}
       {results.suicidalIdeation && (
         <div className="bg-red-100 border-2 border-red-300 rounded-lg p-6 shadow-sm">
           <div className="flex items-center">
@@ -95,7 +95,7 @@ export function PHQ9Result({ answers }: PHQ9ResultProps) {
         </div>
       )}
 
-      {/* 严重程度说明 */}
+      {/* Severity level description */}
       <div className={`border rounded-lg p-6 shadow-sm ${getSeverityColor(results.severity)}`}>
         <h3 className="text-lg font-semibold mb-3">{t('labels.result_interpretation')}</h3>
         <p className="text-sm mb-4">
@@ -122,7 +122,7 @@ export function PHQ9Result({ answers }: PHQ9ResultProps) {
         )}
       </div>
 
-      {/* 项目分析 */}
+      {/* Item analysis */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-4">{t('labels.item_analysis')}</h3>
         <div className="space-y-3">
@@ -166,7 +166,7 @@ export function PHQ9Result({ answers }: PHQ9ResultProps) {
         )}
       </div>
 
-      {/* 专业建议 */}
+      {/* Professional advice */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-4">{t('labels.professional_advice')}</h3>
         <div className="space-y-3 text-sm text-gray-700">

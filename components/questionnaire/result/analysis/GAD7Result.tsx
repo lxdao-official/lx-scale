@@ -10,16 +10,16 @@ interface GAD7ResultProps {
 
 export function GAD7Result({ answers }: GAD7ResultProps) {
   const t = useScopedI18n('components.gad7Result');
-  
-  // 转换答案格式为计算器需要的格式
+
+  // Convert answer format to the format required by calculator
   const answersMap: { [key: number]: string } = {};
   answers.forEach((answer, index) => {
     answersMap[index + 1] = answer;
   });
 
-  const results = calculateGAD7Results({ 
-    answers: answersMap, 
-    questions: [] 
+  const results = calculateGAD7Results({
+    answers: answersMap,
+    questions: []
   });
 
   const severityNames = {
@@ -53,27 +53,27 @@ export function GAD7Result({ answers }: GAD7ResultProps) {
 
   return (
     <div className="mt-6 space-y-6">
-      {/* 总体得分 */}
+      {/* Overall score */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-4">{t('title')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <MetricCard title={t('labels.total_score')} value={`${results.totalScore}/21`} />
           <MetricCard title={t('labels.high_score_items')} value={`${results.highScoreItemCount}/7`} />
-          <MetricCard 
-            title={t('labels.anxiety_level')} 
+          <MetricCard
+            title={t('labels.anxiety_level')}
             value={severityNames[results.severity as keyof typeof severityNames] || t('labels.unknown')}
             className={getSeverityColor(results.severity).split(' ')[0]}
           />
         </div>
       </div>
 
-      {/* 严重程度说明 */}
+      {/* Severity level description */}
       <div className={`border rounded-lg p-6 shadow-sm ${getSeverityColor(results.severity)}`}>
         <h3 className="text-lg font-semibold mb-3">{t('labels.result_interpretation')}</h3>
         <p className="text-sm mb-4">
           {severityDescriptions[results.severity as keyof typeof severityDescriptions] || "评估结果异常，请重新测试。"}
         </p>
-        
+
         <div className="space-y-2 text-sm">
           <div><strong>{t('labels.scoring_criteria')}：</strong></div>
           <ul className="ml-4 space-y-1">
@@ -85,7 +85,7 @@ export function GAD7Result({ answers }: GAD7ResultProps) {
         </div>
       </div>
 
-      {/* 项目分析 */}
+      {/* Item analysis */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-4">{t('labels.item_analysis')}</h3>
         <div className="space-y-3">
@@ -97,10 +97,9 @@ export function GAD7Result({ answers }: GAD7ResultProps) {
                 </span>
               </div>
               <div className="flex items-center space-x-2">
-                <span className={`text-lg font-semibold ${
-                  item.score >= 2 ? 'text-red-600' : 
-                  item.score >= 1 ? 'text-yellow-600' : 'text-green-600'
-                }`}>
+                <span className={`text-lg font-semibold ${item.score >= 2 ? 'text-red-600' :
+                    item.score >= 1 ? 'text-yellow-600' : 'text-green-600'
+                  }`}>
                   {item.score}
                 </span>
                 {item.isHigh && (
@@ -123,11 +122,11 @@ export function GAD7Result({ answers }: GAD7ResultProps) {
         )}
       </div>
 
-      {/* 专业建议 */}
+      {/* Professional advice */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-4">{t('labels.professional_advice')}</h3>
         <div className="space-y-3 text-sm text-gray-700">
-          
+
           {results.severity === "minimal" ? (
             <div className="bg-green-50 border border-green-200 rounded-lg p-4">
               <div className="text-green-800">

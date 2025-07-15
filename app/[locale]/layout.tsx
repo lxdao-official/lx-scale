@@ -93,7 +93,7 @@ export default async function RootLayout({
 }>) {
   const { locale } = await params;
 
-  // 结构化数据
+  // Structured data
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
@@ -139,7 +139,7 @@ export default async function RootLayout({
         />
         <meta name="apple-mobile-web-app-title" content="LXScale" />
         <meta name="baidu-site-verification" content="codeva-hMa3lbSIwc" />
-        {/* 百度优化：指向中文版本作为主要页面 */}
+        {/* Baidu optimization: point to Chinese version as main page */}
         <link rel="alternate" hrefLang="zh-CN" href="https://lxscale.xyz/zh" />
         <link rel="alternate" hrefLang="zh" href="https://lxscale.xyz/zh" />
         <link rel="alternate" hrefLang="en" href="https://lxscale.xyz" />

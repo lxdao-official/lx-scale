@@ -6,26 +6,26 @@ interface PSS10CalculatorProps {
 }
 
 export const calculatePSS10Results = ({ answers }: PSS10CalculatorProps): any => {
-    // PSS-10 计算逻辑
+    // PSS-10 calculation logic
     let totalScore = 0;
     
-    // 反向计分项目 (4, 5, 7, 8)
+    // Reverse scoring items (4, 5, 7, 8)
     const reverseItems = [4, 5, 7, 8];
 
-    // 计算总分
+    // Calculate total score
     Object.entries(answers).forEach(([questionId, score]) => {
         const questionNum = parseInt(questionId);
         const scoreValue = parseInt(score);
 
         if (reverseItems.includes(questionNum)) {
-            // 反向计分：0->4, 1->3, 2->2, 3->1, 4->0
+            // Reverse scoring: 0->4, 1->3, 2->2, 3->1, 4->0
             totalScore += (4 - scoreValue);
         } else {
             totalScore += scoreValue;
         }
     });
 
-    // 判断压力水平（基于研究文献的参考值）
+    // Determine stress level (based on reference values from research literature)
     let severity = "low";
     if (totalScore >= 27) {
         severity = "high";
@@ -33,7 +33,7 @@ export const calculatePSS10Results = ({ answers }: PSS10CalculatorProps): any =>
         severity = "moderate";
     }
 
-    // 分析各项目得分
+    // Analyze item scores
     const itemAnalysis = Object.entries(answers).map(([questionId, score]) => {
         const questionNum = parseInt(questionId);
         const scoreValue = parseInt(score);
@@ -45,15 +45,15 @@ export const calculatePSS10Results = ({ answers }: PSS10CalculatorProps): any =>
             originalScore: scoreValue,
             actualScore: actualScore,
             isReverse: isReverse,
-            isHigh: actualScore >= 3  // 3分以上认为是高分项目
+            isHigh: actualScore >= 3  // Scores of 3 or above are considered high score items
         };
     });
 
     const highScoreItems = itemAnalysis.filter(item => item.isHigh);
 
-    // 计算分量表得分
-    const stressPerceptionItems = [1, 2, 3, 6, 9, 10]; // 压力感知项目
-    const copingAbilityItems = [4, 5, 7, 8]; // 应对能力项目
+    // Calculate subscale scores
+    const stressPerceptionItems = [1, 2, 3, 6, 9, 10]; // Stress perception items
+    const copingAbilityItems = [4, 5, 7, 8]; // Coping ability items
 
     let stressPerceptionScore = 0;
     let copingAbilityScore = 0;
@@ -71,8 +71,8 @@ export const calculatePSS10Results = ({ answers }: PSS10CalculatorProps): any =>
         severity,
         itemAnalysis,
         highScoreItemCount: highScoreItems.length,
-        stressPerceptionScore, // 压力感知分数 (0-24分)
-        copingAbilityScore,    // 应对能力分数 (0-16分)
+        stressPerceptionScore, // Stress perception score (0-24 points)
+        copingAbilityScore,    // Coping ability score (0-16 points)
         factorScores: {
             "stress_perception": stressPerceptionScore,
             "coping_ability": copingAbilityScore

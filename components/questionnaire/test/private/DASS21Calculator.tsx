@@ -6,10 +6,10 @@ interface DASS21CalculatorProps {
 }
 
 export const calculateDASS21Results = ({ answers }: DASS21CalculatorProps): any => {
-    // DASS-21 计算逻辑
-    // 抑郁维度题目: 3, 5, 10, 13, 16, 17, 21
-    // 焦虑维度题目: 2, 4, 7, 9, 15, 19, 20  
-    // 压力维度题目: 1, 6, 8, 11, 12, 14, 18
+    // DASS-21 calculation logic
+    // Depression dimension items: 3, 5, 10, 13, 16, 17, 21
+    // Anxiety dimension items: 2, 4, 7, 9, 15, 19, 20  
+    // Stress dimension items: 1, 6, 8, 11, 12, 14, 18
     
     const depressionItems = [3, 5, 10, 13, 16, 17, 21];
     const anxietyItems = [2, 4, 7, 9, 15, 19, 20];
@@ -20,7 +20,7 @@ export const calculateDASS21Results = ({ answers }: DASS21CalculatorProps): any 
     let stressScore = 0;
     let totalScore = 0;
 
-    // 计算各维度分数
+    // Calculate dimension scores
     Object.entries(answers).forEach(([questionId, score]) => {
         const questionNum = parseInt(questionId);
         const scoreValue = parseInt(score);
@@ -36,12 +36,12 @@ export const calculateDASS21Results = ({ answers }: DASS21CalculatorProps): any 
         }
     });
 
-    // DASS-21的分数需要乘以2以便与DASS-42比较
+    // DASS-21 scores need to be multiplied by 2 for comparison with DASS-42
     const finalDepressionScore = depressionScore * 2;
     const finalAnxietyScore = anxietyScore * 2;
     const finalStressScore = stressScore * 2;
 
-    // 判断各维度严重程度
+    // Determine severity level for each dimension
     const getDepressionSeverity = (score: number) => {
         if (score <= 9) return "normal";
         if (score <= 13) return "mild";
@@ -70,7 +70,7 @@ export const calculateDASS21Results = ({ answers }: DASS21CalculatorProps): any 
     const anxietySeverity = getAnxietySeverity(finalAnxietyScore);
     const stressSeverity = getStressSeverity(finalStressScore);
 
-    // 判断整体严重程度
+    // Determine overall severity level
     const isAnySevere = depressionSeverity === "severe" || depressionSeverity === "extremely_severe" ||
                        anxietySeverity === "severe" || anxietySeverity === "extremely_severe" ||
                        stressSeverity === "severe" || stressSeverity === "extremely_severe";

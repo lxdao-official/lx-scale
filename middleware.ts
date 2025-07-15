@@ -8,7 +8,7 @@ const I18nMiddleware = createI18nMiddleware({
 });
 
 export function middleware(request: NextRequest) {
-    // 跳过SEO相关文件的i18n处理
+    // Skip i18n processing for SEO-related files
     if (
         request.nextUrl.pathname === '/sitemap.xml' ||
         request.nextUrl.pathname === '/robots.txt'
@@ -16,9 +16,9 @@ export function middleware(request: NextRequest) {
         return NextResponse.next();
     }
 
-    // 创建一个特殊路径前缀 /share/ 绕过语言路由
+    // Create a special path prefix /share/ to bypass language routing
     if (request.nextUrl.pathname.startsWith('/share/')) {
-        // 将请求重定向到实际的静态资源位置
+        // Redirect request to actual static resource location
         const newPath = request.nextUrl.pathname.replace('/share', '');
         return NextResponse.rewrite(new URL(newPath, request.url));
     }

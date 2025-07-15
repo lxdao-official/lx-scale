@@ -10,16 +10,16 @@ interface DASS21ResultProps {
 
 export function DASS21Result({ answers }: DASS21ResultProps) {
   const t = useScopedI18n('components.dass21Result');
-  
-  // 转换答案格式为计算器需要的格式
+
+  // Convert answer format to the format required by calculator
   const answersMap: { [key: number]: string } = {};
   answers.forEach((answer, index) => {
     answersMap[index + 1] = answer;
   });
 
-  const results = calculateDASS21Results({ 
-    answers: answersMap, 
-    questions: [] 
+  const results = calculateDASS21Results({
+    answers: answersMap,
+    questions: []
   });
 
   const severityNames = {
@@ -67,7 +67,7 @@ export function DASS21Result({ answers }: DASS21ResultProps) {
 
   return (
     <div className="mt-6 space-y-6">
-      {/* 总体得分 */}
+      {/* Overall score */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-4">{t('title')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -78,7 +78,7 @@ export function DASS21Result({ answers }: DASS21ResultProps) {
         </div>
       </div>
 
-      {/* 三维度分析 */}
+      {/* Three-dimension analysis */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-4">{t('labels.three_dimension_analysis')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -89,28 +89,26 @@ export function DASS21Result({ answers }: DASS21ResultProps) {
                 <div className="text-2xl font-bold mt-2">{info.score}</div>
                 <div className="text-sm opacity-75">/{info.maxScore}</div>
               </div>
-              
+
               <div className="mb-3">
                 <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div 
-                    className={`h-2 rounded-full ${
-                      info.severity === "normal" ? "bg-green-400" :
+                  <div
+                    className={`h-2 rounded-full ${info.severity === "normal" ? "bg-green-400" :
                       info.severity === "mild" ? "bg-yellow-400" :
-                      info.severity === "moderate" ? "bg-orange-400" :
-                      info.severity === "severe" ? "bg-red-400" : "bg-red-600"
-                    }`}
+                        info.severity === "moderate" ? "bg-orange-400" :
+                          info.severity === "severe" ? "bg-red-400" : "bg-red-600"
+                      }`}
                     style={{ width: `${(info.score / info.maxScore) * 100}%` }}
                   ></div>
                 </div>
               </div>
 
               <div className="text-center">
-                <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
-                  info.severity === "normal" ? "bg-green-100 text-green-800" :
+                <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${info.severity === "normal" ? "bg-green-100 text-green-800" :
                   info.severity === "mild" ? "bg-yellow-100 text-yellow-800" :
-                  info.severity === "moderate" ? "bg-orange-100 text-orange-800" :
-                  info.severity === "severe" ? "bg-red-100 text-red-800" : "bg-red-200 text-red-900"
-                }`}>
+                    info.severity === "moderate" ? "bg-orange-100 text-orange-800" :
+                      info.severity === "severe" ? "bg-red-100 text-red-800" : "bg-red-200 text-red-900"
+                  }`}>
                   {severityNames[info.severity as keyof typeof severityNames]}
                 </span>
               </div>
@@ -123,11 +121,11 @@ export function DASS21Result({ answers }: DASS21ResultProps) {
         </div>
       </div>
 
-      {/* 严重程度标准 */}
+      {/* Severity level standards */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-4">{t('labels.scoring_criteria')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
+
           <div className="space-y-2">
             <h4 className="font-medium text-green-700">{t('labels.depression_dimension')}</h4>
             <div className="text-sm space-y-1">
@@ -163,12 +161,12 @@ export function DASS21Result({ answers }: DASS21ResultProps) {
         </div>
       </div>
 
-      {/* 结果解释和建议 */}
+      {/* Result interpretation and recommendations */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-4">{t('labels.result_interpretation_advice')}</h3>
         <div className="space-y-4">
-          
-          {/* 整体评估 */}
+
+          {/* Overall assessment */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
             <h4 className="font-medium text-blue-900 mb-2">{t('labels.overall_assessment')}</h4>
             <div className="text-sm text-blue-800">
@@ -180,7 +178,7 @@ export function DASS21Result({ answers }: DASS21ResultProps) {
             </div>
           </div>
 
-          {/* 维度特定建议 */}
+          {/* Dimension-specific recommendations */}
           {results.depressionSeverity !== "normal" && (
             <div className="bg-green-50 border border-green-200 rounded-lg p-4">
               <h4 className="font-medium text-green-900 mb-2">{t('advice.depression_dimension')}</h4>
@@ -226,7 +224,7 @@ export function DASS21Result({ answers }: DASS21ResultProps) {
             </div>
           )}
 
-          {/* 严重情况警告 */}
+          {/* Severe situation warning */}
           {results.isSevere && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-4">
               <div className="flex items-center">
@@ -244,7 +242,7 @@ export function DASS21Result({ answers }: DASS21ResultProps) {
             </div>
           )}
 
-          <div className="bg-gray-50 border border-gray-200 rounded p-3">
+          <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
             <p className="text-gray-800 text-sm">
               <strong>{t('labels.note')}：</strong>{t('disclaimer')}
             </p>

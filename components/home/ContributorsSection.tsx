@@ -22,7 +22,7 @@ interface Contributor {
 export async function ContributorsSection() {
   const t = await getScopedI18n('component.home.contributors');
   const locale = await getCurrentLocale();
-  // 实际贡献者数据
+  // Actual contributor data
   const contributors: Contributor[] = [
     {
       name: '0xhardman',
@@ -59,7 +59,7 @@ export async function ContributorsSection() {
     },
   ];
 
-  // 根据角色获取图标
+  // Get icon based on role
   const getRoleIcon = (role: Role) => {
     switch (role) {
       case Role.Developer:

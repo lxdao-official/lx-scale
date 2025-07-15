@@ -11,16 +11,16 @@ interface BDI2ResultProps {
 export function BDI2Result({ answers }: BDI2ResultProps) {
   const t = useScopedI18n('components.bdi2Result');
   const tCommon = useScopedI18n('common');
-  
-  // 转换答案格式为计算器需要的格式
+
+  // Convert answer format to the format required by calculator
   const answersMap: { [key: number]: string } = {};
   answers.forEach((answer, index) => {
     answersMap[index + 1] = answer;
   });
 
-  const results = calculateBDI2Results({ 
-    answers: answersMap, 
-    questions: [] 
+  const results = calculateBDI2Results({
+    answers: answersMap,
+    questions: []
   });
 
   const severityNames = {
@@ -64,7 +64,7 @@ export function BDI2Result({ answers }: BDI2ResultProps) {
 
   return (
     <div className="mt-6 space-y-6">
-      {/* 紧急警告 */}
+      {/* Emergency warning  */}
       {results.suicidalIdeation && (
         <div className="bg-red-100 border-2 border-red-300 rounded-lg p-6 shadow-sm">
           <div className="flex items-center">
@@ -89,27 +89,27 @@ export function BDI2Result({ answers }: BDI2ResultProps) {
         </div>
       )}
 
-      {/* 总体得分 */}
+      {/* Overall score */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-4">{t('title')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <MetricCard title={tCommon('labels.total_score')} value={`${results.totalScore}/63`} />
           <MetricCard title={tCommon('labels.high_score_items')} value={`${results.highScoreItemCount}/21`} />
-          <MetricCard 
-            title={tCommon('labels.severity_level')} 
+          <MetricCard
+            title={tCommon('labels.severity_level')}
             value={severityNames[results.severity as keyof typeof severityNames] || "未知"}
             className={getSeverityColor(results.severity).split(' ')[0]}
           />
         </div>
       </div>
 
-      {/* 严重程度说明 */}
+      {/* Severity level description */}
       <div className={`border rounded-lg p-6 shadow-sm ${getSeverityColor(results.severity)}`}>
         <h3 className="text-lg font-semibold mb-3">{t('labels.result_interpretation')}</h3>
         <p className="text-sm mb-4">
           {severityDescriptions[results.severity as keyof typeof severityDescriptions] || "评估结果异常，请重新测试。"}
         </p>
-        
+
         <div className="space-y-2 text-sm">
           <div><strong>{t('labels.scoring_criteria')}：</strong></div>
           <ul className="ml-4 space-y-1">
@@ -121,34 +121,33 @@ export function BDI2Result({ answers }: BDI2ResultProps) {
         </div>
       </div>
 
-      {/* 症状维度分析 */}
+      {/* Symptom dimension analysis */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-4">{t('labels.symptom_dimension_analysis')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {Object.entries(subscaleInfo).map(([key, info]) => {
             const score = results.factorScores[key] as number;
             const percentage = (score / info.maxScore) * 100;
-            
+
             return (
               <div key={key} className="border rounded-lg p-4">
                 <div className="flex justify-between items-center mb-2">
                   <span className="font-medium">{info.name}</span>
                   <span className="text-sm text-gray-600">{score}/{info.maxScore}</span>
                 </div>
-                
+
                 <div className="mb-2">
                   <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div 
-                      className={`h-2 rounded-full ${
-                        percentage >= 75 ? "bg-red-400" :
+                    <div
+                      className={`h-2 rounded-full ${percentage >= 75 ? "bg-red-400" :
                         percentage >= 50 ? "bg-orange-400" :
-                        percentage >= 25 ? "bg-yellow-400" : "bg-green-400"
-                      }`}
+                          percentage >= 25 ? "bg-yellow-400" : "bg-green-400"
+                        }`}
                       style={{ width: `${percentage}%` }}
                     ></div>
                   </div>
                 </div>
-                
+
                 <div className="text-sm text-gray-600">
                   {info.description}
                 </div>
@@ -158,14 +157,13 @@ export function BDI2Result({ answers }: BDI2ResultProps) {
         </div>
       </div>
 
-      {/* 项目分析 */}
+      {/* Item analysis */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-4">{t('labels.item_detailed_analysis')}</h3>
         <div className="space-y-2">
           {results.itemAnalysis.map((item: any, index: number) => (
-            <div key={item.questionId} className={`flex items-center justify-between p-3 rounded-lg ${
-              item.questionId === 9 && item.score >= 1 ? 'bg-red-50 border border-red-200' : 'bg-gray-50'
-            }`}>
+            <div key={item.questionId} className={`flex items-center justify-between p-3 rounded-lg ${item.questionId === 9 && item.score >= 1 ? 'bg-red-50 border border-red-200' : 'bg-gray-50'
+              }`}>
               <div className="flex-1">
                 <span className="text-sm font-medium">
                   {index + 1}. {questionTexts[index]}
@@ -175,11 +173,10 @@ export function BDI2Result({ answers }: BDI2ResultProps) {
                 )}
               </div>
               <div className="flex items-center space-x-2">
-                <span className={`text-lg font-semibold ${
-                  item.questionId === 9 && item.score >= 1 ? 'text-red-700' :
-                  item.score >= 2 ? 'text-red-600' : 
-                  item.score >= 1 ? 'text-yellow-600' : 'text-green-600'
-                }`}>
+                <span className={`text-lg font-semibold ${item.questionId === 9 && item.score >= 1 ? 'text-red-700' :
+                  item.score >= 2 ? 'text-red-600' :
+                    item.score >= 1 ? 'text-yellow-600' : 'text-green-600'
+                  }`}>
                   {item.score}
                 </span>
                 {item.isHigh && item.questionId !== 9 && (
@@ -193,11 +190,11 @@ export function BDI2Result({ answers }: BDI2ResultProps) {
         </div>
       </div>
 
-      {/* 专业建议 */}
+      {/* Professional advice */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-4">{t('labels.professional_advice')}</h3>
         <div className="space-y-4 text-sm text-gray-700">
-          
+
           {results.severity === "minimal" ? (
             <div className="bg-green-50 border border-green-200 rounded-lg p-4">
               <div className="text-green-800">
@@ -214,7 +211,7 @@ export function BDI2Result({ answers }: BDI2ResultProps) {
             <div>
               <strong>{t('advice.depression_management')}：</strong>
               <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-4">
-                
+
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                   <h4 className="font-medium text-blue-900 mb-2">{t('advice.daily_management')}</h4>
                   <ul className="text-blue-800 space-y-1 text-sm">

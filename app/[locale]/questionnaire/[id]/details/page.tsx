@@ -94,7 +94,7 @@ export default async function QuestionnaireDetailPage({ params }: PageProps) {
     return notFound();
   }
 
-  // 清理questionnaire对象，移除函数以避免客户端组件错误
+  // Clean questionnaire object, remove functions to avoid client component errors
   const cleanQuestionnaire = {
     id: questionnaire.id,
     title: questionnaire.title,
@@ -103,7 +103,7 @@ export default async function QuestionnaireDetailPage({ params }: PageProps) {
     time: questionnaire.time,
     details: questionnaire.details,
     questions: questionnaire.questions
-    // 不包含 renderOptions 函数
+    // Does not include renderOptions function
   };
 
   const questionnaireJsonLd = generateQuestionnaireStructuredData(

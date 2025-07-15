@@ -10,7 +10,7 @@ export function save(usage: string, questionnaireType: string, answers: { [key: 
     localStorage.setItem(`${STORAGE_KEY}_${usage}`, JSON.stringify(drafts));
     return true;
   } catch (error) {
-    console.error('保存草稿失败:', error);
+    console.error('Failed to save draft:', error);
     return false;
   }
 }
@@ -20,7 +20,7 @@ export function load(usage: string, questionnaireType: string): { [key: number]:
     const drafts = JSON.parse(localStorage.getItem(`${STORAGE_KEY}_${usage}`) || '{}');
     return drafts[questionnaireType]?.answers || null;
   } catch (error) {
-    console.error('加载草稿失败:', error);
+    console.error('Failed to load draft:', error);
     return null;
   }
 }
@@ -30,14 +30,14 @@ export function clear(usage: string, questionnaireType: string) {
     const key = `${STORAGE_KEY}_${usage}`;
     const drafts = JSON.parse(localStorage.getItem(key) || '{}');
 
-    // 若不存在该问卷草稿，直接返回 false
+    // If the questionnaire draft doesn't exist, return false directly
     if (!(questionnaireType in drafts)) {
       return false;
     }
 
     delete drafts[questionnaireType];
 
-    // 如果已无任何草稿，则移除整个条目；否则写回剩余草稿
+    // If there are no more drafts, remove the entire entry; otherwise write back remaining drafts
     if (Object.keys(drafts).length === 0) {
       localStorage.removeItem(key);
     } else {
@@ -46,7 +46,7 @@ export function clear(usage: string, questionnaireType: string) {
 
     return true;
   } catch (error) {
-    console.error('清除草稿失败:', error);
+    console.error('Failed to clear draft:', error);
     return false;
   }
 }

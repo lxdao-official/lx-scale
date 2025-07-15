@@ -25,15 +25,15 @@ export default function QuestionnaireList() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  // 标签变化的回调函数
+  // Callback function for tag changes
   const handleTagsChange = useCallback((tags: string[]) => {
     setSelectedTags(tags);
   }, []);
 
 
-  // 根据搜索词和标签过滤问卷
+  // Filter questionnaires based on search terms and tags
   const filteredQuestionnaires = (questionnaires as Questionnaire[]).filter((q) => {
-    // 文本搜索过滤
+    // Text search filtering
     const matchesSearch =
       q.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       q.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -41,7 +41,7 @@ export default function QuestionnaireList() {
         tag.toLowerCase().includes(searchQuery.toLowerCase())
       );
 
-    // 标签过滤 - 如果没有选中标签，则不过滤
+    // Tag filtering - if no tags are selected, don't filter
     const matchesTags =
       selectedTags.length === 0 ||
       selectedTags.every((tag) => q.tags.includes(tag));

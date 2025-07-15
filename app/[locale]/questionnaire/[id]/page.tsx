@@ -12,10 +12,10 @@ export default function QuestionnairePage({
 }) {
   const { id } = use(params);
 
-  // 从问卷数据中获取指定id的量表
+  // Get the questionnaire with specified id from questionnaire data
   const questionnaire = useQuestionnaire(id);
 
-  // 如果找不到数据，显示404页面
+  // If data not found, show 404 page
   if (!questionnaire) {
     return notFound();
   }

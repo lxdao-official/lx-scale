@@ -24,20 +24,20 @@ export default function QuestionnaireResultPage({
   const [loading, setLoading] = useState(true);
   const t = useScopedI18n('app.questionnaire.result');
 
-  // 从问卷数据中获取指定id的量表
+  // Get the questionnaire with specified id from questionnaire data
   const questionnaire = useQuestionnaire(id) as Questionnaire;
 
-  // 从本地存储或URL参数加载结果
+  // Load results from local storage or URL parameters
   useEffect(() => {
-    // 如果找不到问卷，则不执行后续逻辑
+    // If questionnaire not found, don't execute subsequent logic
     if (!questionnaire || !questionnaire.details) {
       return;
     }
 
-    // 从 URL 读取参数
+    // Read parameters from URL
     const encodedAnswers = searchParams.get('ans');
 
-    // 解压答案（如果存在）
+    // Decompress answers (if they exist)
     let answersArray: string[] = [];
     if (encodedAnswers) {
       const raw = decompress(encodedAnswers) || '';

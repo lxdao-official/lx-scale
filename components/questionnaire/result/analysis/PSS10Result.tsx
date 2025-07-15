@@ -11,7 +11,7 @@ interface PSS10ResultProps {
 export function PSS10Result({ answers }: PSS10ResultProps) {
   const t = useScopedI18n('components.pss10Result');
   
-  // 转换答案格式为计算器需要的格式
+  // Convert answer format to the format required by calculator
   const answersMap: { [key: number]: string } = {};
   answers.forEach((answer, index) => {
     answersMap[index + 1] = answer;
@@ -53,7 +53,7 @@ export function PSS10Result({ answers }: PSS10ResultProps) {
 
   return (
     <div className="mt-6 space-y-6">
-      {/* 总体得分 */}
+      {/* Overall score */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-4">{t('title')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -68,7 +68,7 @@ export function PSS10Result({ answers }: PSS10ResultProps) {
         </div>
       </div>
 
-      {/* 严重程度说明 */}
+      {/* Severity level description */}
       <div className={`border rounded-lg p-6 shadow-sm ${getSeverityColor(results.severity)}`}>
         <h3 className="text-lg font-semibold mb-3">{t('labels.result_interpretation')}</h3>
         <p className="text-sm mb-4">
@@ -96,12 +96,12 @@ export function PSS10Result({ answers }: PSS10ResultProps) {
         </div>
       </div>
 
-      {/* 分量表分析 */}
+      {/* Subscale analysis */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-4">{t('labels.subscale_analysis')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           
-          {/* 压力感知 */}
+          {/* Stress perception */}
           <div className="bg-gray-50 rounded-lg p-4">
             <h4 className="font-medium mb-3 flex items-center">
               <span className="w-3 h-3 bg-red-400 rounded-full mr-2"></span>
@@ -120,7 +120,7 @@ export function PSS10Result({ answers }: PSS10ResultProps) {
             </div>
           </div>
 
-          {/* 应对能力 */}
+          {/* Coping ability */}
           <div className="bg-gray-50 rounded-lg p-4">
             <h4 className="font-medium mb-3 flex items-center">
               <span className="w-3 h-3 bg-blue-400 rounded-full mr-2"></span>
@@ -141,7 +141,7 @@ export function PSS10Result({ answers }: PSS10ResultProps) {
         </div>
       </div>
 
-      {/* 项目分析 */}
+      {/* Item analysis */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-4">{t('labels.item_analysis')}</h3>
         <div className="space-y-3">
@@ -189,7 +189,7 @@ export function PSS10Result({ answers }: PSS10ResultProps) {
         )}
       </div>
 
-      {/* 压力管理建议 */}
+      {/* Stress management recommendations */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-4">{t('labels.stress_management_advice')}</h3>
         <div className="space-y-4 text-sm text-gray-700">
@@ -211,7 +211,7 @@ export function PSS10Result({ answers }: PSS10ResultProps) {
               <strong>{t('advice.stress_management_strategies')}：</strong>
               <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-4">
                 
-                {/* 短期策略 */}
+                {/* Short-term strategies */}
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                   <h4 className="font-medium text-blue-900 mb-2">{t('advice.short_term_strategies')}</h4>
                   <ul className="text-blue-800 space-y-1 text-sm">
@@ -223,7 +223,7 @@ export function PSS10Result({ answers }: PSS10ResultProps) {
                   </ul>
                 </div>
 
-                {/* 长期策略 */}
+                {/* Long-term strategies */}
                 <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
                   <h4 className="font-medium text-purple-900 mb-2">{t('advice.long_term_strategies')}</h4>
                   <ul className="text-purple-800 space-y-1 text-sm">

@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default function Home() {
-  // 添加问卷相关的结构化数据
+  // Add questionnaire-related structured data
   const questionnaireJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',

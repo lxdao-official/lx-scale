@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   images: {
     domains: ["avatars.githubusercontent.com"],
   },
-  // 添加自定义静态资源路径配置
+  // Add custom static resource path configuration
   async rewrites() {
     return [
       {

@@ -18,7 +18,7 @@ export function TagFilters({ onTagsChange }: TagFiltersProps) {
     );
   };
 
-  // 当标签变化时通知父组件
+  // Notify parent component when tags change
   useEffect(() => {
     onTagsChange(activeTags);
   }, [activeTags, onTagsChange]);

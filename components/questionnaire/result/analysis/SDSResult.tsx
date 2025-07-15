@@ -11,7 +11,7 @@ interface SDSResultProps {
 export function SDSResult({ answers }: SDSResultProps) {
   const t = useScopedI18n('components.sdsResult');
   
-  // 转换答案格式为计算器需要的格式
+  // Convert answer format to the format required by calculator
   const answersMap: { [key: number]: string } = {};
   answers.forEach((answer, index) => {
     answersMap[index + 1] = answer;
@@ -46,12 +46,12 @@ export function SDSResult({ answers }: SDSResultProps) {
     }
   };
 
-  // 获取原始分数（未乘以1.25）
+  // Get raw score (not multiplied by 1.25)
   const rawScore = Math.round(results.totalScore / 1.25);
 
   return (
     <div className="mt-6 space-y-6">
-      {/* 总体得分 */}
+      {/* Overall score */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-4">{t('title')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -65,7 +65,7 @@ export function SDSResult({ answers }: SDSResultProps) {
         </div>
       </div>
 
-      {/* 严重程度说明 */}
+      {/* Severity level description */}
       <div className={`border rounded-lg p-6 shadow-sm ${getSeverityColor(results.severity)}`}>
         <h3 className="text-lg font-semibold mb-3">{t('labels.result_interpretation')}</h3>
         <p className="text-sm mb-4">
@@ -83,12 +83,12 @@ export function SDSResult({ answers }: SDSResultProps) {
         </div>
       </div>
 
-      {/* 项目分析 */}
+      {/* Item analysis */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-4">{t('labels.detailed_analysis')}</h3>
         <div className="space-y-4">
           
-          {/* 高分项目提示 */}
+          {/* High score items reminder */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
             <h4 className="font-medium text-blue-900 mb-2">{t('labels.scale_description')}</h4>
             <div className="text-sm text-blue-800 space-y-1">
@@ -98,7 +98,7 @@ export function SDSResult({ answers }: SDSResultProps) {
             </div>
           </div>
 
-          {/* 计分方式说明 */}
+          {/* Scoring method description */}
           <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
             <h4 className="font-medium text-gray-900 mb-2">{t('labels.scoring_method')}</h4>
             <div className="text-sm text-gray-700 space-y-1">
@@ -128,7 +128,7 @@ export function SDSResult({ answers }: SDSResultProps) {
         </div>
       </div>
 
-      {/* 专业建议 */}
+      {/* Professional advice */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-4">{t('labels.professional_advice')}</h3>
         <div className="space-y-3 text-sm text-gray-700">

@@ -6,16 +6,16 @@ interface ISICalculatorProps {
 }
 
 export const calculateISIResults = ({ answers }: ISICalculatorProps): any => {
-    // ISI 计算逻辑
+    // ISI calculation logic
     let totalScore = 0;
 
-    // 计算总分（简单求和）
+    // Calculate total score (simple sum)
     Object.entries(answers).forEach(([, score]) => {
         const scoreValue = parseInt(score);
         totalScore += scoreValue;
     });
 
-    // 判断失眠严重程度
+    // Determine insomnia severity level
     let severity = "no_insomnia";
     if (totalScore >= 22) {
         severity = "severe";
@@ -25,11 +25,11 @@ export const calculateISIResults = ({ answers }: ISICalculatorProps): any => {
         severity = "subthreshold";
     }
 
-    // 分析各项目得分
+    // Analyze item scores
     const itemAnalysis = Object.entries(answers).map(([questionId, score]) => ({
         questionId: parseInt(questionId),
         score: parseInt(score),
-        isHigh: parseInt(score) >= 3  // 3分以上认为是高分项目
+        isHigh: parseInt(score) >= 3  // Scores of 3 or above are considered high score items
     }));
 
     const highScoreItems = itemAnalysis.filter(item => item.isHigh);

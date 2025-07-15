@@ -6,16 +6,16 @@ interface GAD7CalculatorProps {
 }
 
 export const calculateGAD7Results = ({ answers }: GAD7CalculatorProps): any => {
-    // GAD-7 计算逻辑
+    // GAD-7 calculation logic
     let totalScore = 0;
 
-    // 计算总分（简单求和）
+    // Calculate total score (simple sum)
     Object.entries(answers).forEach(([, score]) => {
         const scoreValue = parseInt(score);
         totalScore += scoreValue;
     });
 
-    // 判断焦虑严重程度
+    // Determine anxiety severity level
     let severity = "minimal";
     if (totalScore >= 15) {
         severity = "severe";
@@ -25,11 +25,11 @@ export const calculateGAD7Results = ({ answers }: GAD7CalculatorProps): any => {
         severity = "mild";
     }
 
-    // 分析各项目得分
+    // Analyze item scores
     const itemAnalysis = Object.entries(answers).map(([questionId, score]) => ({
         questionId: parseInt(questionId),
         score: parseInt(score),
-        isHigh: parseInt(score) >= 2  // 2分以上认为是高分项目
+        isHigh: parseInt(score) >= 2  // Scores of 2 or above are considered high score items
     }));
 
     const highScoreItems = itemAnalysis.filter(item => item.isHigh);
@@ -39,7 +39,7 @@ export const calculateGAD7Results = ({ answers }: GAD7CalculatorProps): any => {
         severity,
         itemAnalysis,
         highScoreItemCount: highScoreItems.length,
-        factorScores: {}, // GAD-7 是单因子量表
+        factorScores: {}, // GAD-7 is a single-factor scale
         positiveItemCount: highScoreItems.length,
         positiveItemAverage: highScoreItems.length > 0 
             ? highScoreItems.reduce((sum, item) => sum + item.score, 0) / highScoreItems.length 

@@ -15,7 +15,7 @@ export function FactorAnalysis({
   );
   if (!factorScores || Object.keys(factorScores).length === 0) return null;
 
-  // 获取中文因子名称映射
+  // Get Chinese factor name mapping
   const getFactorNameMap = () => {
     const factorNameMap: { [key: string]: { [key: string]: string } } = {
       ocd: {
@@ -26,7 +26,7 @@ export function FactorAnalysis({
     return factorNameMap[questionnaireId] || {};
   };
 
-  // 获取因子的描述信息
+  // Get factor description information
   const getFactorDescription = (factorName: string) => {
     // 如果提供了外部描述，优先使用
     if (factorDescriptions && factorDescriptions[factorName]) {

@@ -12,7 +12,7 @@ export function SCL90Result({ answers }: SCL90ResultProps) {
   const t = useScopedI18n('components.scl90Result');
   const tCommon = useScopedI18n('common');
   
-  // 转换答案格式为计算器需要的格式
+  // Convert answer format to the format required by calculator
   const answersMap: { [key: number]: string } = {};
   answers.forEach((answer, index) => {
     answersMap[index + 1] = answer;
@@ -62,7 +62,7 @@ export function SCL90Result({ answers }: SCL90ResultProps) {
 
   return (
     <div className="mt-6 space-y-6">
-      {/* 总体得分 */}
+      {/* Overall score */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-4">{t('labels.overall_assessment')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -77,7 +77,7 @@ export function SCL90Result({ answers }: SCL90ResultProps) {
         </div>
       </div>
 
-      {/* 因子分数 */}
+      {/* Factor scores */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-4">{t('labels.factor_analysis')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -98,7 +98,7 @@ export function SCL90Result({ answers }: SCL90ResultProps) {
         </div>
       </div>
 
-      {/* 结果解释 */}
+      {/* Result interpretation */}
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-semibold mb-4">{tCommon('labels.result_interpretation')}</h3>
         <div className="space-y-3 text-sm text-gray-700">
