@@ -28,12 +28,12 @@ export function FactorAnalysis({
 
   // Get factor description information
   const getFactorDescription = (factorName: string) => {
-    // 如果提供了外部描述，优先使用
+    // If external description is provided, use it preferentially
     if (factorDescriptions && factorDescriptions[factorName]) {
       return factorDescriptions[factorName];
     }
 
-    // 默认描述映射
+    // Default description mapping
     const defaultDescriptions: { [key: string]: { [key: string]: string } } = {
       ocd: {
         obsession: t('ocdObsessionDesc'),
@@ -47,9 +47,9 @@ export function FactorAnalysis({
     );
   };
 
-  // 获取因子分数的严重程度级别
+  // Get severity level of factor scores
   const getFactorSeverityLevel = (factorName: string, score: number) => {
-    // 基于ID和因子名称定义严重程度阈值
+    // Define severity thresholds based on ID and factor names
     const thresholds: { [key: string]: { [key: string]: number[] } } = {
       scl90: {
         躯体化: [1.5, 2.5, 3.5],
@@ -79,7 +79,7 @@ export function FactorAnalysis({
     return t('extreme');
   };
 
-  // 获取因子的最大分数（用于百分比计算）
+  // Get maximum score of factor (for percentage calculation)
   const getMaxScore = (factorName: string) => {
     const maxScores: { [key: string]: { [key: string]: number } } = {
       scl90: { default: 5 },
@@ -97,7 +97,7 @@ export function FactorAnalysis({
     );
   };
 
-  // 获取因子名称的本地化显示
+  // Get localized display of factor names
   const getDisplayName = (factorName: string) => {
     const nameMap = getFactorNameMap();
     return nameMap[factorName] || factorName;
@@ -118,7 +118,7 @@ export function FactorAnalysis({
           };
           const colorClass = severityColorMap[severity] || 'bg-blue-500';
 
-          // 百分比计算，基于各量表各因子的最大分数
+          // Percentage calculation based on maximum scores of each factor in each scale
           const maxScore = getMaxScore(factorName);
           const scorePercentage = (score / maxScore) * 100;
 

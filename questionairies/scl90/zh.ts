@@ -42,7 +42,7 @@ export const scl90: Questionnaire = {
         ]
     },
     questions: [
-        // 躯体化 (1-12)
+        // Somatization (1-12)
         { id: 1, content: "头痛" },
         { id: 2, content: "神经过敏，心中不踏实" },
         { id: 3, content: "头脑中有不必要的想法或字句盘旋" },

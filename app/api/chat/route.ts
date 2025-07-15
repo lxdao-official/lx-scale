@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Deepseek API Key - 优先使用环境变量
+// Deepseek API Key - prioritize environment variables
 const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
 
-// IP频率限制存储 (生产环境建议使用Redis)
+// IP rate limiting storage (recommend using Redis in production)
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
 
 // Clean up expired rate limit records
@@ -21,7 +21,7 @@ const checkRateLimit = (ip: string): boolean => {
   cleanupRateLimit();
   
   const now = Date.now();
-  const windowMs = 60 * 1000; // 1分钟窗口
+  const windowMs = 60 * 1000; // 1 minute window
   const maxRequests = 10; // Maximum 10 requests per minute
   
   const current = rateLimitMap.get(ip);

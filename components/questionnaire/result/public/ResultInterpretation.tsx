@@ -19,7 +19,7 @@ export function ResultInterpretation({
   const getInterpretation = () => {
     if (!results) return t('noInterpretation');
 
-    // 根据测试类型和分数提供不同的解读
+    // Provide different interpretations based on test type and score
     if (questionnaireId === 'scl90') {
       if (results.isSevere) {
         return t('scl90Severe');
@@ -37,7 +37,7 @@ export function ResultInterpretation({
         return t('depressionMild');
       }
     } else if (questionnaireId === 'ocd') {
-      // Yale-Brown强迫症状量表(Y-BOCS)结果解释
+      // Yale-Brown Obsessive Compulsive Scale (Y-BOCS) result interpretation
       if (results.severity === 'extreme') {
         return t('ocdExtreme', { score: results.totalScore });
       } else if (results.severity === 'severe') {

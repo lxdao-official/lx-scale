@@ -55,7 +55,7 @@ export default function QuestionnaireList() {
         <div className="container px-4 py-6 max-w-6xl mx-auto">
           <h1 className="text-2xl font-medium mb-6">{t('title')}</h1>
 
-          {/* 搜索栏 */}
+          {/* Search bar */}
           <div className="mb-4 relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
@@ -67,10 +67,10 @@ export default function QuestionnaireList() {
             />
           </div>
 
-          {/* 标签筛选 */}
+          {/* Tag filters */}
           <TagFilters onTagsChange={handleTagsChange} />
 
-          {/* 问卷列表 */}
+          {/* Questionnaire list */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {filteredQuestionnaires.length > 0 ? (
               filteredQuestionnaires.map((questionnaire) => (

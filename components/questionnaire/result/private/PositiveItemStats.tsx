@@ -11,7 +11,7 @@ export function PositiveItemStats({
   questionnaireId,
 }: PositiveItemStatsProps) {
   const t = useScopedI18n('component.questionnaire.result.private');
-  // 只有SCL90量表需要显示阳性项目统计
+  // Only the SCL90 scale needs to display positive item statistics
   if (questionnaireId !== 'scl90' || positiveItemCount <= 0) return null;
 
   return (

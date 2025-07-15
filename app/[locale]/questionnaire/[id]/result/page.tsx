@@ -45,18 +45,18 @@ export default function QuestionnaireResultPage({
       console.log('answersArray', answersArray);
     }
 
-    // 保存到 state 供渲染 AnswerList
+      // Save to state for rendering AnswerList
     setDecodedAnswers(answersArray);
 
     setLoading(false);
   }, [id, searchParams, questionnaire]);
 
-  // 存储解码后的答案
+  // Store decoded answers
   const [decodedAnswers, setDecodedAnswers] = useState<string[]>([]);
-  // 对话限制状态
+  // Conversation limit status
   const [isChatLimitReached, setIsChatLimitReached] = useState(false);
 
-  // 根据已解码答案构造 问题-选项 文本 kv 对，用于 AI
+  // Construct question-option text kv pairs from decoded answers for AI
   const questionnaireResults: Record<string, string> = useMemo(() => {
     if (!questionnaire) return {};
     const obj: Record<string, string> = {};
@@ -71,7 +71,7 @@ export default function QuestionnaireResultPage({
     return obj;
   }, [decodedAnswers, questionnaire]);
 
-  // 如果找不到数据，显示404页面
+  // If data not found, show 404 page
   if (!questionnaire || !questionnaire.details) {
     return notFound();
   }

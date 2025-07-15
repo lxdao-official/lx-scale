@@ -31,7 +31,7 @@ export function DimensionsAnalysis({
       <h2 className="text-xl font-medium mb-3">{t('title')}</h2>
       <div className="space-y-4">
         {dimensions.map((dim, index) => {
-          // 如果没有真实数据，使用虚拟数据展示维度
+          // If no real data, use mock data to display dimensions
           const dimensionsLength = dimensions?.length || 1;
           const virtualScore =
             Math.round(totalScore / (dimensionsLength * 10)) +

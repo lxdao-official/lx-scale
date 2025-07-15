@@ -82,9 +82,9 @@ export const ocd: Questionnaire = {
             content: "您可以控制您的强迫行为吗？",
         }
     ],
-    // 根据 Y-BOCS 量表官方中文版的描述分别返回不同题目的选项
+    // Return different options for different questions based on the official Chinese version of the Y-BOCS scale
     renderOptions: (id: number) => {
-        // 通用严重程度（时间占比/影响/痛苦）
+        // General severity (time ratio/impact/distress)
         const severityOptions = [
             { id: 1, content: '无', value: '0' },
             { id: 2, content: '轻度', value: '1' },
@@ -93,7 +93,7 @@ export const ocd: Questionnaire = {
             { id: 5, content: '极重度', value: '4' },
         ];
 
-        // 抵抗程度（题 4 & 9）
+        // Resistance level (questions 4 & 9)
         const resistanceOptions = [
             { id: 1, content: '总能抵抗', value: '0' },
             { id: 2, content: '大部分时间能抵抗', value: '1' },
@@ -102,7 +102,7 @@ export const ocd: Questionnaire = {
             { id: 5, content: '完全无法抵抗', value: '4' },
         ];
 
-        // 控制能力（题 5 & 10）
+        // Control ability (questions 5 & 10)
         const controlOptions = [
             { id: 1, content: '完全可以控制', value: '0' },
             { id: 2, content: '大部分时间可以控制', value: '1' },

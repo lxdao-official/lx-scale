@@ -58,51 +58,51 @@ export const bdi2: Questionnaire = {
         { id: 21, content: "对性的兴趣缺失" }
     ],
     renderOptions: (id: number) => {
-        // 根据不同题目返回不同的选项
+        // Return different options based on different questions
         switch (id) {
-            case 1: // 悲伤
+            case 1: // Sadness
                 return [
                     { id: 1, content: "我不感到悲伤", value: "0" },
                     { id: 2, content: "我大部分时间感到悲伤", value: "1" },
                     { id: 3, content: "我一直感到悲伤", value: "2" },
                     { id: 4, content: "我太悲伤或不快乐，无法忍受", value: "3" }
                 ];
-            case 2: // 悲观
+            case 2: // Pessimism
                 return [
                     { id: 1, content: "我对未来不感到特别沮丧", value: "0" },
                     { id: 2, content: "我对未来感到比以前更沮丧", value: "1" },
                     { id: 3, content: "我不期望事情对我有好转", value: "2" },
                     { id: 4, content: "我觉得未来对我来说是无望的，只会变得更糟", value: "3" }
                 ];
-            case 3: // 既往失败
+            case 3: // Past failure
                 return [
                     { id: 1, content: "我不觉得自己是个失败者", value: "0" },
                     { id: 2, content: "我比大多数人更经常地失败", value: "1" },
                     { id: 3, content: "当我回顾我的生活时，我看到的都是失败", value: "2" },
                     { id: 4, content: "我觉得自己作为一个人是完全失败的", value: "3" }
                 ];
-            case 4: // 快感缺失
+            case 4: // Loss of pleasure
                 return [
                     { id: 1, content: "我从事情中得到的满足感和以前一样多", value: "0" },
                     { id: 2, content: "我从事情中得到的享受不如以前", value: "1" },
                     { id: 3, content: "我从任何事情中得到的真正满足感都很少", value: "2" },
                     { id: 4, content: "我从任何事情中都不满足或不快乐", value: "3" }
                 ];
-            case 9: // 自杀想法或愿望
+            case 9: // Suicidal thoughts or wishes
                 return [
                     { id: 1, content: "我没有任何自杀的想法", value: "0" },
                     { id: 2, content: "我有自杀的想法，但不会实施", value: "1" },
                     { id: 3, content: "我想自杀", value: "2" },
                     { id: 4, content: "如果有机会，我会自杀", value: "3" }
                 ];
-            case 16: // 睡眠模式改变
+            case 16: // Changes in sleeping pattern
                 return [
                     { id: 1, content: "我的睡眠没有任何变化", value: "0" },
                     { id: 2, content: "我比平时睡得稍微多一些或少一些", value: "1" },
                     { id: 3, content: "我比平时睡得多很多或少很多", value: "2" },
                     { id: 4, content: "我几乎整天睡觉，或者我比平时早醒1-2小时且无法再入睡", value: "3" }
                 ];
-            case 18: // 食欲改变
+            case 18: // Changes in appetite
                 return [
                     { id: 1, content: "我的食欲没有任何变化", value: "0" },
                     { id: 2, content: "我的食欲比以前稍微差一些或好一些", value: "1" },
@@ -110,7 +110,7 @@ export const bdi2: Questionnaire = {
                     { id: 4, content: "我完全没有食欲，或者我渴望一直吃东西", value: "3" }
                 ];
             default:
-                // 通用选项模板
+                // Generic option template
                 return [
                     { id: 1, content: "无此症状", value: "0" },
                     { id: 2, content: "轻度", value: "1" },

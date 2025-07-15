@@ -25,7 +25,7 @@ export function Recommendations({
           <li>{t('generalAdvice')}</li>
         </ul>
 
-        {/* AI 聊天组件 */}
+        {/* AI Chat component */}
         <AIChat
           questionnaireResults={questionnaireResults}
           questionnaireType={questionnaireId}

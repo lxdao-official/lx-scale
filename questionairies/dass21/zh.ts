@@ -36,7 +36,7 @@ export const dass21: Questionnaire = {
         ]
     },
     questions: [
-        // 抑郁维度 (1, 3, 5, 10, 13, 16, 17)
+        // Depression dimension (1, 3, 5, 10, 13, 16, 17)
         { id: 1, content: "我发现很难让自己平静下来" },
         { id: 2, content: "我觉得嘴巴发干" },
         { id: 3, content: "我似乎无法体验到任何积极的情感" },

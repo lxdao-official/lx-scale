@@ -9,7 +9,7 @@ export async function HeroSection() {
     <section className="min-h-[calc(100vh-4rem)] py-16 flex items-center">
       <div className="container px-4 max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* 左侧内容 */}
+          {/* Left content */}
           <div className="space-y-6">
             <div className="inline-block bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">
               {t('title')}
@@ -74,7 +74,7 @@ export async function HeroSection() {
             </div>
           </div>
 
-          {/* 右侧内容 */}
+          {/* Right content */}
           <div className="bg-muted/50 p-8 rounded-xl">
             <h2 className="text-2xl font-semibold mb-4">
               {t('projectPurpose')}

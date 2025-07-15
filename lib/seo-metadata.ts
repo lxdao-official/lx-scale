@@ -18,17 +18,17 @@ export function generateQuestionnaireMetadata(
   const isZh = locale === "zh";
   const keywords = getQuestionnaireKeywords(questionnaire.id, locale);
 
-  // 获取量表的专业描述
+  // Get professional description of the scale
   const introduction = questionnaire.details.introduction;
   const questionCount = questionnaire.details.questionCount;
   const evaluationTime = questionnaire.details.evaluationTime;
 
-  // 构建专业标题（强调免费、权威、AI分析）
+  // Build professional title (emphasizing free, authoritative, AI analysis)
   const title = isZh
     ? `${questionnaire.title} - 免费权威AI心理测评 | LXScale专业心理量表平台`
     : `${questionnaire.title} - Free Authoritative AI Assessment | LXScale Professional Mental Health Platform`;
 
-  // 构建详细描述（突出三大优势）
+  // Build detailed description (highlighting three major advantages)
   const description = isZh
     ? `【免费+权威+AI分析】${
         questionnaire.title
@@ -43,17 +43,17 @@ export function generateQuestionnaireMetadata(
         80
       )}...${questionCount} questions, takes ${evaluationTime}. International standard scale with free AI analysis, authoritative clinical assessment, privacy protected.`;
 
-  // OpenGraph 标题（突出核心价值）
+  // OpenGraph title (highlighting core value)
   const ogTitle = isZh
     ? `${questionnaire.title} - 免费AI心理测评 | LXScale权威平台`
     : `${questionnaire.title} - Free AI Mental Health Assessment | LXScale`;
 
-  // OpenGraph 描述（强调专业性和免费）
+  // OpenGraph description (emphasizing professionalism and free)
   const ogDescription = isZh
     ? `权威${questionnaire.title}免费测评+AI智能分析。${questionCount}题${evaluationTime}完成，国际标准，临床级准确度，完全免费。`
     : `Authoritative ${questionnaire.title} free assessment + AI analysis. ${questionCount} questions, ${evaluationTime} completion, international standard, clinical accuracy, completely free.`;
 
-  // Twitter 标题和描述
+  // Twitter title and description
   const twitterTitle = ogTitle;
   const twitterDescription = ogDescription;
 
@@ -68,7 +68,7 @@ export function generateQuestionnaireMetadata(
   };
 }
 
-// 为每个量表生成专业的结构化数据
+// Generate professional structured data for each questionnaire
 export function generateQuestionnaireStructuredData(
   questionnaire: Questionnaire,
   locale: string,

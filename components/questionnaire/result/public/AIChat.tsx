@@ -28,9 +28,9 @@ export function AIChat({ questionnaireResults, questionnaireType, onLimitReached
   const [lastMessageTime, setLastMessageTime] = useState(0);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const t = useScopedI18n('component.questionnaire.result.public.aiChat');
-  const lang = useGetLang(); // 用于API调用中的语言设置
+  const lang = useGetLang(); // For language setting in API calls
 
-  // 监听对话限制状态变化
+  // Listen to conversation limit status changes
   useEffect(() => {
     if (onLimitReached) {
       onLimitReached(messageCount >= 10);
@@ -111,7 +111,7 @@ export function AIChat({ questionnaireResults, questionnaireType, onLimitReached
       }
     } catch (error) {
       console.error('Error generating initial suggestion:', error);
-      // 检查是否是402付费错误
+      // Check if it's a 402 payment error
       if (error instanceof Error && error.message.includes('402')) {
         setInitialSuggestion('🔔 AI分析功能暂时不可用，请稍后再试。我们正在升级服务以提供更好的体验！');
       } else {
@@ -122,7 +122,7 @@ export function AIChat({ questionnaireResults, questionnaireType, onLimitReached
     }
   }, [questionnaireType, questionnaireResults, lang, t]);
 
-  // 移除自动生成，改为手动触发
+  // Remove auto-generation, change to manual trigger
   // useEffect(() => {
   //   generateInitialSuggestion();
   // }, [generateInitialSuggestion]);
@@ -138,19 +138,19 @@ export function AIChat({ questionnaireResults, questionnaireType, onLimitReached
   const handleSendMessage = async () => {
     if (!input.trim() || isLoading) return;
 
-    // 检查消息长度限制
+    // Check message length limit
     if (input.length > 500) {
       alert(t('messageTooLong'));
       return;
     }
 
-    // 检查对话次数限制
+    // Check conversation count limit
     if (messageCount >= 10) {
       alert(t('conversationLimitAlert'));
       return;
     }
 
-    // 检查发送频率限制
+    // Check sending frequency limit
     const now = Date.now();
     if (now - lastMessageTime < 3000) {
       alert(t('rateLimitAlert'));
@@ -248,7 +248,7 @@ export function AIChat({ questionnaireResults, questionnaireType, onLimitReached
       }
     } catch (error) {
       console.error('Error calling AI API:', error);
-      // 检查错误类型，提供更具体的错误消息
+      // Check error type, provide more specific error message
       let errorMessage = t('apiErrorMessage') || '⚠️ AI服务暂时不可用，请稍后再试。';
       
       if (error instanceof Error && error.message.includes('402')) {
@@ -291,7 +291,7 @@ export function AIChat({ questionnaireResults, questionnaireType, onLimitReached
 
   return (
     <div className="mt-6">
-      {/* AI分析区域 */}
+      {/* AI Analysis Area */}
       <div className="mb-4 bg-blue-50 p-4 rounded-lg border border-blue-200">
         {initialSuggestion ? (
           <div className="text-blue-800">
@@ -325,7 +325,7 @@ export function AIChat({ questionnaireResults, questionnaireType, onLimitReached
         )}
       </div>
       
-      {/* 聊天按钮或聊天界面 */}
+      {/* Chat Button or Chat Interface */}
       {!showChat ? (
         <Button 
           onClick={() => setShowChat(true)} 
@@ -343,7 +343,7 @@ export function AIChat({ questionnaireResults, questionnaireType, onLimitReached
             </span>
           </div>
           
-          {/* 消息区域 */}
+          {/* Message Area */}
           <div 
             ref={chatContainerRef}
             className="h-80 overflow-y-auto p-4 space-y-4"
@@ -383,7 +383,7 @@ export function AIChat({ questionnaireResults, questionnaireType, onLimitReached
           
           <Separator />
           
-          {/* 输入区域 */}
+          {/* Input Area */}
           <div className="p-3">
             <div className="flex mb-2">
               <input
