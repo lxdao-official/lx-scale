@@ -48,26 +48,31 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'LXScale - Free Mental Health Assessment Tools',
-    description: 'Professional mental health assessment platform providing free depression, anxiety, and OCD psychological scale tests',
+    title: 'LXScale - Free Mental Health Assessment Tools 🧠',
+    description: '🔬 Professional psychological assessment platform with AI analysis. Free depression, anxiety, OCD, and stress tests. Get instant results and professional insights.',
     url: 'https://lxscale.xyz',
     siteName: 'LXScale',
     locale: 'en_US',
     type: 'website',
     images: [
       {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'LXScale Mental Health Assessment Platform',
+        url: '/apple-icon.png',
+        width: 180,
+        height: 180,
+        alt: 'LXScale - Free Mental Health Assessment Platform with AI Analysis',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'LXScale - Free Mental Health Assessment Tools',
-    description: 'Professional mental health assessment platform providing free psychological scale tests',
-    images: ['/og-image.png'],
+    site: '@LXDAO_Official',
+    creator: '@0xhardman', 
+    title: 'LXScale - Free Mental Health Assessment Tools 🧠',
+    description: '🔬 Professional psychological scales | 🤖 AI analysis | 📊 Instant results | 🆓 Completely free - Start your mental health assessment now!',
+    images: {
+      url: '/apple-icon.png',
+      alt: 'LXScale - Free Mental Health Assessment Platform with AI Analysis',
+    },
   },
   robots: {
     index: true,
@@ -129,6 +134,14 @@ export default async function RootLayout({
         />
         <meta name="apple-mobile-web-app-title" content="LXScale" />
         <meta name="baidu-site-verification" content="codeva-hMa3lbSIwc" />
+        
+        {/* Additional social media optimization */}
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="180" />
+        <meta property="og:image:height" content="180" />
+        <meta name="twitter:domain" content="lxscale.xyz" />
+        <meta name="twitter:url" content="https://lxscale.xyz" />
+        
         {/* Baidu optimization: point to Chinese version as main page */}
         <link rel="alternate" hrefLang="zh-CN" href="https://lxscale.xyz/zh" />
         <link rel="alternate" hrefLang="zh" href="https://lxscale.xyz/zh" />
