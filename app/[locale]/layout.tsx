@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import Script from 'next/script';
 import './globals.css';
 // import { RainbowProvider } from "@/components/context/rainbow-kit";
 import { Navbar } from '@/components/Navbar';
@@ -126,17 +127,6 @@ export default async function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-16Q8VG96ZV"></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-16Q8VG96ZV');
-            `,
-          }}
-        />
         <meta name="apple-mobile-web-app-title" content="LXScale" />
         <meta name="baidu-site-verification" content="codeva-hMa3lbSIwc" />
         {/* Baidu optimization: point to Chinese version as main page */}
@@ -155,6 +145,20 @@ export default async function RootLayout({
         </I18nProviderClient>
         {/* </RainbowProvider> */}
         <Toaster />
+        
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-16Q8VG96ZV"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-16Q8VG96ZV');
+          `}
+        </Script>
       </body>
     </html>
   );

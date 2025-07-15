@@ -8,11 +8,15 @@ const I18nMiddleware = createI18nMiddleware({
 });
 
 export function middleware(request: NextRequest) {
-    // Skip i18n processing for SEO-related files and PWA manifest
+    // Skip i18n processing for SEO-related files, PWA manifest, service worker, and app icons
     if (
         request.nextUrl.pathname === '/sitemap.xml' ||
         request.nextUrl.pathname === '/robots.txt' ||
-        request.nextUrl.pathname === '/manifest.json'
+        request.nextUrl.pathname === '/manifest.json' ||
+        request.nextUrl.pathname === '/sw.js' ||
+        request.nextUrl.pathname === '/apple-icon.png' ||
+        request.nextUrl.pathname === '/icon0.svg' ||
+        request.nextUrl.pathname === '/icon1.png'
     ) {
         return NextResponse.next();
     }
@@ -28,5 +32,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/((?!api|_next/static|_next/image|favicon.ico|manifest.json).*)", "/share/:path*"],
+    matcher: ["/((?!api|_next/static|_next/image|favicon.ico|manifest.json|sw.js|apple-icon.png|icon0.svg|icon1.png).*)", "/share/:path*"],
 };
