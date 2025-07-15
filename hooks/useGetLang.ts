@@ -1,9 +1,8 @@
-import { usePathname } from "next/navigation";
+import { useCurrentLocale } from '@/locales/client';
 
-// 获取当前语言hook
+// 获取当前语言hook - 使用 next-international 的语言检测
 export default function useGetLang(): string {
-  const pathname = usePathname() || "";
-  return pathname.startsWith("/zh") ? "zh" : "en";
+  return useCurrentLocale();
 }
 
 // 多语言文本处理hook
