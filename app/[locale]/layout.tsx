@@ -135,6 +135,7 @@ export default async function RootLayout({
           }}
         />
         <meta name="apple-mobile-web-app-title" content="LXScale" />
+        <meta name="baidu-site-verification" content="codeva-hMa3lbSIwc" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
