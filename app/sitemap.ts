@@ -15,7 +15,7 @@ const questionnaires = [
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://lxscale.xyz'
   
-  // 基础页面
+  // 基础页面 - 添加所有语言版本
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
@@ -25,7 +25,31 @@ export default function sitemap(): MetadataRoute.Sitemap {
       alternates: {
         languages: {
           'zh': `${baseUrl}/zh`,
-          'en': `${baseUrl}/en`,
+          'en': baseUrl,
+        },
+      },
+    },
+    {
+      url: `${baseUrl}/zh`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+      alternates: {
+        languages: {
+          'zh': `${baseUrl}/zh`,
+          'en': baseUrl,
+        },
+      },
+    },
+    {
+      url: `${baseUrl}/en`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+      alternates: {
+        languages: {
+          'zh': `${baseUrl}/zh`,
+          'en': baseUrl,
         },
       },
     },

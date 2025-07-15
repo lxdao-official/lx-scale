@@ -17,15 +17,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'LXScale - 免费心理健康测评工具 | 专业心理量表测试平台',
-  description: '提供免费、专业的心理健康测评服务。包含抑郁量表(PHQ-9、BDI-II、SDS)、焦虑量表(GAD-7、DASS-21)、强迫症量表(Y-BOCS)、睡眠量表(ISI)、压力量表(PSS-10)、心理症状量表(SCL-90)等多种国际标准心理测评工具。',
+  title: 'LXScale - Free Mental Health Assessment Tools | Professional Psychological Scales',
+  description: 'Free professional mental health assessment platform. Includes depression scales (PHQ-9, BDI-II, SDS), anxiety scales (GAD-7, DASS-21), OCD scale (Y-BOCS), sleep scale (ISI), stress scale (PSS-10), and psychological symptom scale (SCL-90).',
   keywords: [
-    '心理测评', '心理量表', '抑郁测试', '焦虑测试', '心理健康', '免费测评',
-    'PHQ-9', 'BDI-II', 'SDS', 'GAD-7', 'DASS-21', 'Y-BOCS', 'SCL-90', 'ISI', 'PSS-10',
-    '抑郁自评量表', '焦虑自评量表', '强迫症量表', '睡眠质量', '压力测试',
-    '心理筛查', '心理评估', '心理诊断', '心理健康检测', '心理状态评估',
     'mental health', 'depression scale', 'anxiety scale', 'psychological assessment',
-    'free mental health test', 'online psychological evaluation'
+    'free mental health test', 'online psychological evaluation',
+    'PHQ-9', 'BDI-II', 'SDS', 'GAD-7', 'DASS-21', 'Y-BOCS', 'SCL-90', 'ISI', 'PSS-10',
+    'depression screening', 'anxiety screening', 'OCD assessment', 'sleep quality', 'stress test',
+    'psychological screening', 'mental health evaluation', 'psychological diagnosis',
+    '心理测评', '心理量表', '抑郁测试', '焦虑测试', '心理健康', '免费测评'
   ].join(', '),
   authors: [{ name: 'LXScale Team' }],
   creator: 'LXScale',
@@ -40,29 +40,32 @@ export const metadata: Metadata = {
     canonical: '/',
     languages: {
       'zh-CN': '/zh',
-      'en-US': '/en',
+      'zh': '/zh',
+      'en-US': '/',
+      'en': '/',
+      'x-default': '/',
     },
   },
   openGraph: {
-    title: 'LXScale - 免费心理健康测评工具',
-    description: '专业的心理健康测评平台，提供抑郁、焦虑、强迫症等多种免费心理量表测试',
+    title: 'LXScale - Free Mental Health Assessment Tools',
+    description: 'Professional mental health assessment platform providing free depression, anxiety, and OCD psychological scale tests',
     url: 'https://lxscale.xyz',
     siteName: 'LXScale',
-    locale: 'zh_CN',
+    locale: 'en_US',
     type: 'website',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'LXScale 心理健康测评平台',
+        alt: 'LXScale Mental Health Assessment Platform',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'LXScale - 免费心理健康测评工具',
-    description: '专业的心理健康测评平台，提供多种免费心理量表测试',
+    title: 'LXScale - Free Mental Health Assessment Tools',
+    description: 'Professional mental health assessment platform providing free psychological scale tests',
     images: ['/og-image.png'],
   },
   robots: {
@@ -136,6 +139,11 @@ export default async function RootLayout({
         />
         <meta name="apple-mobile-web-app-title" content="LXScale" />
         <meta name="baidu-site-verification" content="codeva-hMa3lbSIwc" />
+        {/* 百度优化：指向中文版本作为主要页面 */}
+        <link rel="alternate" hrefLang="zh-CN" href="https://lxscale.xyz/zh" />
+        <link rel="alternate" hrefLang="zh" href="https://lxscale.xyz/zh" />
+        <link rel="alternate" hrefLang="en" href="https://lxscale.xyz" />
+        <link rel="alternate" hrefLang="x-default" href="https://lxscale.xyz" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
