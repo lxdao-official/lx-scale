@@ -19,7 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
-      lastModified: new Date(),
+      lastModified: new Date('2025-07-16'),
       changeFrequency: 'monthly',
       priority: 1,
       alternates: {
@@ -31,7 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/zh`,
-      lastModified: new Date(),
+      lastModified: new Date('2025-07-16'),
       changeFrequency: 'monthly',
       priority: 0.9,
       alternates: {
@@ -43,7 +43,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/en`,
-      lastModified: new Date(),
+      lastModified: new Date('2025-07-16'),
       changeFrequency: 'monthly',
       priority: 0.9,
       alternates: {
@@ -54,8 +54,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       },
     },
     {
-      url: `${baseUrl}/questionnaire`,
-      lastModified: new Date(),
+      url: `${baseUrl}/zh/questionnaire`,
+      lastModified: new Date('2025-07-16'),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+      alternates: {
+        languages: {
+          'zh': `${baseUrl}/zh/questionnaire`,
+          'en': `${baseUrl}/en/questionnaire`,
+        },
+      },
+    },
+    {
+      url: `${baseUrl}/en/questionnaire`,
+      lastModified: new Date('2025-07-16'),
       changeFrequency: 'weekly',
       priority: 0.8,
       alternates: {
@@ -71,27 +83,51 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const questionnairePages: MetadataRoute.Sitemap = questionnaires.flatMap(q => [
     {
       url: `${baseUrl}/zh/questionnaire/${q.id}`,
-      lastModified: new Date(),
+      lastModified: new Date('2025-07-16'),
       changeFrequency: 'monthly',
       priority: 0.7,
+      alternates: {
+        languages: {
+          'zh': `${baseUrl}/zh/questionnaire/${q.id}`,
+          'en': `${baseUrl}/en/questionnaire/${q.id}`,
+        },
+      },
     },
     {
       url: `${baseUrl}/en/questionnaire/${q.id}`,
-      lastModified: new Date(),
+      lastModified: new Date('2025-07-16'),
       changeFrequency: 'monthly',
       priority: 0.7,
+      alternates: {
+        languages: {
+          'zh': `${baseUrl}/zh/questionnaire/${q.id}`,
+          'en': `${baseUrl}/en/questionnaire/${q.id}`,
+        },
+      },
     },
     {
       url: `${baseUrl}/zh/questionnaire/${q.id}/details`,
-      lastModified: new Date(),
+      lastModified: new Date('2025-07-16'),
       changeFrequency: 'monthly',
       priority: 0.8,
+      alternates: {
+        languages: {
+          'zh': `${baseUrl}/zh/questionnaire/${q.id}/details`,
+          'en': `${baseUrl}/en/questionnaire/${q.id}/details`,
+        },
+      },
     },
     {
       url: `${baseUrl}/en/questionnaire/${q.id}/details`,
-      lastModified: new Date(),
+      lastModified: new Date('2025-07-16'),
       changeFrequency: 'monthly',
       priority: 0.8,
+      alternates: {
+        languages: {
+          'zh': `${baseUrl}/zh/questionnaire/${q.id}/details`,
+          'en': `${baseUrl}/en/questionnaire/${q.id}/details`,
+        },
+      },
     },
   ])
 
