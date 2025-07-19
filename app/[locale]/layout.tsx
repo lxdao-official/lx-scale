@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://lxscale.xyz'),
+  metadataBase: new URL('https://www.lxscale.xyz'),
   alternates: {
     canonical: '/',
     languages: {
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'LXScale - Free Mental Health Assessment Tools 🧠',
     description: '🔬 Professional psychological assessment platform with AI analysis. Free depression, anxiety, OCD, and stress tests. Get instant results and professional insights.',
-    url: 'https://lxscale.xyz',
+    url: 'https://www.lxscale.xyz',
     siteName: 'LXScale',
     locale: 'en_US',
     type: 'website',
@@ -105,19 +105,19 @@ export default async function RootLayout({
     '@type': 'WebSite',
     name: 'LXScale',
     description: '免费专业的心理健康测评平台',
-    url: 'https://lxscale.xyz',
+    url: 'https://www.lxscale.xyz',
     potentialAction: {
       '@type': 'SearchAction',
-      target: 'https://lxscale.xyz/questionnaire?search={search_term_string}',
+      target: 'https://www.lxscale.xyz/questionnaire?search={search_term_string}',
       'query-input': 'required name=search_term_string'
     },
     publisher: {
       '@type': 'Organization',
       name: 'LXScale',
-      url: 'https://lxscale.xyz',
+      url: 'https://www.lxscale.xyz',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://lxscale.xyz/logo.png'
+        url: 'https://www.lxscale.xyz/logo.png'
       }
     },
     sameAs: [
@@ -139,14 +139,14 @@ export default async function RootLayout({
         <meta property="og:image:type" content="image/png" />
         <meta property="og:image:width" content="180" />
         <meta property="og:image:height" content="180" />
-        <meta name="twitter:domain" content="lxscale.xyz" />
-        <meta name="twitter:url" content="https://lxscale.xyz" />
+        <meta name="twitter:domain" content="www.lxscale.xyz" />
+        <meta name="twitter:url" content="https://www.lxscale.xyz" />
         
         {/* Baidu optimization: point to Chinese version as main page */}
-        <link rel="alternate" hrefLang="zh-CN" href="https://lxscale.xyz/zh" />
-        <link rel="alternate" hrefLang="zh" href="https://lxscale.xyz/zh" />
-        <link rel="alternate" hrefLang="en" href="https://lxscale.xyz" />
-        <link rel="alternate" hrefLang="x-default" href="https://lxscale.xyz" />
+        <link rel="alternate" hrefLang="zh-CN" href="https://www.lxscale.xyz/zh" />
+        <link rel="alternate" hrefLang="zh" href="https://www.lxscale.xyz/zh" />
+        <link rel="alternate" hrefLang="en" href="https://www.lxscale.xyz" />
+        <link rel="alternate" hrefLang="x-default" href="https://www.lxscale.xyz" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

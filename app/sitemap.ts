@@ -19,7 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
-      lastModified: new Date('2025-07-16'),
+      lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 1,
       alternates: {
@@ -31,7 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/zh`,
-      lastModified: new Date('2025-07-16'),
+      lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.9,
       alternates: {
@@ -43,7 +43,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/en`,
-      lastModified: new Date('2025-07-16'),
+      lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.9,
       alternates: {
@@ -55,7 +55,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/zh/questionnaire`,
-      lastModified: new Date('2025-07-16'),
+      lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,
       alternates: {
@@ -67,7 +67,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/en/questionnaire`,
-      lastModified: new Date('2025-07-16'),
+      lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,
       alternates: {
@@ -83,7 +83,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const questionnairePages: MetadataRoute.Sitemap = questionnaires.flatMap(q => [
     {
       url: `${baseUrl}/zh/questionnaire/${q.id}`,
-      lastModified: new Date('2025-07-16'),
+      lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.7,
       alternates: {
@@ -95,7 +95,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/en/questionnaire/${q.id}`,
-      lastModified: new Date('2025-07-16'),
+      lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.7,
       alternates: {
@@ -107,7 +107,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/zh/questionnaire/${q.id}/details`,
-      lastModified: new Date('2025-07-16'),
+      lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
       alternates: {
@@ -119,7 +119,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/en/questionnaire/${q.id}/details`,
-      lastModified: new Date('2025-07-16'),
+      lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
       alternates: {
