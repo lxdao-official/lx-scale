@@ -1,0 +1,32 @@
+export default {
+    totalScore: '总分',
+    scorePercentage: '得分百分比',
+    elevatedItems: '升高项目',
+    genderIdentity: '性别认同',
+    socialRole: '社会角色',
+    physicalDysphoria: '身体性别焦虑',
+    genderExpression: '性别表达',
+    overallAssessment: '整体评估',
+    recommendations: '建议',
+    importantNotes: '重要提示',
+    understandingResults: '理解您的结果',
+    factorScores: '因子得分',
+    interpretationLevels: {
+        low: '低',
+        mild: '轻度',
+        moderate: '中度',
+        high: '高',
+    },
+    factorDescriptions: {
+        genderIdentity: '对个人内在性别感受的体验',
+        socialRole: '对基于出生时指定性别的社会期望的舒适度',
+        physicalDysphoria: '对身体特征和体型的感受',
+        genderExpression: '以各种方式表达性别的舒适度',
+    },
+    notes: {
+        purpose: '此问卷仅用于教育和自我反思目的',
+        substitute: '它不能替代专业评估或诊断',
+        complexity: '性别认同是一个复杂而个人化的体验，在个体间差异很大',
+        professional: '如果您感到痛苦，请考虑咨询合格的心理健康专业人员',
+    },
+} as const;

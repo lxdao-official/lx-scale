@@ -7,6 +7,9 @@ import gad7Result from './result/gad7';
 import dass21Result from './result/dass21';
 import isiResult from './result/isi';
 import pss10Result from './result/pss10';
+import adhdResult from './result/adhd';
+import gdResult from './result/gd';
+import npdResult from './result/npd';
 
 export default {
     ocdResult,
@@ -18,4 +21,7 @@ export default {
     dass21Result,
     isiResult,
     pss10Result,
+    adhdResult,
+    gdResult,
+    npdResult,
 } as const;

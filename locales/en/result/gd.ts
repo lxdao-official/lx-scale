@@ -1,0 +1,32 @@
+export default {
+    totalScore: 'Total Score',
+    scorePercentage: 'Score Percentage',
+    elevatedItems: 'Elevated Items',
+    genderIdentity: 'Gender Identity',
+    socialRole: 'Social Role',
+    physicalDysphoria: 'Physical Dysphoria',
+    genderExpression: 'Gender Expression',
+    overallAssessment: 'Overall Assessment',
+    recommendations: 'Recommendations',
+    importantNotes: 'Important Notes',
+    understandingResults: 'Understanding Your Results',
+    factorScores: 'Factor Scores',
+    interpretationLevels: {
+        low: 'Low',
+        mild: 'Mild',
+        moderate: 'Moderate',
+        high: 'High',
+    },
+    factorDescriptions: {
+        genderIdentity: 'Feelings about your internal sense of gender',
+        socialRole: 'Comfort with social expectations based on assigned gender',
+        physicalDysphoria: 'Feelings about physical characteristics and body',
+        genderExpression: 'Comfort with expressing gender in various ways',
+    },
+    notes: {
+        purpose: 'This questionnaire is for educational and self-reflection purposes only',
+        substitute: 'It is not a substitute for professional evaluation or diagnosis',
+        complexity: 'Gender identity is a complex and personal experience that varies greatly among individuals',
+        professional: 'If you are experiencing distress, consider speaking with a qualified mental health professional',
+    },
+} as const;

@@ -1,13 +1,52 @@
 'use client';
 
 import React from 'react';
+import { useScopedI18n } from '@/locales/client';
 import { calculateGDResults } from '../../test/private/GDCalculator';
+
+function useLabels() {
+  const t = useScopedI18n('components.gdResult');
+  return {
+    totalScore: t('totalScore'),
+    scorePercentage: t('scorePercentage'),
+    elevatedItems: t('elevatedItems'),
+    genderIdentity: t('genderIdentity'),
+    socialRole: t('socialRole'),
+    physicalDysphoria: t('physicalDysphoria'),
+    genderExpression: t('genderExpression'),
+    overallAssessment: t('overallAssessment'),
+    recommendations: t('recommendations'),
+    importantNotes: t('importantNotes'),
+    understandingResults: t('understandingResults'),
+    factorScores: t('factorScores'),
+    interpretationLevels: {
+      low: t('interpretationLevels.low'),
+      mild: t('interpretationLevels.mild'),
+      moderate: t('interpretationLevels.moderate'),
+      high: t('interpretationLevels.high'),
+    },
+    factorDescriptions: {
+      genderIdentity: t('factorDescriptions.genderIdentity'),
+      socialRole: t('factorDescriptions.socialRole'),
+      physicalDysphoria: t('factorDescriptions.physicalDysphoria'),
+      genderExpression: t('factorDescriptions.genderExpression'),
+    },
+    notes: {
+      purpose: t('notes.purpose'),
+      substitute: t('notes.substitute'),
+      complexity: t('notes.complexity'),
+      professional: t('notes.professional'),
+    },
+  };
+}
 
 export function GDResult({
   answers,
 }: {
   answers: string[];
 }) {
+  const labels = useLabels();
+  
   // Convert answers array to object format expected by calculator
   const answersObj: { [key: number]: string } = {};
   answers.forEach((answer, index) => {
@@ -27,32 +66,26 @@ export function GDResult({
   };
 
   const getInterpretationLabel = (interpretation: string) => {
-    switch (interpretation) {
-      case 'low': return 'Low';
-      case 'mild': return 'Mild';
-      case 'moderate': return 'Moderate';
-      case 'high': return 'High';
-      default: return 'Unknown';
-    }
+    return labels.interpretationLevels[interpretation as keyof typeof labels.interpretationLevels] || 'Unknown';
   };
 
   return (
     <div className="mt-6 space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <MetricCard title="Total Score" value={results.totalScore} />
-        <MetricCard title="Score Percentage" value={`${results.scorePercentage}%`} />
-        <MetricCard title="Elevated Items" value={results.positiveItemCount} />
+        <MetricCard title={labels.totalScore} value={results.totalScore} />
+        <MetricCard title={labels.scorePercentage} value={`${results.scorePercentage}%`} />
+        <MetricCard title={labels.elevatedItems} value={results.positiveItemCount} />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <MetricCard title="Gender Identity" value={results.factorScores.genderIdentity} />
-        <MetricCard title="Social Role" value={results.factorScores.socialRole} />
-        <MetricCard title="Physical Dysphoria" value={results.factorScores.physicalDysphoria} />
-        <MetricCard title="Gender Expression" value={results.factorScores.genderExpression} />
+        <MetricCard title={labels.genderIdentity} value={results.factorScores.genderIdentity} />
+        <MetricCard title={labels.socialRole} value={results.factorScores.socialRole} />
+        <MetricCard title={labels.physicalDysphoria} value={results.factorScores.physicalDysphoria} />
+        <MetricCard title={labels.genderExpression} value={results.factorScores.genderExpression} />
       </div>
 
       <div className="bg-white border rounded-lg p-4 shadow-sm">
-        <h3 className="text-sm font-medium text-gray-500 mb-2">Overall Assessment</h3>
+        <h3 className="text-sm font-medium text-gray-500 mb-2">{labels.overallAssessment}</h3>
         <div className={`text-lg font-semibold ${getInterpretationColor(results.interpretation)}`}>
           {getInterpretationLabel(results.interpretation)} Level
         </div>
@@ -62,29 +95,29 @@ export function GDResult({
       </div>
 
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <h3 className="text-sm font-medium text-blue-800 mb-2">Recommendations</h3>
+        <h3 className="text-sm font-medium text-blue-800 mb-2">{labels.recommendations}</h3>
         <p className="text-sm text-blue-700">{results.recommendations}</p>
       </div>
 
       <div className="bg-gray-50 border rounded-lg p-4">
-        <h3 className="text-sm font-medium text-gray-700 mb-2">Important Notes</h3>
+        <h3 className="text-sm font-medium text-gray-700 mb-2">{labels.importantNotes}</h3>
         <ul className="text-sm text-gray-600 space-y-1">
-          <li>• This questionnaire is for educational and self-reflection purposes only</li>
-          <li>• It is not a substitute for professional evaluation or diagnosis</li>
-          <li>• Gender identity is a complex and personal experience that varies greatly among individuals</li>
-          <li>• If you are experiencing distress, consider speaking with a qualified mental health professional</li>
+          <li>• {labels.notes.purpose}</li>
+          <li>• {labels.notes.substitute}</li>
+          <li>• {labels.notes.complexity}</li>
+          <li>• {labels.notes.professional}</li>
         </ul>
       </div>
 
       <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
-        <h3 className="text-sm font-medium text-purple-800 mb-2">Understanding Your Results</h3>
+        <h3 className="text-sm font-medium text-purple-800 mb-2">{labels.understandingResults}</h3>
         <div className="text-sm text-purple-700 space-y-2">
-          <p><strong>Factor Scores:</strong></p>
+          <p><strong>{labels.factorScores}:</strong></p>
           <ul className="ml-4 space-y-1">
-            <li>• Gender Identity: Feelings about your internal sense of gender</li>
-            <li>• Social Role: Comfort with social expectations based on assigned gender</li>
-            <li>• Physical Dysphoria: Feelings about physical characteristics and body</li>
-            <li>• Gender Expression: Comfort with expressing gender in various ways</li>
+            <li>• {labels.genderIdentity}: {labels.factorDescriptions.genderIdentity}</li>
+            <li>• {labels.socialRole}: {labels.factorDescriptions.socialRole}</li>
+            <li>• {labels.physicalDysphoria}: {labels.factorDescriptions.physicalDysphoria}</li>
+            <li>• {labels.genderExpression}: {labels.factorDescriptions.genderExpression}</li>
           </ul>
         </div>
       </div>
