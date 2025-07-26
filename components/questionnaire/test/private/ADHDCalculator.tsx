@@ -85,8 +85,5 @@ export const calculateADHDResults = ({ answers }: ADHDCalculatorProps): any => {
         severity,
         screeningPositive,
         partAPositive,
-        recommendations: screeningPositive 
-            ? "Results suggest possible ADHD symptoms. Consider consulting with a healthcare professional for proper evaluation."
-            : "Results do not suggest significant ADHD symptoms. However, if you have concerns, consider speaking with a healthcare professional."
     };
 };

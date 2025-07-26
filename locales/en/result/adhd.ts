@@ -22,4 +22,8 @@ export default {
         symptoms: 'ADHD symptoms must be present before age 7 and cause impairment in multiple settings',
         evaluation: 'A comprehensive evaluation by a qualified healthcare professional is needed for diagnosis',
     },
+    recommendationTexts: {
+        positive: 'Results suggest possible ADHD symptoms. Consider consulting with a healthcare professional for proper evaluation.',
+        negative: 'Results do not suggest significant ADHD symptoms. However, if you have concerns, consider speaking with a healthcare professional.',
+    },
 } as const;

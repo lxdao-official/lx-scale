@@ -29,4 +29,8 @@ export default {
         complexity: 'Gender identity is a complex and personal experience that varies greatly among individuals',
         professional: 'If you are experiencing distress, consider speaking with a qualified mental health professional',
     },
+    recommendationTexts: {
+        high: 'Results suggest significant gender-related concerns. Consider speaking with a qualified mental health professional who specializes in gender identity issues for support and guidance.',
+        low: 'Results suggest relatively low levels of gender-related distress. However, gender identity is complex and personal - if you have questions or concerns, consider speaking with a supportive counselor.',
+    },
 } as const;

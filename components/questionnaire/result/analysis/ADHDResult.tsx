@@ -30,6 +30,10 @@ function useLabels() {
       symptoms: t('notes.symptoms'),
       evaluation: t('notes.evaluation'),
     },
+    recommendationTexts: {
+      positive: t('recommendationTexts.positive'),
+      negative: t('recommendationTexts.negative'),
+    },
   };
 }
 
@@ -95,7 +99,9 @@ export function ADHDResult({
 
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
         <h3 className="text-sm font-medium text-blue-800 mb-2">{labels.recommendations}</h3>
-        <p className="text-sm text-blue-700">{results.recommendations}</p>
+        <p className="text-sm text-blue-700">
+          {results.screeningPositive ? labels.recommendationTexts.positive : labels.recommendationTexts.negative}
+        </p>
       </div>
 
       <div className="bg-gray-50 border rounded-lg p-4">

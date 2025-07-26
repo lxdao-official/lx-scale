@@ -37,4 +37,9 @@ export default {
     healthyAspects: 'Healthy aspects: Confidence, leadership, self-advocacy, ambition',
     potentialConcerns: 'Potential concerns: Difficulty with empathy, relationship problems, exploitation of others',
     balanceKey: 'Balance is key - healthy self-esteem with consideration for others tends to be most adaptive.',
+    recommendationTexts: {
+        high: 'Results suggest elevated narcissistic traits. Remember that this is a personality assessment, not a clinical diagnosis. Narcissistic traits can be adaptive in some contexts but may impact relationships if extreme.',
+        above_average: 'Results suggest above-average narcissistic traits. This is relatively common and can include positive aspects like confidence and leadership, balanced with consideration for others.',
+        low: 'Results suggest relatively low narcissistic traits, indicating a balanced sense of self with consideration for others. This suggests healthy self-esteem without excessive self-focus.',
+    },
 } as const;

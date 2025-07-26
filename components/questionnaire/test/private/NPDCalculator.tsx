@@ -88,10 +88,5 @@ export const calculateNPDResults = ({ answers }: NPDCalculatorProps): any => {
         interpretation,
         percentile,
         dominantTrait,
-        recommendations: interpretation === "high" 
-            ? "Results suggest elevated narcissistic traits. Remember that this is a personality assessment, not a clinical diagnosis. Narcissistic traits can be adaptive in some contexts but may impact relationships if extreme."
-            : interpretation === "above_average"
-            ? "Results suggest above-average narcissistic traits. This is relatively common and can include positive aspects like confidence and leadership, balanced with consideration for others."
-            : "Results suggest relatively low narcissistic traits, indicating a balanced sense of self with consideration for others. This suggests healthy self-esteem without excessive self-focus."
     };
 };

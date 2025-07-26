@@ -22,4 +22,8 @@ export default {
         symptoms: 'ADHD症状必须在7岁前出现，并在多个环境中造成功能损害',
         evaluation: '需要合格的医疗专业人员进行全面评估才能诊断',
     },
+    recommendationTexts: {
+        positive: '结果提示可能存在ADHD症状。建议咨询医疗专业人员进行适当评估。',
+        negative: '结果未提示明显的ADHD症状。但如果您有担忧，建议咨询医疗专业人员。',
+    },
 } as const;

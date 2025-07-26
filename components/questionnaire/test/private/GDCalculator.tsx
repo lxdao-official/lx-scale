@@ -105,8 +105,5 @@ export const calculateGDResults = ({ answers }: GDCalculatorProps): any => {
         isSevere: interpretation === "high",
         interpretation,
         scorePercentage: Math.round(scorePercentage),
-        recommendations: scorePercentage >= 50 
-            ? "Results suggest significant gender-related concerns. Consider speaking with a qualified mental health professional who specializes in gender identity issues for support and guidance."
-            : "Results suggest relatively low levels of gender-related distress. However, gender identity is complex and personal - if you have questions or concerns, consider speaking with a supportive counselor."
     };
 };
