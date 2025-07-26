@@ -8,6 +8,9 @@ import { pss10 } from "./pss10/en";
 import { dass21 } from "./dass21/en";
 import { bdi2 } from "./bdi2/en";
 import { isi } from "./isi/en";
+import { adhd } from "./adhd/en";
+import { gd } from "./gd/en";
+import { npd } from "./npd/en";
 
 export const questionnairesEn: Questionnaire[] = [
     ocd,
@@ -18,5 +21,8 @@ export const questionnairesEn: Questionnaire[] = [
     pss10,
     dass21,
     bdi2,
-    isi
+    isi,
+    adhd,
+    gd,
+    npd
 ];
