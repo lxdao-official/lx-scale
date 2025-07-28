@@ -4,13 +4,13 @@
   "description": "Professional mental health assessment platform with free psychological scales and AI analysis",
   "icons": [
     {
-      "src": "/icon1.png",
+      "src": "/share/icon1.png",
       "sizes": "any",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/apple-icon.png",
+      "src": "/share/apple-icon.png",
       "sizes": "180x180",
       "type": "image/png",
       "purpose": "any maskable"
