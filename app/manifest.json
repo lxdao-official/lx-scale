@@ -5,7 +5,7 @@
   "icons": [
     {
       "src": "/share/icon1.png",
-      "sizes": "any",
+      "sizes": "96x96",
       "type": "image/png",
       "purpose": "any maskable"
     },

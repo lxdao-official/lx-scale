@@ -56,7 +56,6 @@ export function Questionnaire({
 
     // Use real questionnaire data
     return questionnaire.questions.map((q, index: number) => {
-      console.log(q)
       const options = questionnaire.renderOptions(q.id)
       return {
         id: index + 1,
