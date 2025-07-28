@@ -1,7 +1,6 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ExternalLink } from 'lucide-react';
 // import { useCurrentLocale } from '@/locales/client';
 import ToggleLang from './ToggleLang';
 import { Suspense } from 'react';
