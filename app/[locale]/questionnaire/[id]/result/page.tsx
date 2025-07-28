@@ -42,7 +42,6 @@ export default function QuestionnaireResultPage({
     if (encodedAnswers) {
       const raw = decompress(encodedAnswers) || '';
       answersArray = raw.split('');
-      console.log('answersArray', answersArray);
     }
 
       // Save to state for rendering AnswerList
