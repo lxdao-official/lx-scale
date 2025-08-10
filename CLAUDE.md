@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-LXScale is a free, open-source mental health assessment platform that provides psychological screening tools. Currently implements Y-BOCS (Yale-Brown Obsessive Compulsive Scale) questionnaire with plans to integrate more psychological assessment tools and AI-driven analysis.
+LXScale is a free, open-source mental health assessment platform that provides psychological screening tools. Currently implements 12 questionnaires (OCD/Y-BOCS, SCL-90, SDS, GAD-7, PHQ-9, PSS-10, DASS-21, BDI-2, ISI, ADHD, GD, NPD) with AI-driven analysis through DeepSeek API.
 
 ## Development Commands
 
@@ -30,58 +30,54 @@ npm run lint
 ### Tech Stack
 - **Next.js 15**: App Router with internationalization (i18n)
 - **TypeScript**: Full type safety
-- **Tailwind CSS 4**: Utility-first styling
+- **Tailwind CSS 4**: Utility-first styling  
 - **Shadcn/ui**: Component library with Radix UI primitives
 - **Next-international**: i18n support for zh/en locales
 - **Sonner**: Toast notifications
+- **DeepSeek API**: AI-powered result analysis
 - **RainbowKit**: Web3 integration (currently commented out)
 
-### Key Directories
-- `app/[locale]/`: App Router pages with locale support
-- `components/`: Reusable UI components organized by domain
-- `questionairies/`: Questionnaire data and definitions
-- `hooks/`: Custom React hooks
-- `types/`: TypeScript type definitions
-- `locales/`: Internationalization files
-- `lib/`: Utility functions
-
-### Core Components Architecture
+### Core Architecture
 
 #### Questionnaire System
-- **Data Layer**: Questionnaire definitions in `questionairies/` with locale-specific files
-- **Types**: Centralized in `types/index.ts` defining `Questionnaire`, `QuestionType`, and `Option` interfaces
-- **Hook**: `useQuestionnaire()` provides locale-aware questionnaire access
-- **Calculator Components**: Located in `components/questionnaire/test/private/` for scoring logic
-- **Result Components**: Located in `components/questionnaire/result/` for displaying results
+- **Data Layer**: Each questionnaire has locale-specific data files in `questionairies/[questionnaire-id]/[locale].ts`
+- **Type System**: Core interfaces (`Questionnaire`, `QuestionType`, `Option`) defined in `types/index.ts`
+- **Data Access**: `useQuestionnaire()` hook provides locale-aware questionnaire loading
+- **Scoring Logic**: Calculator components in `components/questionnaire/test/private/[QuestionnaireId]Calculator.tsx`
+- **Result Display**: Analysis components in `components/questionnaire/result/analysis/[QuestionnaireId]Result.tsx`
+- **Routing**: `ResultAnalysis.tsx` component routes to appropriate result component based on questionnaire ID
 
 #### Internationalization
-- Uses `next-international` for locale routing (`/en/` and `/zh/`)
-- Questionnaire data is separated by locale in `questionairies/en.ts` and `questionairies/zh.ts`
-- Layout supports locale parameter from URL routing
+- URL-based locale routing: `/zh/` for Chinese, `/en/` for English
+- Questionnaire exports consolidated in `questionairies/zh.ts` and `questionairies/en.ts`
+- Translation files in `locales/[locale]/` for UI strings and result interpretations
 
-#### Component Structure
-- **Domain-based organization**: Components grouped by feature (home, questionnaire, ui)
-- **Result Analysis**: Modular system where `ResultAnalysis.tsx` routes to specific questionnaire result components
-- **Calculation Logic**: Separate calculator components for each questionnaire type with detailed scoring algorithms
+#### API Integration
+- **Chat API**: `/api/chat/route.ts` handles AI analysis requests
+- **Rate Limiting**: IP-based rate limiting (10 requests/minute)
+- **Streaming Support**: Supports both regular and streaming responses
+- **Environment Variable**: `DEEPSEEK_API_KEY` for API authentication
 
 ### Data Flow
-1. Questionnaire data is loaded via `useQuestionnaire()` hook
-2. User answers are collected and passed to calculator components
-3. Results are processed and displayed through specialized result components
-4. AI analysis is available through `/api/chat` endpoint using DeepSeek API
-
-## Important Notes
-
-- Currently only implements Y-BOCS questionnaire; architecture supports easy addition of new questionnaires
-- AI API key is hardcoded in `app/api/chat/route.ts` - should be moved to environment variables
-- RainbowKit integration is commented out but ready for Web3 donation features
-- Each questionnaire should have its own calculator component in `components/questionnaire/test/private/`
-- Results are displayed through questionnaire-specific components in `components/questionnaire/result/analysis/`
+1. User selects questionnaire from list (locale-aware via `useQuestionnaire()`)
+2. Answers collected in `QuestionnaireTest.tsx` component
+3. Calculator component processes raw answers into scores
+4. Result component displays scores, interpretations, and recommendations
+5. Optional AI chat for personalized analysis via DeepSeek API
 
 ## Adding New Questionnaires
 
-1. Create questionnaire data file in `questionairies/[locale]/[questionnaire-id].ts`
-2. Add to export in `questionairies/[locale].ts`
-3. Create calculator component in `components/questionnaire/test/private/[QuestionnaireId]Calculator.tsx`
-4. Create result component in `components/questionnaire/result/analysis/[QuestionnaireId]Result.tsx`
-5. Add case to `ResultAnalysis.tsx` switch statement
+1. Create data files: `questionairies/[id]/zh.ts` and `questionairies/[id]/en.ts`
+2. Export from: `questionairies/zh.ts` and `questionairies/en.ts`
+3. Create calculator: `components/questionnaire/test/private/[Id]Calculator.tsx`
+4. Create result component: `components/questionnaire/result/analysis/[Id]Result.tsx`
+5. Add case in `ResultAnalysis.tsx` switch statement
+6. Add translations: `locales/[locale]/result/[id].ts`
+
+## Important Notes
+
+- DeepSeek API key should be set via `DEEPSEEK_API_KEY` environment variable
+- All questionnaires support answer persistence via browser localStorage
+- Result sharing via URL with compressed answer data (LZ-string compression)
+- Each questionnaire must implement its own scoring algorithm in calculator component
+- Support for factor analysis and dimensional scoring where applicable
