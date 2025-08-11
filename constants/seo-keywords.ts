@@ -46,9 +46,24 @@ export const QUESTIONNAIRE_KEYWORDS: Record<string, Record<string, string[]>> = 
       '精神健康', '抑郁诊断', '心理筛查', '情绪测试', '抑郁量表免费'
     ],
     'isi': [
-      'ISI', '失眠严重指数', '失眠量表', '失眠测试', '失眠评估', '失眠筛查', '睡眠质量',
+      'ISI', '失眠严重指数', '失眠严重程度指数', '失眠严重程度量表', '失眠量表', '失眠测试', '失眠评估', '失眠筛查', '睡眠质量',
       '睡眠障碍', '失眠症', '心理测评', '免费失眠测试', '睡眠问题', '心理健康',
       '精神健康', '失眠诊断', '心理筛查', '睡眠评估', '失眠量表免费'
+    ],
+    'adhd': [
+      'ADHD', 'ASRS', '成人ADHD', '注意力缺陷多动障碍', 'ADHD测试', 'ADHD评估', 'ADHD筛查',
+      '注意力缺陷', '多动症', '心理测评', '免费ADHD测试', '注意力问题', '执行功能',
+      '心理健康', '精神健康', 'ADHD诊断', '心理筛查', 'ADHD自评量表'
+    ],
+    'gd': [
+      '性别焦虑', '性别不安', '性别认知障碍', '性别认同', '性别焦虑测试', '性别不安测试',
+      '性别认知测试', '跨性别', '心理测评', '免费性别测试', '性别表达', '性别认同问题',
+      '心理健康', '精神健康', '性别评估', '心理筛查', 'Gender Dysphoria Test'
+    ],
+    'npd': [
+      'NPI', 'NPI-16', '自恋人格', '自恋人格量表', '自恋测试', '自恋评估', '自恋人格清单',
+      '人格测试', '心理测评', '免费自恋测试', '自恋特质', '人格评估',
+      '心理健康', '精神健康', '人格诊断', '心理筛查', '自恋人格测试'
     ]
   },
   'en': {
@@ -83,9 +98,9 @@ export const QUESTIONNAIRE_KEYWORDS: Record<string, Record<string, string[]>> = 
       'OCD diagnosis', 'psychological screening', 'obsessive compulsive symptoms'
     ],
     'pss10': [
-      'PSS-10', 'PSS10', 'Perceived Stress Scale', 'stress test', 'stress assessment',
-      'stress screening', 'psychological stress', 'stress management', 'mental health',
-      'psychological assessment', 'free stress test', 'stress level', 'stress symptoms',
+      'PSS-10', 'PSS10', 'Perceived Stress Scale', 'perceived stress scale 10', 'pss stress test',
+      'stress test', 'stress assessment', 'stress screening', 'psychological stress', 'stress management', 
+      'mental health', 'psychological assessment', 'free stress test', 'stress level', 'stress symptoms',
       'stress diagnosis', 'psychological screening', 'stress evaluation', 'stress measurement'
     ],
     'dass21': [
@@ -101,10 +116,29 @@ export const QUESTIONNAIRE_KEYWORDS: Record<string, Record<string, string[]>> = 
       'depression diagnosis', 'psychological screening', 'mood assessment', 'depression scale'
     ],
     'isi': [
-      'ISI', 'Insomnia Severity Index', 'insomnia scale', 'sleep test', 'insomnia test',
+      'ISI', 'Insomnia Severity Index', 'insomnia severity scale', 'insomnia severity index questionnaire', 
+      'insomnia severity index scale', 'insomnia scale', 'sleep test', 'insomnia test',
       'sleep assessment', 'sleep quality', 'sleep disorder', 'insomnia', 'mental health',
       'psychological assessment', 'free insomnia test', 'sleep problems', 'insomnia diagnosis',
       'psychological screening', 'sleep evaluation', 'insomnia assessment', 'sleep screening'
+    ],
+    'adhd': [
+      'ADHD', 'ASRS', 'Adult ADHD', 'Attention Deficit Hyperactivity Disorder', 'ADHD test', 
+      'ADHD assessment', 'ADHD screening', 'attention deficit', 'hyperactivity', 'mental health',
+      'psychological assessment', 'free ADHD test', 'attention problems', 'executive function',
+      'ADHD diagnosis', 'psychological screening', 'ADHD self-report scale'
+    ],
+    'gd': [
+      'gender dysphoria', 'gender dysphoria test', 'gender dysphoria questionnaire', 'gender dysphoria assessment',
+      'gender identity', 'gender incongruence', 'transgender', 'gender expression', 'mental health',
+      'psychological assessment', 'free gender test', 'gender identity test', 'gender screening',
+      'psychological screening', 'gender evaluation', 'GDQ'
+    ],
+    'npd': [
+      'NPI', 'NPI-16', 'narcissistic personality inventory', 'narcissistic personality inventory test',
+      'narcissism personality inventory', 'npi narcissism', 'narcissism test', 'narcissism assessment',
+      'personality test', 'mental health', 'psychological assessment', 'free narcissism test',
+      'narcissistic traits', 'personality assessment', 'psychological screening', 'personality inventory'
     ]
   }
 };
@@ -145,7 +179,7 @@ export function getQuestionnaireKeywords(questionnaireId: string, locale: string
  * Get all supported questionnaire IDs
  */
 export const SUPPORTED_QUESTIONNAIRE_IDS = [
-  'phq9', 'gad7', 'bdi2', 'scl90', 'ocd', 'pss10', 'dass21', 'sds', 'isi'
+  'phq9', 'gad7', 'bdi2', 'scl90', 'ocd', 'pss10', 'dass21', 'sds', 'isi', 'adhd', 'gd', 'npd'
 ] as const;
 
 export type QuestionnaireId = typeof SUPPORTED_QUESTIONNAIRE_IDS[number];

@@ -15,8 +15,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (locale === 'en') {
     return {
       title: 'LXScale - Free Mental Health Assessment Tools | Professional Psychological Scales',
-      description: 'Professional free mental health assessment platform. Includes depression scales (PHQ-9, BDI-II, SDS), anxiety scales (GAD-7, DASS-21), OCD scale (Y-BOCS), sleep scale (ISI), stress scale (PSS-10), and SCL-90.',
-      keywords: 'mental health assessment, psychological scales, depression test, anxiety test, free mental health, PHQ-9, BDI-II, SDS, GAD-7, DASS-21, Y-BOCS, SCL-90, ISI, PSS-10',
+      description: 'Professional free mental health assessment platform. Includes Patient Health Questionnaire (PHQ-9), Beck Depression Inventory (BDI-II), Generalized Anxiety Disorder Scale (GAD-7), Insomnia Severity Index Scale (ISI), Perceived Stress Scale (PSS-10), Narcissistic Personality Inventory (NPI-16), Gender Dysphoria Test, ADHD Self-Report Scale, and more.',
+      keywords: 'mental health assessment, psychological scales, depression test, anxiety test, free mental health, Patient Health Questionnaire, PHQ-9, Beck Depression Inventory, BDI-II, Generalized Anxiety Disorder Scale, GAD-7, Insomnia Severity Index, Perceived Stress Scale, Narcissistic Personality Inventory, Gender Dysphoria Test, ADHD test, SCL-90, DASS-21',
       openGraph: {
         title: 'LXScale - Free Mental Health Assessment Tools',
         description: 'Professional mental health assessment platform with multiple free psychological scales',
@@ -27,8 +27,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   
   return {
     title: 'LXScale - 免费心理健康测评工具 | 专业心理量表测试平台',
-    description: '提供免费、专业的心理健康测评服务。包含抑郁量表(PHQ-9、BDI-II、SDS)、焦虑量表(GAD-7、DASS-21)、强迫症量表(Y-BOCS)、睡眠量表(ISI)、压力量表(PSS-10)、心理症状量表(SCL-90)等多种国际标准心理测评工具。',
-    keywords: '心理测评, 心理量表, 抑郁测试, 焦虑测试, 心理健康, 免费测评, PHQ-9, BDI-II, SDS, GAD-7, DASS-21, Y-BOCS, SCL-90, ISI, PSS-10',
+    description: '提供免费、专业的心理健康测评服务。包含患者健康问卷(PHQ-9)、贝克抑郁量表(BDI-II)、广泛性焦虑量表(GAD-7)、失眠严重程度指数量表(ISI)、感知压力量表(PSS-10)、自恋人格量表清单(NPI-16)、性别焦虑测试、成人ADHD自评量表等多种国际标准心理测评工具。',
+    keywords: '心理测评, 心理量表, 抑郁测试, 焦虑测试, 心理健康, 免费测评, 患者健康问卷, PHQ-9, 贝克抑郁量表, BDI-II, 广泛性焦虑量表, GAD-7, 失眠严重程度指数, 感知压力量表, 自恋人格量表, 性别焦虑测试, ADHD测试, SCL-90, DASS-21',
     openGraph: {
       title: 'LXScale - 免费心理健康测评工具',
       description: '专业的心理健康测评平台，提供抑郁、焦虑、强迫症等多种免费心理量表测试',
@@ -42,43 +42,92 @@ export default function Home() {
   const questionnaireJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: '心理健康测评量表',
-    description: '专业心理健康测评工具集合',
+    name: 'Mental Health Assessment Scales',
+    description: 'Professional mental health assessment tools collection',
     itemListElement: [
       {
         '@type': 'MedicalTest',
         '@id': 'https://lxscale.xyz/questionnaire/phq9',
-        name: 'PHQ-9患者健康问卷',
-        description: '评估抑郁症状严重程度的标准化工具',
+        name: 'Patient Health Questionnaire (PHQ-9) / 患者健康问卷',
+        description: 'Standardized tool for assessing depression severity',
         url: 'https://lxscale.xyz/questionnaire/phq9'
       },
       {
         '@type': 'MedicalTest',
         '@id': 'https://lxscale.xyz/questionnaire/gad7',
-        name: 'GAD-7广泛性焦虑量表',
-        description: '评估焦虑症状严重程度的标准化工具',
+        name: 'Generalized Anxiety Disorder Scale (GAD-7) / 广泛性焦虑量表',
+        description: 'Standardized tool for assessing anxiety severity',
         url: 'https://lxscale.xyz/questionnaire/gad7'
       },
       {
         '@type': 'MedicalTest',
+        '@id': 'https://lxscale.xyz/questionnaire/isi',
+        name: 'Insomnia Severity Index Scale (ISI) / 失眠严重程度指数量表',
+        description: 'Assessment of insomnia severity and impact on daily life',
+        url: 'https://lxscale.xyz/questionnaire/isi'
+      },
+      {
+        '@type': 'MedicalTest',
+        '@id': 'https://lxscale.xyz/questionnaire/pss10',
+        name: 'Perceived Stress Scale (PSS-10) / 感知压力量表',
+        description: 'Measurement of perceived stress levels',
+        url: 'https://lxscale.xyz/questionnaire/pss10'
+      },
+      {
+        '@type': 'MedicalTest',
+        '@id': 'https://lxscale.xyz/questionnaire/npd',
+        name: 'Narcissistic Personality Inventory (NPI-16) / 自恋人格量表清单',
+        description: 'Assessment of narcissistic personality traits',
+        url: 'https://lxscale.xyz/questionnaire/npd'
+      },
+      {
+        '@type': 'MedicalTest',
+        '@id': 'https://lxscale.xyz/questionnaire/gd',
+        name: 'Gender Dysphoria Test (GDQ) / 性别焦虑测试',
+        description: 'Assessment of gender dysphoria experiences',
+        url: 'https://lxscale.xyz/questionnaire/gd'
+      },
+      {
+        '@type': 'MedicalTest',
         '@id': 'https://lxscale.xyz/questionnaire/bdi2',
-        name: 'BDI-II贝克抑郁量表',
-        description: '广泛使用的抑郁症状评估工具',
+        name: 'Beck Depression Inventory (BDI-II) / 贝克抑郁量表',
+        description: 'Widely used depression assessment tool',
         url: 'https://lxscale.xyz/questionnaire/bdi2'
       },
       {
         '@type': 'MedicalTest',
+        '@id': 'https://lxscale.xyz/questionnaire/adhd',
+        name: 'ADHD Self-Report Scale (ASRS-v1.1) / 成人ADHD自评量表',
+        description: 'Adult ADHD screening and assessment',
+        url: 'https://lxscale.xyz/questionnaire/adhd'
+      },
+      {
+        '@type': 'MedicalTest',
         '@id': 'https://lxscale.xyz/questionnaire/scl90',
-        name: 'SCL-90症状自评量表',
-        description: '评估心理症状的综合性量表',
+        name: 'SCL-90 Symptom Checklist / 症状自评量表',
+        description: 'Comprehensive psychological symptom assessment',
         url: 'https://lxscale.xyz/questionnaire/scl90'
       },
       {
         '@type': 'MedicalTest',
         '@id': 'https://lxscale.xyz/questionnaire/ocd',
-        name: 'Y-BOCS强迫症量表',
-        description: '评估强迫症状严重程度的专业工具',
+        name: 'Yale-Brown Obsessive Compulsive Scale (Y-BOCS) / 强迫症量表',
+        description: 'Professional tool for assessing OCD severity',
         url: 'https://lxscale.xyz/questionnaire/ocd'
+      },
+      {
+        '@type': 'MedicalTest',
+        '@id': 'https://lxscale.xyz/questionnaire/dass21',
+        name: 'Depression Anxiety Stress Scales (DASS-21) / 抑郁焦虑压力量表',
+        description: 'Combined assessment of depression, anxiety, and stress',
+        url: 'https://lxscale.xyz/questionnaire/dass21'
+      },
+      {
+        '@type': 'MedicalTest',
+        '@id': 'https://lxscale.xyz/questionnaire/sds',
+        name: 'Self-Rating Depression Scale (SDS) / 抑郁自评量表',
+        description: 'Self-assessment tool for depression',
+        url: 'https://lxscale.xyz/questionnaire/sds'
       },
     ]
   };
